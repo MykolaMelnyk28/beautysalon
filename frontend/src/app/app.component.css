@@ -1,0 +1,10 @@
+main {
+  position: absolute;
+  top: 0;
+  left: var(--sidebar-close-width);
+  height: 100vh;
+  width: calc(100% - var(--sidebar-close-width));
+  overflow: hidden;
+  transition: all 0.3s ease;
+  padding: 10px 20px;
+}

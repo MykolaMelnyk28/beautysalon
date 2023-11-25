@@ -1,0 +1,65 @@
+<nav
+  class="sidebar"
+  [ngClass]="{'close': isSidebarClosed}"
+>
+  <header style="min-height: 40px">
+    <div class="logo-container">
+      <a href="index.html">
+        <span
+          class="logo-name"
+          [ngClass]="{'collapse': isSidebarClosed}"
+        >Beauty Salon</span>
+        <img class="logo-img" src="assets/logo.svg" alt="Beauty Salon" width="300"/>
+      </a>
+    </div>
+    <i class='bx bx-chevron-right toggle'
+       (click)="toggleSidebar()"
+    ></i>
+  </header>
+
+  <div class="menu-bar">
+    <div class="menu">
+      <ul class="menu-links">
+        <li class="nav-link">
+          <a routerLink="/home" [routerLinkActive]="'active'">
+            <i class='bx bx-home-alt icon'></i>
+            <span class="text nav-text">Головна</span>
+          </a>
+        </li>
+        <li class="nav-link">
+          <a routerLink="/services" [routerLinkActive]="'active'">
+            <i class='bx bx-archive icon'></i>
+            <span class="text nav-text">Послуги</span>
+          </a>
+        </li>
+        <li class="nav-link">
+          <a routerLink="/gallery" [routerLinkActive]="'active'">
+            <i class='bx bx-photo-album icon' ></i>
+            <span class="text nav-text">Галерея</span>
+          </a>
+        </li>
+        <li class="nav-link">
+          <a routerLink="/aboutus" [routerLinkActive]="'active'">
+            <i class='bx bx-info-circle icon'></i>
+            <span class="text nav-text">Про нас</span>
+          </a>
+        </li>
+        <li class="nav-link">
+          <a routerLink="/feedbacks" [routerLinkActive]="'active'">
+            <i class='bx bx-conversation icon'></i>
+            <span class="text nav-text">Відгуки</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="bottom-content">
+      <li class="nav-link">
+        <a routerLink="/appointment" [routerLinkActive]="'active'">
+          <i class='bx bxs-edit icon'></i>
+          <span class="text nav-text">Запис</span>
+        </a>
+      </li>
+    </div>
+  </div>
+</nav>
