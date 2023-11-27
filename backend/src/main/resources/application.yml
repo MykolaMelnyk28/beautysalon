@@ -4,6 +4,10 @@ server:
     context-path: "/api"
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
   datasource:
     username: "postgres"
     password: "postgres"
@@ -13,3 +17,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+storage:
+  location: classpath:/static
