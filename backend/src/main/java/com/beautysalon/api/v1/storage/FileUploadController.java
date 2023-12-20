@@ -1,5 +1,7 @@
 package com.beautysalon.api.v1.storage;
 
+import com.beautysalon.api.v1.exceptions.StorageFileNotFoundException;
+import com.beautysalon.api.v1.services.StorageService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.core.io.Resource;
@@ -11,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/files")
+@RequestMapping("/v1/files")
 public class FileUploadController {
 
     private final StorageService storageService;
@@ -31,7 +33,7 @@ public class FileUploadController {
         return ResponseEntity.ok(list);
     }
 
-    @GetMapping("/files/{filename:.+}")
+    @GetMapping("/{filename:.+}")
     public ResponseEntity<Resource> serveFile(
             @PathVariable String filename
     ) {

@@ -1,4 +1,4 @@
-package com.beautysalon.api.v1.storage;
+package com.beautysalon.api.v1.services;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,12 +11,13 @@ import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import com.beautysalon.api.v1.exceptions.StorageException;
+import com.beautysalon.api.v1.exceptions.StorageFileNotFoundException;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.ResourceUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service

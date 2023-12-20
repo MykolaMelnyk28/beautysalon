@@ -1,4 +1,4 @@
-package com.beautysalon.api.v1.storage;
+package com.beautysalon.api.v1.exceptions;
 
 public class StorageException extends RuntimeException {
     public StorageException(String message) {

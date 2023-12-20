@@ -1,4 +1,6 @@
-package com.beautysalon.api.v1.storage;
+package com.beautysalon.api.v1.exceptions;
+
+import com.beautysalon.api.v1.exceptions.StorageException;
 
 public class StorageFileNotFoundException extends StorageException {
     public StorageFileNotFoundException(String message) {

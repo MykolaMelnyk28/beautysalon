@@ -1,7 +1,7 @@
 package com.beautysalon;
 
-import com.beautysalon.api.v1.storage.StorageProperties;
-import com.beautysalon.api.v1.storage.StorageService;
+import com.beautysalon.api.v1.services.StorageProperties;
+import com.beautysalon.api.v1.services.StorageService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,7 +19,6 @@ public class BackendApplication {
 	@Bean
 	CommandLineRunner init(StorageService storageService) {
 		return (args) -> {
-			//storageService.deleteAll();
 			storageService.init();
 		};
 	}

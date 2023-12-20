@@ -3,6 +3,8 @@ package com.beautysalon;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+import com.beautysalon.api.v1.exceptions.StorageFileNotFoundException;
+import com.beautysalon.api.v1.services.StorageService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
@@ -20,8 +22,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import com.beautysalon.api.v1.storage.*;
 
 @AutoConfigureMockMvc
 @SpringBootTest

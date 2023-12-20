@@ -1,4 +1,4 @@
-package com.beautysalon.api.v1.storage;
+package com.beautysalon.api.v1.services;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
