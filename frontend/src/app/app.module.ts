@@ -4,17 +4,27 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import {PageModule} from "./pages/page/page.module";
+import {HomePageComponent} from "./pages/home-page/home-page.component";
+import {ServicesPageComponent} from "./pages/services-page/services-page.component";
+import {NgOptimizedImage} from "@angular/common";
+import {HttpClientModule} from "@angular/common/http";
+import {ButtonComponent} from "./components/button/button.component";
+import {AboutusComponent} from "./pages/aboutus/aboutus.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    SidebarComponent
+    SidebarComponent,
+    ButtonComponent,
+    HomePageComponent,
+    ServicesPageComponent,
+    AboutusComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    PageModule
+    NgOptimizedImage,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

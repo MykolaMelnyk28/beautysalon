@@ -4,7 +4,7 @@ main {
   left: var(--sidebar-close-width);
   height: 100vh;
   width: calc(100% - var(--sidebar-close-width));
-  overflow: hidden;
+  overflow-y: scroll;
   transition: all 0.3s ease;
   padding: 10px 20px;
 }
