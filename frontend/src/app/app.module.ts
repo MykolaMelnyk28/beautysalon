@@ -10,6 +10,8 @@ import {NgOptimizedImage} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
 import {ButtonComponent} from "./components/button/button.component";
 import {AboutusComponent} from "./pages/aboutus/aboutus.component";
+import { FeedbacksPageComponent } from './pages/feedbacks-page/feedbacks-page.component';
+import {GalleryPageComponent} from "./pages/gallery-page/gallery-page.component";
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import {AboutusComponent} from "./pages/aboutus/aboutus.component";
     ButtonComponent,
     HomePageComponent,
     ServicesPageComponent,
-    AboutusComponent
+    AboutusComponent,
+    GalleryPageComponent
   ],
   imports: [
     BrowserModule,
