@@ -12,6 +12,7 @@ import {ButtonComponent} from "./components/button/button.component";
 import {AboutusComponent} from "./pages/aboutus/aboutus.component";
 import { FeedbacksPageComponent } from './pages/feedbacks-page/feedbacks-page.component';
 import {GalleryPageComponent} from "./pages/gallery-page/gallery-page.component";
+import {AppointmentComponent} from "./pages/appointment/appointment.component";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {GalleryPageComponent} from "./pages/gallery-page/gallery-page.component"
     ServicesPageComponent,
     AboutusComponent,
     GalleryPageComponent,
-    FeedbacksPageComponent
+    FeedbacksPageComponent,
+    AppointmentComponent
   ],
   imports: [
     BrowserModule,
