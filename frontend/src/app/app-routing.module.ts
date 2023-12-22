@@ -5,7 +5,7 @@ import {AppointmentComponent} from "./pages/appointment/appointment.component";
 import {HomePageComponent} from "./pages/home-page/home-page.component";
 import {ServicesPageComponent} from "./pages/services-page/services-page.component";
 import {GalleryPageComponent} from "./pages/gallery-page/gallery-page.component";
-import {FeeedbacksComponent} from "./pages/feeedbacks/feeedbacks.component";
+import {FeedbacksPageComponent} from "./pages/feedbacks-page/feedbacks-page.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'services', component: ServicesPageComponent },
   { path: 'gallery', component: GalleryPageComponent },
   { path: 'aboutus', component: AboutusComponent },
-  { path: 'feedbacks', component: FeeedbacksComponent },
+  { path: 'feedbacks', component: FeedbacksPageComponent },
   { path: 'appointment', component: AppointmentComponent }
 ];
 

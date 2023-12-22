@@ -21,7 +21,8 @@ import {GalleryPageComponent} from "./pages/gallery-page/gallery-page.component"
     HomePageComponent,
     ServicesPageComponent,
     AboutusComponent,
-    GalleryPageComponent
+    GalleryPageComponent,
+    FeedbacksPageComponent
   ],
   imports: [
     BrowserModule,
