@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'frame-light',
@@ -6,5 +6,35 @@ import { Component } from '@angular/core';
   styleUrls: ['./frame-light.component.css']
 })
 export class FrameLightComponent {
+  @Input() hr: string = "hug";
+  @Input() vr: string = "hug";
+
+  constructor() {
+
+  }
+
+  getClassList(): string {
+    let classes = "frame-light";
+
+    switch (this.hr) {
+      case "hug":
+        classes += " hr-hug";
+        break;
+      case "fill":
+        classes += " hr-fill";
+        break;
+    }
+
+    switch (this.vr) {
+      case "hub":
+        classes += " vr-hug";
+        break;
+      case "fill":
+        classes += " vr-hug";
+        break;
+    }
+
+    return classes;
+  }
 
 }
