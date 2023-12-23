@@ -14,6 +14,8 @@ import { FeedbacksPageComponent } from './pages/feedbacks-page/feedbacks-page.co
 import {GalleryPageComponent} from "./pages/gallery-page/gallery-page.component";
 import {AppointmentComponent} from "./pages/appointment/appointment.component";
 import { FrameLightComponent } from './components/frame-light/frame-light.component';
+import { CreateFeedbackDialogComponent } from './components/feedbacks/create-feedback-dialog/create-feedback-dialog.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -26,13 +28,15 @@ import { FrameLightComponent } from './components/frame-light/frame-light.compon
     GalleryPageComponent,
     FeedbacksPageComponent,
     AppointmentComponent,
-    FrameLightComponent
+    FrameLightComponent,
+    CreateFeedbackDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgOptimizedImage,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

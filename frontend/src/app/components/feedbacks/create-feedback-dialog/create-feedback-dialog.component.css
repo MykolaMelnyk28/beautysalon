@@ -1,0 +1,38 @@
+.dialog {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: auto;
+  gap: 10px;
+}
+
+.dialog-part {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-weight: 700;
+}
+
+.form-input {
+  padding: 10px;
+  width: 100%;
+  border: 1px solid;
+  border-radius: 15px;
+  font-size: 16px;
+}
+
+textarea.form-input {
+  box-sizing: border-box;
+  overflow-y: hidden;
+  resize: none;
+  width: auto;
+  height: 250px;
+}
+
+.display .dialog-part:last-child {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
