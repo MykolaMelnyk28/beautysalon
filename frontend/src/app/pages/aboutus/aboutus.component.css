@@ -1,9 +1,16 @@
-.section {
+#section-1 {
   display: grid;
   grid-template-columns: 1fr 3fr;
   grid-template-rows: 1fr;
   justify-content: flex-start;
   margin: 0;
+}
+
+#section-2 {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+  height: auto;
 }
 
 .maps {
@@ -28,14 +35,14 @@
 }
 
 .contact {
-  width: max-content;
+  width: 100%;
   height: max-content;
   padding: 20px;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
   margin-right: 15px;
-  width: 100%;
+
 }
 
 .contact-item {
@@ -70,4 +77,42 @@
 
 .contact-desc {
   margin-bottom: 5px;
+}
+
+.emps {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
+}
+
+.emp {
+
+}
+
+.emp-img {
+  width: 100px;
+}
+
+.emp-content {
+  display: flex;
+  width: 200px;
+  flex-flow: column nowrap;
+  height: 100%;
+  align-items: center;
+  gap: 20px;
+}
+
+.emp-part {
+
+}
+
+.emp-title {
+  font-weight: bold;
+}
+
+.emp-subtitle {
+
 }
