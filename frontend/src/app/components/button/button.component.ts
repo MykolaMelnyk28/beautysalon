@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-button',
@@ -6,17 +7,28 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./button.component.css']
 })
 export class ButtonComponent {
-  @Input({required: false}) type: string = "fill";
-  @Input({required: false}) theme: string = "dark";
-  @Input({required: false}) href: string = "#";
-  @Input({required: false}) value: string = "";
+  @Input() type?: string = "fill";
+  @Input() theme?: string = "dark";
+  @Input() href?: string = "";
+  @Input() value?: string = "";
 
-  isType(type: string) {
-    return this.type.includes(type);
+  constructor(private router: Router) {}
+
+  isType(type: string): boolean {
+    return this.type === type;
   }
 
-  isTheme(theme: string) {
-    return this.theme.includes(theme);
+  isTheme(theme: string): boolean {
+    return this.theme === theme;
   }
 
+  getRouterLink(): string | null {
+    return this.href !== undefined && this.href !== null && this.href !== '' ? this.href : null;
+  }
+
+  handleClick() {
+    if (this.href && this.href !== "") {
+      this.router.navigateByUrl(this.href);
+    }
+  }
 }

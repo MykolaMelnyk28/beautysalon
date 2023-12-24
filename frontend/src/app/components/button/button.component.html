@@ -1,11 +1,11 @@
-<div
+<button
   [ngClass]="{
     'btn-fill': isType('fill'),
     'btn-border': isType('border'),
     'light': isTheme('light'),
     'dark': isTheme('dark')
-}"
-  [routerLink]="this.href"
->
-  {{this.value}}
-</div>
+  }"
+  [routerLink]="getRouterLink()"
+  (click)="handleClick()">
+  {{ value }}
+</button>

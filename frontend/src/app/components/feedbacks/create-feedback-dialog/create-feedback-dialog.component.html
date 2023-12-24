@@ -24,8 +24,16 @@
     </div>
     <div class="dialog-part">
       <app-button
+        theme="light"
         value="Надіслати"
         (click)="onSubmit()"
+      />
+    </div>
+    <div class="dialog-part">
+      <app-button
+        theme="dark"
+        value="Закрити"
+        (click)="onClose()"
       />
     </div>
   </div>

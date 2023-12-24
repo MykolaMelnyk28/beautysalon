@@ -16,6 +16,7 @@ import {AppointmentComponent} from "./pages/appointment/appointment.component";
 import { FrameLightComponent } from './components/frame-light/frame-light.component';
 import { CreateFeedbackDialogComponent } from './components/feedbacks/create-feedback-dialog/create-feedback-dialog.component';
 import {FormsModule} from "@angular/forms";
+import { ViewEmployeeDialogComponent } from './components/aboutus/view-employee-dialog/view-employee-dialog.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {FormsModule} from "@angular/forms";
     FeedbacksPageComponent,
     AppointmentComponent,
     FrameLightComponent,
-    CreateFeedbackDialogComponent
+    CreateFeedbackDialogComponent,
+    ViewEmployeeDialogComponent
   ],
   imports: [
     BrowserModule,
