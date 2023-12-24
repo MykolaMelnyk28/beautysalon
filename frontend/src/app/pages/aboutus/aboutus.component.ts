@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {EmployeeModel} from "../../../model/EmployeeModel";
+import { EmployeeModel } from "../../../model/EmployeeModel";
 
 @Component({
   selector: 'app-aboutus',
@@ -8,15 +8,20 @@ import {EmployeeModel} from "../../../model/EmployeeModel";
 })
 export class AboutusComponent {
   employees: EmployeeModel[];
-
+  isDialogVisible: boolean = false;
+  selectedEmployee: EmployeeModel;
 
   constructor() {
     this.employees = [];
+    this.selectedEmployee = new EmployeeModel({});
   }
 
-  getFirstImageOrDefault(e: EmployeeModel): string {
-      return e.imageUrl.length > 0
-          ? e.imageUrl[0]
-          : 'assets/default_user_photo.png';
+  openEmployeeDialog(employee: EmployeeModel) {
+    this.selectedEmployee = employee;
+    this.isDialogVisible = true;
+  }
+
+  onDialogClose() {
+    this.isDialogVisible = false;
   }
 }

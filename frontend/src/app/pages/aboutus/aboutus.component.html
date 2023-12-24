@@ -1,3 +1,9 @@
+<app-view-employee-dialog
+  *ngIf="isDialogVisible"
+  [item]="selectedEmployee"
+  (close)="onDialogClose()"
+></app-view-employee-dialog>
+
 <div class="section" id="section-1">
   <div class="contacts">
     <div class="items">
@@ -48,12 +54,15 @@
 <div class="section" id="section-2">
   <h1 class="">Employees</h1>
   <div class="emps">
-    <frame-light class="emp" *ngFor="let e of employees">
+    <frame-light
+      class="emp"
+      *ngFor="let e of employees"
+      (click)="openEmployeeDialog(e)">
       <div class="emp-content">
         <div class="emp-part">
           <img
             class="emp-img"
-            [src]="getFirstImageOrDefault(e)"
+            [src]="e.getFirstImageOrDefault()"
           />
         </div>
         <div class="emp-part">
@@ -64,7 +73,6 @@
         </div>
       </div>
     </frame-light>
-
   </div>
 </div>
 
