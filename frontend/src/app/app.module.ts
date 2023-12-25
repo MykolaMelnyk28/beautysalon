@@ -17,6 +17,7 @@ import { FrameLightComponent } from './components/frame-light/frame-light.compon
 import { CreateFeedbackDialogComponent } from './components/feedbacks/create-feedback-dialog/create-feedback-dialog.component';
 import {FormsModule} from "@angular/forms";
 import { ViewEmployeeDialogComponent } from './components/aboutus/view-employee-dialog/view-employee-dialog.component';
+import {ServiceEntityService} from "./services/service-entity.service";
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import { ViewEmployeeDialogComponent } from './components/aboutus/view-employee-
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [ServiceEntityService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
