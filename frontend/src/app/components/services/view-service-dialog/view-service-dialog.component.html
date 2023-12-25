@@ -1,0 +1,25 @@
+<frame-light>
+  <div class="dialog">
+    <div class="dialog-part">
+      <p class="dialog-text-title">{{item.name}}</p>
+      <p class="dialog-text-desc">{{item.category}}</p>
+    </div>
+    <div class="dialog-part">
+      <p class="dialog-text-desc">{{item.description}}</p>
+    </div>
+    <div class="dialog-part">
+      <p class="dialog-text-title">Тривалість</p>
+      <p class="dialog-text-desc">{{item.durationInMinute}}<span>мін.</span></p>
+    </div>
+    <div class="dialog-part">
+      <p class="dialog-text-title">Вартість</p>
+      <p class="dialog-text-desc">{{item.price}}<span>{{item.currency}}</span></p>
+    </div>
+    <div class="dialog-action-part">
+      <app-button
+        value="Закрити"
+        (click)="onClose()"
+      />
+    </div>
+  </div>
+</frame-light>

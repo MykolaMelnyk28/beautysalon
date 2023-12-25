@@ -19,6 +19,7 @@ import {FormsModule} from "@angular/forms";
 import { ViewEmployeeDialogComponent } from './components/aboutus/view-employee-dialog/view-employee-dialog.component';
 import { TreeNodeComponent } from './components/services/tree-node/tree-node.component';
 import { TreeComponent } from './components/services/tree/tree.component';
+import { ViewServiceDialogComponent } from './components/services/view-service-dialog/view-service-dialog.component';
 import {ServiceEntityService} from "./services/service-entity.service";
 
 @NgModule({
@@ -36,7 +37,8 @@ import {ServiceEntityService} from "./services/service-entity.service";
     CreateFeedbackDialogComponent,
     ViewEmployeeDialogComponent,
     TreeNodeComponent,
-    TreeComponent
+    TreeComponent,
+    ViewServiceDialogComponent
   ],
   imports: [
     BrowserModule,
