@@ -1,0 +1,41 @@
+<app-create-feedback-dialog
+  *ngIf="isDialogVisible"
+  title="Введіть дані"
+  (close)="onDialogClose()"
+  (submit)="onDialogSubmit($event)"
+></app-create-feedback-dialog>
+
+<div class="section" id="section-1">
+  <h1>Відгуки</h1>
+  <div class="btn-container">
+    <app-button
+      value="Написати відгук"
+      (click)="openDialog()"/>
+  </div>
+  <div class="feedbacks">
+    <frame-light
+      hr="fill"
+      *ngFor="let f of feedbacks"
+    >
+      <div class="feedback">
+        <div class="feedback-content">
+          <div class="feedback-part">
+            <p class="feedback-title">{{f.author.firstName}} {{f.author.lastName}}</p>
+            <p class="feedback-desc">{{f.dateCreated.toLocaleDateString()}}</p>
+          </div>
+          <div class="feedback-part">
+            <div class="rating-container">
+              <div
+                [ngClass]="{'rating-item': true, 'fill': f.rating >= _}"
+                *ngFor="let _ of [1, 2, 3, 4, 5]"
+              ></div>
+            </div>
+          </div>
+          <div class="feedback-part">
+            <p class="feedback-text">{{f.text}}</p>
+          </div>
+        </div>
+      </div>
+    </frame-light>
+  </div>
+</div>

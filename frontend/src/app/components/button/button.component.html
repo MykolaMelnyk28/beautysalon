@@ -1,0 +1,11 @@
+<button
+  [ngClass]="{
+    'btn-fill': isType('fill'),
+    'btn-border': isType('border'),
+    'light': isTheme('light'),
+    'dark': isTheme('dark')
+  }"
+  [routerLink]="getRouterLink()"
+  (click)="handleClick()">
+  {{ value }}
+</button>

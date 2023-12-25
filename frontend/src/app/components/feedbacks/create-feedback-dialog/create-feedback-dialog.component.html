@@ -1,0 +1,40 @@
+<frame-light>
+  <div class="dialog">
+    <div class="dialog-part">
+      <p class="form-label">Email</p>
+      <input class="form-input" type="text" [(ngModel)]="feedback.email"/>
+    </div>
+    <div class="dialog-part">
+      <p class="form-label">Оцінка</p>
+      <input
+        class="form-input"
+        type="number"
+        min="1" max="5"
+        [(ngModel)]="feedback.rating"
+      >
+    </div>
+    <div class="dialog-part">
+      <p class="form-label">Текст</p>
+      <textarea
+        class="form-input" type="text"
+        [(ngModel)]="feedback.text"
+        maxlength="500"
+      >
+      </textarea>
+    </div>
+    <div class="dialog-part">
+      <app-button
+        theme="light"
+        value="Надіслати"
+        (click)="onSubmit()"
+      />
+    </div>
+    <div class="dialog-part">
+      <app-button
+        theme="dark"
+        value="Закрити"
+        (click)="onClose()"
+      />
+    </div>
+  </div>
+</frame-light>

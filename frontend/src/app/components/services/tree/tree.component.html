@@ -1,0 +1,16 @@
+<div class="tree" *ngIf="root">
+  <div class="tree-content" *ngFor="let child of root.children">
+    <app-tree-node
+      [node]="child"
+      (click)="handleClick(child)"
+      [isCollapsed]="isNodeCollapsed(child)"
+    />
+    <div class="tree-sub" *ngIf="!isNodeCollapsed(child)">
+      <app-tree
+        [root]="child"
+        class="sub"
+        (nodeLeafClicked)="nodeLeafClicked.emit($event)"
+      />
+    </div>
+  </div>
+</div>

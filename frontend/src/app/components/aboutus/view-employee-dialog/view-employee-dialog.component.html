@@ -1,0 +1,37 @@
+<frame-light>
+  <div class="dialog">
+    <div class="dialog-part">
+      <img [src]="item.getFirstImageOrDefault()" width="200"/>
+    </div>
+    <div class="dialog-part">
+      <p class="dialog-text-title">Ім'я</p>
+      <p class="dialog-text-desc">{{item.firstName}} {{item.lastName}} {{item.surName}}</p>
+    </div>
+    <div class="dialog-part">
+      <p class="dialog-text-title">Посада</p>
+      <p class="dialog-text-desc">{{item.position}}</p>
+    </div>
+    <div class="dialog-part">
+      <p class="dialog-text-title">Графік</p>
+      <div class="schedule-container">
+        <div *ngFor="let d of item.workSchedule">
+          <span class="dialog-text-desc">{{d.weekday}} {{d.time}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="dialog-part">
+      <p class="dialog-text-title">Email</p>
+      <p class="dialog-text-desc">{{item.email}}</p>
+    </div>
+    <div class="dialog-part">
+      <p class="dialog-text-title">Номер телефону</p>
+      <p class="dialog-text-desc">{{item.phoneNumber}}</p>
+    </div>
+    <div class="dialog-action-part">
+      <app-button
+        value="Закрити"
+        (click)="onClose()"
+      />
+    </div>
+  </div>
+</frame-light>
