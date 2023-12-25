@@ -1,0 +1,25 @@
+server:
+  port: 8080
+  servlet:
+    context-path: "/api"
+
+api:
+  base-url: "http://localhost:8080"
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  datasource:
+    username: "postgres"
+    password: "postgres"
+    url: "jdbc:postgresql://localhost:5432/beautysalon_db"
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+storage:
+  location: classpath:/static
