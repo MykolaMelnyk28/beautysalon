@@ -1,0 +1,17 @@
+app-tree {
+  width: 100%;
+}
+
+#section-1 {
+  display: flex;
+  justify-content: center;
+  height: 97vh;
+  padding: 10px;
+}
+
+section-text {
+  color: var(--body-color);
+}
+
+
+

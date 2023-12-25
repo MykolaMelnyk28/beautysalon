@@ -1,1 +1,17 @@
-<h1>Services page</h1>
+<app-view-service-dialog
+  *ngIf="isDialogVisible"
+  [item]="selectedService"
+  (close)="onDialogClose()"
+>
+</app-view-service-dialog>
+
+<div class="section" id="section-1">
+  <frame-light hr="fill" vr="fill">
+    <h1 *ngIf="!hasContent()" class="">Послуг немає</h1>
+    <app-tree
+      *ngIf="hasContent()"
+      [root]="treeRoot"
+      (nodeLeafClicked)="onLeafNodeClick($event)"
+    />
+  </frame-light>
+</div>
