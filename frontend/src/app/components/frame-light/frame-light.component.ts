@@ -14,7 +14,7 @@ export class FrameLightComponent {
   }
 
   getClassList(): string {
-    let classes = "frame-light";
+    let classes = "{frame-light";
 
     switch (this.hr) {
       case "hug":
