@@ -1,0 +1,21 @@
+:host {
+  width: 100%;
+  overflow-y: scroll;
+}
+
+.tree {
+
+}
+
+.tree-sub {
+  margin-left: 20px;
+}
+
+.tree-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.node {
+
+}

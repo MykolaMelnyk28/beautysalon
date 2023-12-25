@@ -1,0 +1,16 @@
+<div class="node" [ngClass]="{'leaf-node': isLeaf()}">
+  <div class="node-head" >
+    <i
+      class="bx"
+      [ngClass]="{
+        'bx-chevron-right': isCollapsed && !isLeaf(),
+        'bx-chevron-down': !isCollapsed && !isLeaf()
+      }"
+    ></i>
+  </div>
+  <div class="node-body">
+    <p class="node-title">{{node.name}}</p>
+  </div>
+</div>
+
+

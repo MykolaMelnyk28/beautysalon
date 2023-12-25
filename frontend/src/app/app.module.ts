@@ -17,6 +17,8 @@ import { FrameLightComponent } from './components/frame-light/frame-light.compon
 import { CreateFeedbackDialogComponent } from './components/feedbacks/create-feedback-dialog/create-feedback-dialog.component';
 import {FormsModule} from "@angular/forms";
 import { ViewEmployeeDialogComponent } from './components/aboutus/view-employee-dialog/view-employee-dialog.component';
+import { TreeNodeComponent } from './components/services/tree-node/tree-node.component';
+import { TreeComponent } from './components/services/tree/tree.component';
 import {ServiceEntityService} from "./services/service-entity.service";
 
 @NgModule({
@@ -32,7 +34,9 @@ import {ServiceEntityService} from "./services/service-entity.service";
     AppointmentComponent,
     FrameLightComponent,
     CreateFeedbackDialogComponent,
-    ViewEmployeeDialogComponent
+    ViewEmployeeDialogComponent,
+    TreeNodeComponent,
+    TreeComponent
   ],
   imports: [
     BrowserModule,
