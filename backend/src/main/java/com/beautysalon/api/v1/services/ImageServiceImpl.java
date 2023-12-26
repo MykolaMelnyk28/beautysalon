@@ -16,14 +16,14 @@ import java.util.List;
 @Transactional
 public class ImageServiceImpl implements ImageService {
     private final ImageRepository imageRepository;
-    private final StorageProperties storageProp;
+    private final ApiProperties apiProp;
 
     public ImageServiceImpl(
             ImageRepository imageRepository,
-            StorageProperties storageProp
+            ApiProperties apiProp
     ) {
         this.imageRepository = imageRepository;
-        this.storageProp = storageProp;
+        this.apiProp = apiProp;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public String load(Path path) throws ResourceNotFoundException {
         Image img = getOrThrow(path);
-        String url = storageProp.getLocation() + "/images";
+        String url = apiProp.getBaseUrl() + "/images";
         return String.join("\\", url, img.getName());
     }
 

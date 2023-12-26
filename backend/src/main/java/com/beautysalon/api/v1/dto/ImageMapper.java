@@ -1,6 +1,7 @@
 package com.beautysalon.api.v1.dto;
 
 import com.beautysalon.api.v1.entities.Image;
+import com.beautysalon.api.v1.services.ApiProperties;
 import com.beautysalon.api.v1.services.StorageProperties;
 import org.springframework.stereotype.Component;
 
@@ -8,12 +9,12 @@ import java.nio.file.Path;
 
 @Component
 public class ImageMapper {
-    private final StorageProperties storageProp;
+    private final ApiProperties apiProp;
 
     public ImageMapper(
-            StorageProperties storageProp
+            ApiProperties apiProp
     ) {
-        this.storageProp = storageProp;
+        this.apiProp = apiProp;
     }
 
     public ImageDto toDto(Image image) {
@@ -29,7 +30,7 @@ public class ImageMapper {
         dto.setFullName(path.toString());
 
         String url = image.getName().replace("/", "+").replace("\\", "+");
-        url = String.join("/", storageProp.getLocation() + "/images", url);
+        url = String.join("/", apiProp.getBaseUrl() + "/images", url);
         dto.setUrl(url);
 
         return dto;

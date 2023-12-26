@@ -3,6 +3,7 @@ package com.beautysalon.api.v1.controllers;
 import com.beautysalon.api.v1.dto.ImageDto;
 import com.beautysalon.api.v1.dto.ImageMapper;
 import com.beautysalon.api.v1.entities.Image;
+import com.beautysalon.api.v1.services.ApiProperties;
 import com.beautysalon.api.v1.services.ImageService;
 import com.beautysalon.api.v1.services.StorageProperties;
 import org.springframework.core.io.InputStreamResource;
@@ -22,16 +23,16 @@ public class ImageController {
 
     private final ImageService imageService;
     private final ImageMapper imageMapper;
-    private final StorageProperties storageProp;
+    private final ApiProperties apiProp;
 
     public ImageController(
             ImageService imageService,
             ImageMapper imageMapper,
-            StorageProperties storageProp
+            ApiProperties apiProp
     ) {
         this.imageService = imageService;
         this.imageMapper = imageMapper;
-        this.storageProp = storageProp;
+        this.apiProp = apiProp;
     }
 
     @PostMapping
@@ -40,7 +41,7 @@ public class ImageController {
             @RequestParam("filename") String filename
     ) throws IOException {
         imageService.store(file, Path.of(filename));
-        String url = String.join("/", storageProp.getLocation(), "images", filename);
+        String url = String.join("/", apiProp.getBaseUrl(), "images", filename);
         return ResponseEntity.ok(url);
     }
 
