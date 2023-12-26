@@ -1,6 +1,9 @@
-<div class="frame-image" id="section-1">
-  <h1 class="welcome-header animated-title">Ласкаво просимо</h1>
+<div class="section" id="section-1">
+  <div class="frame-image">
+    <h1 class="welcome-header animated-title">Ласкаво просимо</h1>
+  </div>
 </div>
+
 
 <div class="section"  id="section-2">
   <p class="welcome-text animated-title">Ми пропонуємо вам не просто послуги краси,
@@ -12,89 +15,19 @@
     може відчути себе особливим.</p>
 </div>
 
-<div class="frame-white" id="section-3">
-  <div class="tree-container">-->
-        <ul class="tree close">
-          <li class="tree-head">
-            <i class="bx bx-chevron-right chevrn-r"></i>
-            <i class="bx bx-chevron-down chevrn-d collapse"></i>
-            <span class="head-label">Head1</span>
-          </li>
-          <li class="tree-item">Item1_1</li>
-          <li class="tree-item">Item1_2</li>
-          <li class="tree-item">Item1_3</li>
-          <li class="tree-item">Item1_4</li>
-          <li class="tree-item">Item1_5</li>
-        </ul>
-        <ul class="tree close">
-          <li class="tree-head">
-            <i class="bx bx-chevron-right chevrn-r"></i>
-            <i class="bx bx-chevron-down chevrn-d collapse"></i>
-            <span class="head-label">Head2</span>
-          </li>
-          <li class="tree-item">Item2_1</li>
-          <li class="tree-item">Item2_2</li>
-          <li class="tree-item">Item2_3</li>
-          <li class="tree-item">Item2_4</li>
-          <li class="tree-item">Item2_5</li>
-        </ul>
-        <ul class="tree close">
-          <li class="tree-head">
-            <i class="bx bx-chevron-right chevrn-r"></i>
-            <i class="bx bx-chevron-down chevrn-d collapse"></i>
-            <span class="head-label">Head3</span>
-          </li>
-          <li class="tree-item">Item2_1</li>
-          <li class="tree-item">Item2_2</li>
-          <li class="tree-item">Item2_3</li>
-          <li class="tree-item">Item2_4</li>
-          <li class="tree-item">Item2_5</li>
-        </ul>
+<div class="section" id="section-3">
+  <div>
+    <h1 class="section-title">Послуги</h1>
+  </div>
+  <div class="content-container">
+    <div class="section-content">
+      <h1 *ngIf="!hasContent()" style="font-size: 16px">Послуг немає</h1>
+      <div class="section3-item" *ngFor="let s of getRootCategories()">
+        <p class="section-label">{{s}}</p>
       </div>
-  <app-button type="fill" theme="light" href="/services" value="Детальніше"/>
+    </div>
+  </div>
+  <div class="section-actions">
+    <app-button type="fill" theme="dark" href="/services" value="Детальніше"/>
+  </div>
 </div>
-
-
-<!--<div class="section" id="section-2">-->
-<!--  <div class="tree-container">-->
-<!--    <ul class="tree close">-->
-<!--      <li class="tree-head">-->
-<!--        <i class="bx bx-chevron-right chevrn-r"></i>-->
-<!--        <i class="bx bx-chevron-down chevrn-d collapse"></i>-->
-<!--        <span class="head-label">Head1</span>-->
-<!--      </li>-->
-<!--      <li class="tree-item">Item1_1</li>-->
-<!--      <li class="tree-item">Item1_2</li>-->
-<!--      <li class="tree-item">Item1_3</li>-->
-<!--      <li class="tree-item">Item1_4</li>-->
-<!--      <li class="tree-item">Item1_5</li>-->
-<!--    </ul>-->
-<!--    <ul class="tree close">-->
-<!--      <li class="tree-head">-->
-<!--        <i class="bx bx-chevron-right chevrn-r"></i>-->
-<!--        <i class="bx bx-chevron-down chevrn-d collapse"></i>-->
-<!--        <span class="head-label">Head2</span>-->
-<!--      </li>-->
-<!--      <li class="tree-item">Item2_1</li>-->
-<!--      <li class="tree-item">Item2_2</li>-->
-<!--      <li class="tree-item">Item2_3</li>-->
-<!--      <li class="tree-item">Item2_4</li>-->
-<!--      <li class="tree-item">Item2_5</li>-->
-<!--    </ul>-->
-<!--    <ul class="tree close">-->
-<!--      <li class="tree-head">-->
-<!--        <i class="bx bx-chevron-right chevrn-r"></i>-->
-<!--        <i class="bx bx-chevron-down chevrn-d collapse"></i>-->
-<!--        <span class="head-label">Head3</span>-->
-<!--      </li>-->
-<!--      <li class="tree-item">Item2_1</li>-->
-<!--      <li class="tree-item">Item2_2</li>-->
-<!--      <li class="tree-item">Item2_3</li>-->
-<!--      <li class="tree-item">Item2_4</li>-->
-<!--      <li class="tree-item">Item2_5</li>-->
-<!--    </ul>-->
-<!--  </div>-->
-<!--  <app-button type="fill" theme="dark" href="/services" value="Детальніше"/>-->
-<!--</div>-->
-
-

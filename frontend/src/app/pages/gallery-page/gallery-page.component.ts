@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./gallery-page.component.css']
 })
 export class GalleryPageComponent {
+  images = [
+    { url: 'path/to/image1.jpg', alt: 'Image 1' },
+    { url: 'path/to/image2.jpg', alt: 'Image 2' }
+  ];
 
 }

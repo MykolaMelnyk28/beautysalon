@@ -10,7 +10,7 @@ import {ServiceEntityService} from "../../services/service-entity.service";
   styleUrls: ['./services-page.component.css']
 })
 export class ServicesPageComponent {
-  isDialogVisible: boolean = true;
+  isDialogVisible: boolean = false;
   selectedService: ServiceModel;
 
   treeRoot: TreeNode | null;

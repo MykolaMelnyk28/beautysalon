@@ -10,4 +10,5 @@ export class ServiceModel {
   constructor(partial: Partial<ServiceModel>) {
     Object.assign(this, partial);
   }
+
 }

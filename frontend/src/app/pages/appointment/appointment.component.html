@@ -1,1 +1,253 @@
-<p>appointment works!</p>
+<div class="section" id="section-1">
+  <div class="section-main">
+    <div
+      *ngIf="selectedSection === 1"
+      class="section-part"
+      id="section-service">
+      <div class="section-left">
+        <frame-light hr="fill" vr="fill" >
+          <h1 *ngIf="!hasContent()" class="">Послуг немає</h1>
+          <app-tree
+            *ngIf="hasContent()"
+            [root]="treeRoot"
+            (nodeClicked)="handleNodeClick($event)"
+          />
+        </frame-light>
+      </div>
+      <div class="section-right" >
+        <frame-light hr="fill" vr="fill">
+          <div class="right-content" >
+            <div class="service-container">
+              <div class="services">
+
+                <div class="service" *ngFor="let s of model.services">
+                  <div class="service-head">
+                    <p>{{s.category.concat('.', s.name)}}</p>
+                    <div (click)="handleRemoveService(s)">
+                      <i class="bx bx-trash"></i>
+                    </div>
+                  </div>
+                  <div class="service-data-box">
+                    <div class="service-data-part">
+                      <p>Тривалість</p>
+                      <p>{{s.durationInMinute}}<span>мін.</span></p>
+                    </div>
+                    <div class="service-data-part">
+                      <p>Ціна</p>
+                      <p>{{s.price}}<span>{{s.currency}}</span></p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="data-container">
+              <div class="data-item">
+                <p class="contact-label">Загальна тривалість</p>
+                <p class="contact-desc">{{totalDuration()}}</p>
+              </div>
+              <div class="data-item">
+                <p class="contact-label">Загальна ціна</p>
+                <p class="contact-desc">{{totalPrice()}}</p>
+              </div>
+            </div>
+          </div>
+        </frame-light>
+      </div>
+    </div>
+    <div
+      *ngIf="selectedSection === 2"
+      class="section-part"
+      id="section-masters">
+      <div class="emps">
+        <frame-light
+          class="emp"
+          *ngFor="let e of employees"
+          (click)="handleEmployeeClick(e)">
+          <div class="emp-content">
+            <div class="emp-part">
+              <img
+                class="emp-img"
+                [src]="e.getFirstImageOrDefault()"
+              />
+            </div>
+            <div class="emp-part">
+              <p class="emp-title">{{e.firstName}} {{e.lastName}} {{e.surName}}</p>
+            </div>
+            <div class="emp-part">
+              <p class="emp-subtitle">{{e.position}}</p>
+            </div>
+          </div>
+        </frame-light>
+      </div>
+    </div>
+    <div
+      *ngIf="selectedSection === 3"
+      class="section-part"
+      id="section-datetime">
+      <div class="form-container">
+        <frame-light vr="hug" hr="hug">
+          <div class="form">
+            <div class="form-part">
+              <input class="form-input" type="datetime-local" [(ngModel)]="schedule.startDatetime" />
+            </div>
+            <div class="form-part">
+              <input class="form-input" type="text" [disabled]="!schedule.startDatetime" [value]="getEndDate()" />
+            </div>
+            <div class="form-actions">
+              <div id="available-box">
+                <p id="available-text">Доступно</p>
+              </div>
+            </div>
+          </div>
+        </frame-light>
+      </div>
+    </div>
+    <div
+      *ngIf="selectedSection === 4"
+      class="section-part"
+      id="section-personaldate"
+    >
+      <div class="form-container">
+        <frame-light vr="hug" hr="hug">
+          <div class="form">
+            <div class="form-part">
+              <p class="form-label">Ім'я</p>
+              <input class="form-input" type="text" [(ngModel)]="model.client.firstName" />
+            </div>
+            <div class="form-part">
+              <p class="form-label">Прізвище</p>
+              <input class="form-input" type="text" [(ngModel)]="model.client.lastName" />
+            </div>
+            <div class="form-part">
+              <p class="form-label">Email</p>
+              <input class="form-input" type="email" [(ngModel)]="model.client.email" />
+            </div>
+            <div class="form-part">
+              <p class="form-label">Номер телефону</p>
+              <input class="form-input" type="text" [(ngModel)]="model.client.phoneNumber" />
+            </div>
+          </div>
+        </frame-light>
+      </div>
+    </div>
+    <div
+      *ngIf="selectedSection === 5"
+      class="section-part"
+      id="section-confirm">
+      <div class="section-left">
+        <div class="frame-white contact">
+          <h1 class="contact-title">Майстер</h1>
+          <div class="contact-content">
+            <div>
+              <img
+                class="emp-img"
+                [src]="model.master.getFirstImageOrDefault()"
+              />
+            </div>
+            <div class="contact-item">
+              <span class="emp-label">{{model.master.firstName}} {{model.master.lastName}} {{model.master.surName}}</span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-desc">{{model.master.email}}</span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-desc">{{model.master.phoneNumber}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="frame-white contact">
+          <h1 class="contact-title">Контактна інформація</h1>
+          <div class="contact-content">
+            <div class="contact-item">
+              <span class="contact-label">Ім'я</span>
+              <span class="contact-desc">{{model.client.firstName}}</span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">Прізвище</span>
+              <span class="contact-desc">{{model.client.lastName}}</span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">Email</span>
+              <span class="contact-desc">{{model.client.email}}</span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">Номер телефону</span>
+              <span class="contact-desc">{{model.client.phoneNumber}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="frame-white contact">
+          <h1 class="contact-title">Запис</h1>
+          <div class="contact-content">
+            <div class="contact-item">
+              <span class="contact-label">Дата і час</span>
+              <span class="contact-desc">{{getDate()}}</span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">Тривалість</span>
+              <span class="contact-desc">{{totalDuration()}}</span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">Ціна</span>
+              <span class="contact-desc">{{totalPrice()}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section-right" >
+        <frame-light hr="fill" vr="fill">
+          <div class="right-content" >
+            <div class="service-container">
+              <div class="services">
+                <div class="service" *ngFor="let s of model.services">
+                  <div class="service-head">
+                    <p>{{s.category.concat('.', s.name)}}</p>
+                  </div>
+                  <div class="service-data-box">
+                    <div class="service-data-part">
+                      <p>Тривалість</p>
+                      <p>{{s.durationInMinute}}<span>мін.</span></p>
+                    </div>
+                    <div class="service-data-part">
+                      <p>Ціна</p>
+                      <p>{{s.price}}<span>{{s.currency}}</span></p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="data-container">
+              <div class="data-item">
+                <p class="contact-label">Загальна тривалість</p>
+                <p class="contact-desc">{{totalDuration()}}</p>
+              </div>
+              <div class="data-item">
+                <p class="contact-label">Загальна ціна</p>
+                <p class="contact-desc">{{totalPrice()}}</p>
+              </div>
+            </div>
+          </div>
+        </frame-light>
+      </div>
+    </div>
+  </div>
+  <div class="section-actions">
+      <app-button
+        [ngClass]="{'hidden': selectedSection === 1}"
+        (click)="backPart()"
+        value="Назад"
+      />
+      <app-button
+        [ngClass]="{'hidden': selectedSection === 5}"
+        (click)="nextPart()"
+        value="Далі"
+      />
+      <app-button
+        [ngClass]="{'collapse': selectedSection < 5}"
+        (click)="handleConfirm()"
+        value="Підтвердити"
+      />
+  </div>
+</div>

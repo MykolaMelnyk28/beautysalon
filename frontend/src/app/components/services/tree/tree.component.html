@@ -9,6 +9,8 @@
       <app-tree
         [root]="child"
         class="sub"
+        (nodeClicked)="nodeClicked.emit($event)"
+        (nodeNotLeafClicked)="nodeNotLeafClicked.emit($event)"
         (nodeLeafClicked)="nodeLeafClicked.emit($event)"
       />
     </div>

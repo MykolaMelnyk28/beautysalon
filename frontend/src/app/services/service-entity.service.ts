@@ -10,7 +10,12 @@ export class ServiceEntityService {
   services: ServiceModel[];
 
   constructor() {
-    this.services = [];
+    this.services = [
+      new ServiceModel({name: "Чоловіча", category: "Перукарські послуги.Стрижки", price: 50, durationInMinute: 15}),
+      new ServiceModel({name: "Жіноча", category: "Перукарські послуги.Стрижки", price: 50, durationInMinute: 15}),
+      new ServiceModel({name: "Манікюр", category: "Нігті", price: 50, durationInMinute: 15}),
+      new ServiceModel({name: "Педикюр", category: "Нігті", price: 50, durationInMinute: 15}),
+    ];
   }
 
   findByNode(serviceNode: TreeNode): ServiceModel | undefined {
@@ -41,7 +46,7 @@ export class ServiceEntityService {
         currentNode = childNode;
       });
 
-      currentNode.children.push(new TreeNode(service.name));
+      currentNode.children.push(new TreeNode(service.name, [], service));
     });
 
     return (root.children.length > 0) ? root : null;

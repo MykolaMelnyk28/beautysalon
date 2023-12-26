@@ -26,11 +26,11 @@ export class FrameLightComponent {
     }
 
     switch (this.vr) {
-      case "hub":
+      case "hug":
         classes += " vr-hug";
         break;
       case "fill":
-        classes += " vr-hug";
+        classes += " vr-fill";
         break;
     }
 

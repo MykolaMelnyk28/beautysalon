@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -12,7 +11,6 @@ import {ButtonComponent} from "./components/button/button.component";
 import {AboutusComponent} from "./pages/aboutus/aboutus.component";
 import { FeedbacksPageComponent } from './pages/feedbacks-page/feedbacks-page.component';
 import {GalleryPageComponent} from "./pages/gallery-page/gallery-page.component";
-import {AppointmentComponent} from "./pages/appointment/appointment.component";
 import { FrameLightComponent } from './components/frame-light/frame-light.component';
 import { CreateFeedbackDialogComponent } from './components/feedbacks/create-feedback-dialog/create-feedback-dialog.component';
 import {FormsModule} from "@angular/forms";
@@ -21,6 +19,8 @@ import { TreeNodeComponent } from './components/services/tree-node/tree-node.com
 import { TreeComponent } from './components/services/tree/tree.component';
 import { ViewServiceDialogComponent } from './components/services/view-service-dialog/view-service-dialog.component';
 import {ServiceEntityService} from "./services/service-entity.service";
+import { ServiceListComponent } from './components/appointment/service-list/service-list.component';
+import {AppointmentComponent} from "./pages/appointment/appointment.component";
 
 @NgModule({
   declarations: [
@@ -30,15 +30,16 @@ import {ServiceEntityService} from "./services/service-entity.service";
     HomePageComponent,
     ServicesPageComponent,
     AboutusComponent,
+    AppointmentComponent,
     GalleryPageComponent,
     FeedbacksPageComponent,
-    AppointmentComponent,
     FrameLightComponent,
     CreateFeedbackDialogComponent,
     ViewEmployeeDialogComponent,
     TreeNodeComponent,
     TreeComponent,
-    ViewServiceDialogComponent
+    ViewServiceDialogComponent,
+    ServiceListComponent
   ],
   imports: [
     BrowserModule,
