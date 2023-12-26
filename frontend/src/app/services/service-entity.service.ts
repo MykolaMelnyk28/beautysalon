@@ -1,29 +1,27 @@
 import { Injectable } from '@angular/core';
 import {TreeNode} from "../../model/TreeNode";
 import {ServiceModel} from "../../model/ServiceModel";
+import {HttpClient} from "@angular/common/http";
+import {catchError, map, Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServiceEntityService {
 
-  services: ServiceModel[];
+  static baseUrlApiServices: string = "http://localhost:8080/api/v1/services";
 
-  constructor() {
-    this.services = [
-      new ServiceModel({name: "Чоловіча", category: "Перукарські послуги.Стрижки", price: 50, durationInMinute: 15}),
-      new ServiceModel({name: "Жіноча", category: "Перукарські послуги.Стрижки", price: 50, durationInMinute: 15}),
-      new ServiceModel({name: "Манікюр", category: "Нігті", price: 50, durationInMinute: 15}),
-      new ServiceModel({name: "Педикюр", category: "Нігті", price: 50, durationInMinute: 15}),
-    ];
+  constructor(private http: HttpClient) {}
+
+  findByNode(serviceNode: TreeNode): Observable<ServiceModel | undefined> {
+    return this.getAllServices().pipe(
+        map(data => data.find(s => s.name === serviceNode.name))
+    );
   }
 
-  findByNode(serviceNode: TreeNode): ServiceModel | undefined {
-    return this.services.find(s => s.name == serviceNode.name);
-  }
-
-  getAllServices(): Set<ServiceModel> {
-    return new Set(this.services);
+  getAllServices(): Observable<ServiceModel[]> {
+    let url: string = `${ServiceEntityService.baseUrlApiServices}`;
+    return this.http.get<ServiceModel[]>(url);
   }
 
   getTree(): TreeNode | null {
@@ -31,24 +29,27 @@ export class ServiceEntityService {
 
     let services = this.getAllServices();
 
-    services.forEach(service => {
-      const categories = service.category.split('.');
-      let currentNode = root;
+    services.subscribe(data => {
+      data.forEach(service => {
+        const categories = service.category.split('.');
+        let currentNode = root;
 
-      categories.forEach(category => {
-        let childNode = currentNode.children.find(node => node.name === category);
+        categories.forEach(category => {
+          let childNode = currentNode.children.find(node => node.name === category);
 
-        if (!childNode) {
-          childNode = new TreeNode(category);
-          currentNode.children.push(childNode);
-        }
+          if (!childNode) {
 
-        currentNode = childNode;
+            childNode = new TreeNode(category);
+            currentNode.children.push(childNode);
+          }
+
+          currentNode = childNode;
+        });
+
+        currentNode.children.push(new TreeNode(service.name, [], service));
       });
-
-      currentNode.children.push(new TreeNode(service.name, [], service));
     });
 
-    return (root.children.length > 0) ? root : null;
+    return root;
   }
 }

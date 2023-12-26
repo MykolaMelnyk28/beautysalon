@@ -10,31 +10,28 @@ import {ServiceEntityService} from "../../services/service-entity.service";
   styleUrls: ['./services-page.component.css']
 })
 export class ServicesPageComponent {
-  isDialogVisible: boolean = false;
-  selectedService: ServiceModel;
 
+  isDialogVisible = false;
+  selectedService = new ServiceModel({});
   treeRoot: TreeNode | null;
 
-  constructor(
-    private serviceService: ServiceEntityService
-  ) {
-
-    this.selectedService = new ServiceModel({});
+  constructor(private serviceService: ServiceEntityService) {
+    console.log(this.serviceService.getTree());
     this.treeRoot = this.serviceService.getTree();
   }
 
   hasContent(): boolean {
-    return this.treeRoot !== null;
+    return !!this.treeRoot;
   }
 
   onLeafNodeClick(leafNode: TreeNode) {
-    let s: any = this.serviceService.findByNode(leafNode);
-    if (s) {
-      this.selectedService = s;
-    } else {
-      this.selectedService = new ServiceModel({});
-    }
-    this.openServiceDialog();
+    const foundService = this.serviceService.findByNode(leafNode);
+    this.serviceService.findByNode(leafNode).subscribe(foundService => {
+      this.selectedService = Object.assign(new ServiceModel({}), foundService);
+      this.openServiceDialog();
+    });
+    // this.selectedService = foundService || new ServiceModel({});
+    // this.openServiceDialog();
   }
 
   openServiceDialog() {

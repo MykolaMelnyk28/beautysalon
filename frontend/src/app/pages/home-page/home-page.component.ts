@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ServiceModel} from "../../../model/ServiceModel";
 import {ServiceEntityService} from "../../services/service-entity.service";
 import {TreeNode} from "../../../model/TreeNode";
@@ -8,24 +8,25 @@ import {TreeNode} from "../../../model/TreeNode";
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
-export class HomePageComponent {
+export class HomePageComponent implements OnInit {
 
-  services: Set<ServiceModel>;
-  treeRoot: TreeNode | null;
+  services: ServiceModel[] = [];
+  treeRoot!: TreeNode | null;
 
-  constructor(
-    private serviceService: ServiceEntityService
-  ) {
+  constructor(private serviceService: ServiceEntityService) {}
+
+  ngOnInit(): void {
+    this.serviceService.getAllServices().subscribe(data => {
+      this.services = data;
+    });
     this.treeRoot = this.serviceService.getTree();
-    this.services = serviceService.getAllServices();
   }
 
   hasContent(): boolean {
-    return this.treeRoot !== null;
+    return this.treeRoot !== null && this.services.length > 0;
   }
 
   getRootCategories(): string[] {
-    let nodes: TreeNode[] = this.treeRoot?.children ?? [];
-    return nodes.map(x => x.name);
+    return this.treeRoot?.children.map(node => node.name) || [];
   }
 }
