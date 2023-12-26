@@ -1,3 +1,14 @@
-<div>
-  <img *ngFor="let img of images" [src]="img"/>
+<div class="section" id="section-1">
+  <div class="images-list">
+    <div class="images">
+      <div class="image-box" (click)="handleImageClick(img)" *ngFor="let img of images">
+        <img class="image" [src]="img.url"/>
+      </div>
+    </div>
+  </div>
+  <div class="image-container">
+    <div class="image-box">
+      <img class="image" [src]="selectedImage"/>
+    </div>
+  </div>
 </div>

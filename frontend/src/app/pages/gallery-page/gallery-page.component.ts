@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {ImageModel} from "../../../model/ImageModel";
+import {ImageService} from "../../services/image.service";
 
 @Component({
   selector: 'app-gallery-page',
@@ -6,9 +8,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./gallery-page.component.css']
 })
 export class GalleryPageComponent {
-  images = [
-    { url: 'path/to/image1.jpg', alt: 'Image 1' },
-    { url: 'path/to/image2.jpg', alt: 'Image 2' }
-  ];
+  images: ImageModel[] = [];
+  selectedImage: string = "";
 
+  constructor(
+    private imageService: ImageService
+  ) {
+    this.imageService.getImagesByGroup('salon').subscribe(
+        data => this.images = data,
+        error => console.error(error)
+    );
+  }
+
+  handleImageClick(image: ImageModel) {
+      this.selectedImage = image.url;
+  }
 }

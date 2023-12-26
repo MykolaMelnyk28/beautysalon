@@ -21,6 +21,7 @@ import { ViewServiceDialogComponent } from './components/services/view-service-d
 import {ServiceEntityService} from "./services/service-entity.service";
 import { ServiceListComponent } from './components/appointment/service-list/service-list.component';
 import {AppointmentComponent} from "./pages/appointment/appointment.component";
+import {ImageService} from "./services/image.service";
 
 @NgModule({
   declarations: [
@@ -48,7 +49,7 @@ import {AppointmentComponent} from "./pages/appointment/appointment.component";
     HttpClientModule,
     FormsModule
   ],
-  providers: [ServiceEntityService],
+  providers: [ServiceEntityService, ImageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
