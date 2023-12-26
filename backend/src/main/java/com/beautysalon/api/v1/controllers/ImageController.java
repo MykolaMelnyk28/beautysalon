@@ -1,15 +1,17 @@
 package com.beautysalon.api.v1.controllers;
 
+import com.beautysalon.api.v1.dto.ImageDto;
+import com.beautysalon.api.v1.dto.ImageMapper;
 import com.beautysalon.api.v1.entities.Image;
 import com.beautysalon.api.v1.services.ImageService;
-import com.beautysalon.api.v1.storage.FileUploadController;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
+import com.beautysalon.api.v1.services.StorageProperties;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
@@ -17,52 +19,52 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/images")
 public class ImageController {
-    private final ImageService imageService;
 
-    public ImageController(ImageService imageService) {
+    private final ImageService imageService;
+    private final ImageMapper imageMapper;
+    private final StorageProperties storageProp;
+
+    public ImageController(
+            ImageService imageService,
+            ImageMapper imageMapper,
+            StorageProperties storageProp
+    ) {
         this.imageService = imageService;
+        this.imageMapper = imageMapper;
+        this.storageProp = storageProp;
     }
 
     @PostMapping
-    public ResponseEntity<String> upload(
+    public ResponseEntity<?> create(
             @RequestParam("file") MultipartFile file,
-            @RequestParam("path") String path,
             @RequestParam("filename") String filename
     ) throws IOException {
-        String pathFile = imageService.store(file, Path.of(path, filename));
-        return ResponseEntity.ok(pathFile.toString());
+        imageService.store(file, Path.of(filename));
+        String url = String.join("/", storageProp.getLocation(), "images", filename);
+        return ResponseEntity.ok(url);
     }
 
-    @GetMapping("/{path}")
-    public ResponseEntity<List<String>> getImageUrls(
+    @GetMapping("/{filename}")
+    private ResponseEntity<?> getImageByName(
+            @PathVariable String filename
+    ) {
+        String s = filename.replace("+", "/");
+        Image image = imageService.get(s);
+        return ResponseEntity.ok()
+                .header("fileName", image.getOriginalFileName())
+                .contentType(MediaType.valueOf(image.getContentType()))
+                .contentLength(image.getSize())
+                .body(new InputStreamResource(new ByteArrayInputStream(image.getBytes())));
+    }
+
+    @GetMapping("/{path}/")
+    private ResponseEntity<List<ImageDto>> getImagesByPath(
             @PathVariable String path
     ) {
-        List<String> list = imageService.loadAll().stream().map(
-                        p -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
-                                "getImage",
-                                p
-                        ).build().toUri().toString()
-                ).toList();
-
-        return ResponseEntity.ok(list);
+        List<Image> images = imageService.getAll(path);
+        return ResponseEntity.ok(images.stream()
+                .map(imageMapper::toDto)
+                .toList());
     }
 
-    @GetMapping("/{path}/{filename}")
-    public ResponseEntity<?> getImage(
-            @PathVariable("path") String path,
-            @PathVariable("filename") String filename
-    ) {
-        Resource file = imageService.loadAsResource(Path.of(path, filename));
-
-        if (file == null) return ResponseEntity.notFound().build();
-
-        StringBuilder builder = new StringBuilder();
-        builder.append("attachment; filename=\"")
-                .append(file.getFilename())
-                .append("\"");
-
-        return ResponseEntity.ok().header(
-                HttpHeaders.CONTENT_DISPOSITION,
-                builder.toString()).body(file);
-    }
 }

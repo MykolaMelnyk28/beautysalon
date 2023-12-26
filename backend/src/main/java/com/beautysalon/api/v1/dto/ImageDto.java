@@ -1,27 +1,43 @@
 package com.beautysalon.api.v1.dto;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class ImageDto {
-    private MultipartFile file;
+    private String url;
+    private String fullName;
+    private String name;
     private String path;
-    private String filename;
 
     public ImageDto() {
     }
 
-    public ImageDto(MultipartFile file, String path, String filename) {
-        this.file = file;
+    public ImageDto(String url, String fullName, String name, String path) {
+        this.url = url;
+        this.fullName = fullName;
+        this.name = name;
         this.path = path;
-        this.filename = filename;
     }
 
-    public MultipartFile getFile() {
-        return file;
+    public String getUrl() {
+        return url;
     }
 
-    public void setFile(MultipartFile file) {
-        this.file = file;
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPath() {
@@ -32,11 +48,5 @@ public class ImageDto {
         this.path = path;
     }
 
-    public String getFilename() {
-        return filename;
-    }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
 }

@@ -7,109 +7,88 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "images", uniqueConstraints = @UniqueConstraint(
-        columnNames = {"path", "filename"}
-))
+@Table(name = "images")
 public class Image {
-
-    public static class Builder {
-        private UUID id;
-        private String path = "/";
-        private String filename;
-        private byte[] bytes;
-
-        Builder() {
-            this.id = UUID.randomUUID();
-            this.path = "/";
-            this.filename = id.toString();
-            this.bytes = new byte[0];
-        }
-
-        public Builder id(UUID id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder path(String path) {
-            this.path = path;
-            return this;
-        }
-
-        public Builder filename(String filename) {
-            this.filename = filename;
-            return this;
-        }
-
-        public Builder bytes(byte[] bytes) {
-            this.bytes = bytes;
-            return this;
-        }
-
-        public Builder setFullPath(String fullPath) {
-            int lastSep = fullPath.lastIndexOf("/");
-            this.path = fullPath.substring(0, lastSep-1);
-            this.filename = fullPath.substring(lastSep+1, fullPath.length()-1);
-            return this;
-        }
-
-        public Image build() {
-            return new Image(id, path, filename, bytes);
-        }
-    }
-
-    public static Builder builder() {
-        return new Builder();
-    }
-
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
-    @Column(nullable = false)
-    private String path = "/";
-    @Column(nullable = false)
-    private String filename;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @Column(name = "name")
+    private String name;
+    @Column(name = "originalFileName")
+    private String originalFileName;
+    @Column(name = "size")
+    private Long size;
+    @Column(name = "contentType")
+    private String contentType;
+    @Column(name = "isPreviewImage")
+    private boolean isPreviewImage;
     @Lob
-    @Column(nullable = false)
     private byte[] bytes;
 
+//    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+//    private UserEntity user;
+
     public Image() {
-
     }
 
-    public Image(UUID id, String path, String filename, byte[] bytes) {
+    public Image(Long id, String name, String originalFileName, Long size, String contentType, boolean isPreviewImage, byte[] bytes) {
         this.id = id;
-        this.path = path;
-        this.filename = filename;
+        this.name = name;
+        this.originalFileName = originalFileName;
+        this.size = size;
+        this.contentType = contentType;
+        this.isPreviewImage = isPreviewImage;
         this.bytes = bytes;
+        //this.user = user;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getPath() {
-        return path;
+    public String getName() {
+        return name;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getFullName() {
-        return String.join("/", path, filename);
+    public String getOriginalFileName() {
+        return originalFileName;
     }
 
-    public String getFilename() {
-        return filename;
+    public void setOriginalFileName(String originalFileName) {
+        this.originalFileName = originalFileName;
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public Long getSize() {
+        return size;
+    }
+
+    public void setSize(Long size) {
+        this.size = size;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public boolean isPreviewImage() {
+        return isPreviewImage;
+    }
+
+    public void setPreviewImage(boolean previewImage) {
+        isPreviewImage = previewImage;
     }
 
     public byte[] getBytes() {
@@ -120,17 +99,18 @@ public class Image {
         this.bytes = bytes;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Image image = (Image) o;
-        return Objects.equals(id, image.id) && Objects.equals(path, image.path) && Objects.equals(filename, image.filename) && Arrays.equals(bytes, image.bytes);
+        return isPreviewImage == image.isPreviewImage && Objects.equals(id, image.id) && Objects.equals(name, image.name) && Objects.equals(originalFileName, image.originalFileName) && Objects.equals(size, image.size) && Objects.equals(contentType, image.contentType) && Arrays.equals(bytes, image.bytes);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, path, filename);
+        int result = Objects.hash(id, name, originalFileName, size, contentType, isPreviewImage);
         result = 31 * result + Arrays.hashCode(bytes);
         return result;
     }
