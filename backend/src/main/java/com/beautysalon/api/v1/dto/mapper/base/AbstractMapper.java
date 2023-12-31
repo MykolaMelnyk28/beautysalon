@@ -1,0 +1,155 @@
+package com.beautysalon.api.v1.dto.mapper.base;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
+public abstract class AbstractMapper<E, D>
+        implements AutoMapper<E, D> {
+
+    private final Class<D> dtoClass;
+    private final Class<E> entityClass;
+
+    public AbstractMapper() {
+        Type genericSuperclass = getClass().getGenericSuperclass();
+        ParameterizedType parameterizedType = (ParameterizedType) genericSuperclass;
+        Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+        this.entityClass = (Class<E>) actualTypeArguments[0];
+        this.dtoClass = (Class<D>) actualTypeArguments[1];
+    }
+
+    @Override
+    public final D toDto(E entity) {
+        try {
+            doEntityNull(entity);
+        } catch (NullPointerException e) {
+            return null;
+        }
+
+        D dto;
+        try {
+            dto = doMakeDto();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException("Error creating DTO instance", e);
+        }
+
+        preDtoCopy(entity, dto);
+        copyDto(entity, dto);
+        postDtoCopy(entity, dto);
+
+        return dto;
+    }
+
+    @Override
+    public final E toEntity(D dto) {
+        try {
+            doDtoNull(dto);
+        } catch (NullPointerException e) {
+            return null;
+        }
+
+        E entity;
+        try {
+            entity = doMakeEntity();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException("Error creating DTO instance", e);
+        }
+
+        preEntityCopy(dto, entity);
+        copyEntity(dto, entity);
+        postEntityCopy(dto, entity);
+
+        return entity;
+    }
+
+    @Override
+    public final void autoCopyDto(D source, D destination) {
+        autoCopy(source, destination);
+    }
+
+    @Override
+    public final void autoCopyEntity(E source, E destination) {
+        autoCopy(source, destination);
+    }
+
+    @Override
+    public final void transferDtoEntity(D source, E destination) {
+        preEntityCopy(source, destination);
+        copyEntity(source, destination);
+        postEntityCopy(source, destination);
+    }
+
+    @Override
+    public final void transferEntityDto(E source, D destination) {
+        preDtoCopy(source, destination);
+        copyDto(source, destination);
+        postDtoCopy(source, destination);
+    }
+
+    protected void doDtoNull(D dto) {
+        if (dto == null) {
+            throw new NullPointerException();
+        }
+    }
+
+    protected void doEntityNull(E entity) {
+        if (entity == null) {
+            throw new NullPointerException();
+        }
+    }
+
+    protected D doMakeDto() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        return dtoClass.getDeclaredConstructor().newInstance();
+    }
+
+    protected E doMakeEntity() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        return entityClass.getDeclaredConstructor().newInstance();
+    }
+
+    protected void preDtoCopy(E source, D destination) {
+
+    }
+
+    protected void postDtoCopy(E source, D destination) {
+
+    }
+
+    protected void preEntityCopy(D source, E destination) {
+
+    }
+
+    protected void postEntityCopy(D source, E destination) {
+
+    }
+
+    protected void copyDto(E source, D destination) {
+        autoCopy(source, destination);
+    }
+
+    protected void copyEntity(D source, E destination) {
+        autoCopy(source, destination);
+    }
+
+    protected final <S, DS> void autoCopy(S source, DS destination) {
+        Field[] sourceFields = source.getClass().getDeclaredFields();
+        Field[] declaredFields = destination.getClass().getDeclaredFields();
+
+        for(Field fieldDS : declaredFields) {
+            fieldDS.setAccessible(true);
+            for (Field fieldS : sourceFields) {
+                fieldS.setAccessible(true);
+                if (fieldS.getName().equals(fieldDS.getName())
+                        && fieldS.getType().equals(fieldDS.getType())) {
+                    try {
+                        fieldDS.set(destination, fieldS.get(source));
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+}
+

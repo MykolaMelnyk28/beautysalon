@@ -1,14 +1,15 @@
 package com.beautysalon.api.v1.dto.mapper;
 
-import com.beautysalon.api.v1.PathUtils;
+import com.beautysalon.api.v1.utils.PathUtils;
 import com.beautysalon.api.v1.dto.ImageDto;
+import com.beautysalon.api.v1.dto.mapper.base.AbstractMapper;
+import com.beautysalon.api.v1.dto.mapper.base.Mapper;
 import com.beautysalon.api.v1.entities.Image;
 import com.beautysalon.api.v1.services.ApiProperties;
-import org.springframework.stereotype.Component;
 
 import java.nio.file.Path;
 
-@Component
+@Mapper
 public class ImageMapper extends AbstractMapper<Image, ImageDto> {
     private final ApiProperties apiProp;
 

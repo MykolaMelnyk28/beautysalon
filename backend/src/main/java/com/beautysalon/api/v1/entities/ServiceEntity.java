@@ -30,10 +30,6 @@ public class ServiceEntity {
     @Column(nullable = false)
     private String currency;
 
-//    @ManyToMany(mappedBy = "services")
-//    private List<Appointment> appointments;
-
-
     public ServiceEntity() {
     }
 
@@ -114,5 +110,18 @@ public class ServiceEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, categoryPath, description, durationInMinute, price, currency);
+    }
+
+    @Override
+    public String toString() {
+        return "ServiceEntity(" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", categoryPath='" + categoryPath + '\'' +
+                ", description='" + description + '\'' +
+                ", durationInMinute=" + durationInMinute +
+                ", price=" + price +
+                ", currency='" + currency + '\'' +
+                ')';
     }
 }

@@ -1,11 +1,10 @@
 package com.beautysalon.api.v1.controllers;
 
 import com.beautysalon.api.v1.dto.ImageDto;
-import com.beautysalon.api.v1.dto.ImageMapper;
+import com.beautysalon.api.v1.dto.mapper.ImageMapper;
 import com.beautysalon.api.v1.entities.Image;
 import com.beautysalon.api.v1.services.ApiProperties;
 import com.beautysalon.api.v1.services.ImageService;
-import com.beautysalon.api.v1.services.StorageProperties;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
 package com.beautysalon.api.v1.controllers;
 
 import com.beautysalon.api.v1.dto.ServiceDto;
-import com.beautysalon.api.v1.dto.ServiceMapper;
+import com.beautysalon.api.v1.dto.mapper.base.AutoMapper;
 import com.beautysalon.api.v1.entities.ServiceEntity;
 import com.beautysalon.api.v1.services.ServiceEntityService;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +14,11 @@ import java.util.List;
 public class ServiceController {
 
     private final ServiceEntityService serviceEntityService;
-    private final ServiceMapper serviceMapper;
+    private final AutoMapper<ServiceEntity, ServiceDto> serviceMapper;
 
     public ServiceController(
             ServiceEntityService serviceEntityService,
-            ServiceMapper serviceMapper
+            AutoMapper<ServiceEntity, ServiceDto> serviceMapper
     ) {
         this.serviceEntityService = serviceEntityService;
         this.serviceMapper = serviceMapper;
@@ -47,7 +47,7 @@ public class ServiceController {
     public void deleteById(
             @PathVariable Long id
     ) {
-        serviceEntityService.deleteByName(id);
+        serviceEntityService.deleteById(id);
     }
 
 }

@@ -22,7 +22,7 @@ public class ServiceEntityService {
         return serviceRepository.findAll();
     }
 
-    public void deleteByName(Long id) {
+    public void deleteById(Long id) {
         serviceRepository.deleteById(id);
     }
 }

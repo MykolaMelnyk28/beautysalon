@@ -82,4 +82,16 @@ public class ServiceDto {
     public int hashCode() {
         return Objects.hash(name, category, description, durationInMinute, price, currency);
     }
+
+    @Override
+    public String toString() {
+        return "ServiceDto(" +
+                "name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                ", description='" + description + '\'' +
+                ", durationInMinute=" + durationInMinute +
+                ", price=" + price +
+                ", currency='" + currency + '\'' +
+                ')';
+    }
 }

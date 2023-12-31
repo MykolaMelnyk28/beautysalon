@@ -1,10 +1,11 @@
-package com.beautysalon.api.v1.dto;
+package com.beautysalon.api.v1.dto.mapper;
 
+import com.beautysalon.api.v1.dto.ServiceDto;
 import com.beautysalon.api.v1.dto.mapper.base.AbstractMapper;
+import com.beautysalon.api.v1.dto.mapper.base.Mapper;
 import com.beautysalon.api.v1.entities.ServiceEntity;
-import org.springframework.stereotype.Component;
 
-@Component
+@Mapper
 public class ServiceMapper extends AbstractMapper<ServiceEntity, ServiceDto> {
 
     @Override
@@ -16,37 +17,5 @@ public class ServiceMapper extends AbstractMapper<ServiceEntity, ServiceDto> {
     protected void postEntityCopy(ServiceDto source, ServiceEntity destination) {
         destination.setCategoryPath(source.getCategory());
     }
-
-    //    public ServiceDto toDto(ServiceEntity entity) {
-//        ServiceDto dto = super.toDto(entity);
-//        if (dto != null) {
-//            dto.setCategory(entity.getCategoryPath());
-//        }
-//
-////        dto.setName(entity.getName());
-////        dto.setDescription(entity.getDescription());
-////        dto.setPrice(entity.getPrice());
-////        dto.setCurrency(entity.getCurrency());
-////        dto.setDurationInMinute(entity.getDurationInMinute());
-//
-//        return dto;
-//    }
-//
-//
-//
-//    public ServiceEntity toEntity(ServiceDto dto) {
-//        ServiceEntity entity = super.toEntity(dto);
-//        if (entity != null) {
-//            entity.setCategoryPath(dto.getCategory());
-//        }
-//
-////        entity.setName(dto.getName());
-////        entity.setDescription(dto.getDescription());
-////        entity.setPrice(dto.getPrice());
-////        entity.setCurrency(dto.getCurrency());
-////        entity.setDurationInMinute(dto.getDurationInMinute());
-//
-//        return entity;
-//    }
 
 }
