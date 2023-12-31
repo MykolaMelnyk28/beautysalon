@@ -22,7 +22,7 @@
         <div class="feedback-content">
           <div class="feedback-part">
             <p class="feedback-title">{{f.author.firstName}} {{f.author.lastName}}</p>
-            <p class="feedback-desc">{{f.dateCreated.toLocaleDateString()}}</p>
+            <p class="feedback-desc">{{getDataString(f.dateCreated)}}</p>
           </div>
           <div class="feedback-part">
             <div class="rating-container">

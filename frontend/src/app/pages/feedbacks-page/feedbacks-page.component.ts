@@ -1,7 +1,8 @@
 import {Component, ViewChild} from '@angular/core';
 import {FeedbackModel} from "../../../model/FeedbackModel";
 import {CreateFeedbackModel} from "../../components/feedbacks/create-feedback-dialog/CreateFeedbackModel";
-import {ClientModel} from "../../../model/ClientModel";
+import {FeedbackService} from "../../services/feedback.service";
+import {ClientService} from "../../services/client.service";
 
 @Component({
   selector: 'app-feedbacks-page',
@@ -9,33 +10,20 @@ import {ClientModel} from "../../../model/ClientModel";
   styleUrls: ['./feedbacks-page.component.css']
 })
 export class FeedbacksPageComponent {
-  feedbacks: FeedbackModel[];
-
+  feedbacks: FeedbackModel[] = [];
   isDialogVisible: boolean = false;
 
-  constructor() {
-    this.feedbacks = [
-      {
-        text: "Відгук 1",
-        rating: 1,
-        dateCreated: new Date(),
-        author: new ClientModel({
-          firstName: "Прізвище1",
-          lastName: "Ім'я1",
-          email: "email1@email.com"
-        })
-      },
-      {
-        text: "Відгук 2",
-        rating: 5,
-        dateCreated: new Date(),
-        author: new ClientModel({
-          firstName: "Прізвище2",
-          lastName: "Ім'я2",
-          email: "email2@email.com"
-        })
-      }
-    ];
+  constructor(
+    private feedbackService: FeedbackService,
+    private clientService: ClientService
+  ) {
+    this.refreshFeedbacks();
+  }
+
+  refreshFeedbacks() {
+    this.feedbackService.getAllFeedbacks().subscribe(data => {
+      this.feedbacks = data.content;
+    });
   }
 
   openDialog() {
@@ -47,7 +35,22 @@ export class FeedbacksPageComponent {
   }
 
   onDialogSubmit(reviewData: CreateFeedbackModel) {
-    //let f = {};
-    //this.feedbacks.push(f);
+    let feedback: FeedbackModel | undefined;
+
+    this.clientService.getByEmail(reviewData.email).subscribe(clientModel => {
+      this.feedbackService.create(new FeedbackModel({
+        author: clientModel,
+        rating: reviewData.rating,
+        text: reviewData.text
+      })).subscribe(data => {
+        feedback = data;
+      });
+    });
+    this.refreshFeedbacks();
+  }
+
+  getDataString(date: Date): string {
+    const dateParts = date.toLocaleString("uk_UA").split("T");
+    return dateParts[0].replaceAll("-", ".");
   }
 }

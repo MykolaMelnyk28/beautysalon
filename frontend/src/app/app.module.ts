@@ -22,6 +22,8 @@ import {ServiceEntityService} from "./services/service-entity.service";
 import { ServiceListComponent } from './components/appointment/service-list/service-list.component';
 import {AppointmentComponent} from "./pages/appointment/appointment.component";
 import {ImageService} from "./services/image.service";
+import {FeedbackService} from "./services/feedback.service";
+import {ClientService} from "./services/client.service";
 
 @NgModule({
   declarations: [
@@ -49,7 +51,7 @@ import {ImageService} from "./services/image.service";
     HttpClientModule,
     FormsModule
   ],
-  providers: [ServiceEntityService, ImageService],
+  providers: [ServiceEntityService, ImageService, FeedbackService, ClientService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

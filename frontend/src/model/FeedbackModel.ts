@@ -1,8 +1,12 @@
 import {ClientModel} from "./ClientModel";
 
-export interface FeedbackModel {
-  author: ClientModel;
-  dateCreated: Date;
-  rating: number;
-  text: string;
+export class FeedbackModel {
+  author: ClientModel = new ClientModel({});
+  dateCreated: Date = new Date();
+  rating: number = 1;
+  text: string = "";
+
+  constructor(partial: Partial<FeedbackModel>) {
+    Object.assign(this, partial);
+  }
 }
