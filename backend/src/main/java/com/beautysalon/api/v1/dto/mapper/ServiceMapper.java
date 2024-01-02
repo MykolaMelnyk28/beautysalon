@@ -2,10 +2,10 @@ package com.beautysalon.api.v1.dto.mapper;
 
 import com.beautysalon.api.v1.dto.ServiceDto;
 import com.beautysalon.api.v1.dto.mapper.base.AbstractMapper;
-import com.beautysalon.api.v1.dto.mapper.base.Mapper;
 import com.beautysalon.api.v1.entities.ServiceEntity;
+import org.springframework.stereotype.Component;
 
-@Mapper
+@Component
 public class ServiceMapper extends AbstractMapper<ServiceEntity, ServiceDto> {
 
     @Override

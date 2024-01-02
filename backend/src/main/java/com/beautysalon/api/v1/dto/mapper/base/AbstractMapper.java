@@ -1,9 +1,10 @@
 package com.beautysalon.api.v1.dto.mapper.base;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 
 public abstract class AbstractMapper<E, D>
         implements AutoMapper<E, D> {
@@ -17,6 +18,11 @@ public abstract class AbstractMapper<E, D>
         Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
         this.entityClass = (Class<E>) actualTypeArguments[0];
         this.dtoClass = (Class<D>) actualTypeArguments[1];
+        init();
+    }
+
+    protected void init() {
+
     }
 
     @Override
@@ -34,11 +40,21 @@ public abstract class AbstractMapper<E, D>
             throw new RuntimeException("Error creating DTO instance", e);
         }
 
-        preDtoCopy(entity, dto);
-        copyDto(entity, dto);
-        postDtoCopy(entity, dto);
+        transferEntityDto(entity, dto);
 
         return dto;
+    }
+
+    @Override
+    public final Collection<D> toDtoAll(Iterable<E> iterable) {
+        try {
+            nonNullOrThrow(iterable);
+        } catch (NullPointerException e) {
+            return null;
+        }
+        List<D> dtos = new ArrayList<>();
+        iterable.forEach(x -> dtos.add( toDto(x) ));
+        return dtos;
     }
 
     @Override
@@ -56,11 +72,21 @@ public abstract class AbstractMapper<E, D>
             throw new RuntimeException("Error creating DTO instance", e);
         }
 
-        preEntityCopy(dto, entity);
-        copyEntity(dto, entity);
-        postEntityCopy(dto, entity);
+        transferDtoEntity(dto, entity);
 
         return entity;
+    }
+
+    @Override
+    public final Collection<E> toEntityAll(Iterable<D> iterable) {
+        try {
+            nonNullOrThrow(iterable);
+        } catch (NullPointerException e) {
+            return null;
+        }
+        List<E> entities = new ArrayList<>();
+        iterable.forEach(x -> entities.add( toEntity(x) ));
+        return entities;
     }
 
     @Override
@@ -87,16 +113,12 @@ public abstract class AbstractMapper<E, D>
         postDtoCopy(source, destination);
     }
 
-    protected void doDtoNull(D dto) {
-        if (dto == null) {
-            throw new NullPointerException();
-        }
+    protected void doDtoNull(D dto) throws NullPointerException  {
+        nonNullOrThrow(dto);
     }
 
-    protected void doEntityNull(E entity) {
-        if (entity == null) {
-            throw new NullPointerException();
-        }
+    protected void doEntityNull(E entity) throws NullPointerException  {
+        nonNullOrThrow(entity);
     }
 
     protected D doMakeDto() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
@@ -150,6 +172,10 @@ public abstract class AbstractMapper<E, D>
                 }
             }
         }
+    }
+
+    protected final void nonNullOrThrow(Object o) throws NullPointerException {
+        Objects.requireNonNull(o);
     }
 }
 

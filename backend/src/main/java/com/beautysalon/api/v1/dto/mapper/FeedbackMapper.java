@@ -4,13 +4,14 @@ import com.beautysalon.api.v1.dto.ClientDto;
 import com.beautysalon.api.v1.dto.FeedbackDto;
 import com.beautysalon.api.v1.dto.mapper.base.AbstractMapper;
 import com.beautysalon.api.v1.dto.mapper.base.AutoMapper;
-import com.beautysalon.api.v1.dto.mapper.base.Mapper;
 import com.beautysalon.api.v1.entities.Client;
 import com.beautysalon.api.v1.entities.Feedback;
+import org.springframework.stereotype.Component;
 
-@Mapper
+@Component
 public class FeedbackMapper extends AbstractMapper<Feedback, FeedbackDto> {
-    private final AutoMapper<Client, ClientDto> clientMapper;
+
+    private AutoMapper<Client, ClientDto> clientMapper;
 
     public FeedbackMapper(AutoMapper<Client, ClientDto> clientMapper) {
         super();
