@@ -25,6 +25,7 @@ import {ImageService} from "./services/image.service";
 import {FeedbackService} from "./services/feedback.service";
 import {ClientService} from "./services/client.service";
 import {EmployeesService} from "./services/employees.service";
+import {AppointmentService} from "./services/appointment.service";
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import {EmployeesService} from "./services/employees.service";
     ImageService,
     FeedbackService,
     ClientService,
-    EmployeesService
+    EmployeesService,
+    AppointmentService
   ],
   bootstrap: [AppComponent]
 })
