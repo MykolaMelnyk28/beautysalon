@@ -1,6 +1,7 @@
 import {WorkSchedule} from "./WorkSchedule";
 
 export class EmployeeModel {
+  id: number = 0;
   firstName: string = "";
   lastName: string = "";
   surName: string = "";
@@ -15,7 +16,7 @@ export class EmployeeModel {
   }
 
   getFirstImageOrDefault(): string {
-    return (this.imageUrl.length === 0)
+    return (!this.imageUrl || this.imageUrl.length === 0)
       ? 'assets/default_user_photo.png'
       : this.imageUrl[0];
   }
