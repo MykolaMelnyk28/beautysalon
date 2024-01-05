@@ -7,6 +7,7 @@ import com.beautysalon.api.v1.services.ClientService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -22,6 +23,14 @@ public class ClientController {
     ) {
         this.clientMapper = clientMapper;
         this.clientService = clientService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ClientDto>> getAll() {
+        List<Client> clients = clientService.getAll();
+        return ResponseEntity.ok(clients.stream()
+                        .map(clientMapper::toDto)
+                .toList());
     }
 
     @GetMapping("/{email}")
