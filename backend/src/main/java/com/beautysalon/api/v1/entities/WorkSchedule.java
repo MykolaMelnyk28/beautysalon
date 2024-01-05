@@ -7,14 +7,16 @@ import java.time.LocalTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "work_schedule")
+@Table(name = "work_schedule", uniqueConstraints = @UniqueConstraint(
+        columnNames = {"dayOfWeek", "startTime", "endTime"}
+))
 public class WorkSchedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
     private DayOfWeek dayOfWeek;
 
     @Column(nullable = false)
@@ -23,19 +25,14 @@ public class WorkSchedule {
     @Column(nullable = false)
     private LocalTime endTime;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "master_id")
-    private Master master;
-
     public WorkSchedule() {
     }
 
-    public WorkSchedule(Long id, DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime, Master master) {
+    public WorkSchedule(Long id, DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) {
         this.id = id;
         this.dayOfWeek = dayOfWeek;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.master = master;
     }
 
     public Long getId() {
@@ -70,25 +67,18 @@ public class WorkSchedule {
         this.endTime = endTime;
     }
 
-    public Master getMaster() {
-        return master;
-    }
-
-    public void setMaster(Master master) {
-        this.master = master;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WorkSchedule that = (WorkSchedule) o;
-        return Objects.equals(id, that.id) && dayOfWeek == that.dayOfWeek && Objects.equals(startTime, that.startTime) && Objects.equals(endTime, that.endTime) && Objects.equals(master, that.master);
+        return Objects.equals(id, that.id) && dayOfWeek == that.dayOfWeek && Objects.equals(startTime, that.startTime) && Objects.equals(endTime, that.endTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, dayOfWeek, startTime, endTime, master);
+        return Objects.hash(id, dayOfWeek, startTime, endTime);
     }
 }
 

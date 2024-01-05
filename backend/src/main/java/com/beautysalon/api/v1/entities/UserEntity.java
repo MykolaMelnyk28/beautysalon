@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class UserEntity /*implements UserDetails*/ {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,33 +24,31 @@ public class UserEntity /*implements UserDetails*/ {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, columnDefinition = "BIT(1) NOT NULL DEFAULT TRUE")
-    private boolean accountNonExpired;
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private boolean accountNonExpired = true;
 
-    @Column(nullable = false, columnDefinition = "BIT(1) NOT NULL DEFAULT TRUE")
-    private boolean accountNonLocked;
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private boolean accountNonLocked = true;
 
-    @Column(nullable = false, columnDefinition = "BIT(1) NOT NULL DEFAULT TRUE")
-    private boolean credentialsNonExpired;
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private boolean credentialsNonExpired = true;
 
-    @Column(nullable = false, columnDefinition = "BIT(1) NOT NULL DEFAULT TRUE")
-    private boolean enabled;
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private boolean enabled = true;
 
     @OneToOne
     @JoinColumn(name = "master_id")
     private Master master;
 
-//    @OneToOne
-//    @JoinColumn(name = "administrator_id")
-//    private Administrator administrator;
+    @OneToOne
+    @JoinColumn(name = "administrator_id")
+    private Administrator administrator;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "users_roles",
-//            joinColumns = {@JoinColumn(name = "user_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "role_id")}
-//    )
-//    private Set<UserRole> authorities;
+    @ElementCollection(targetClass = UserRole.class)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private Set<UserRole> authorities;
 
     @CreationTimestamp
     private LocalDateTime dateTimeOfCreated;
@@ -58,11 +56,12 @@ public class UserEntity /*implements UserDetails*/ {
     @UpdateTimestamp
     private LocalDateTime dateTimeOfUpdated;
 
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
-//            mappedBy = "user")
-//    private List<Image> images = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_images",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "image_id"))
+    private List<Image> images = new ArrayList<>();
 
-    private Long previewImageId;
 
     public UserEntity() {
     }
@@ -78,7 +77,6 @@ public class UserEntity /*implements UserDetails*/ {
         this.master = master;
         this.dateTimeOfCreated = dateTimeOfCreated;
         this.dateTimeOfUpdated = dateTimeOfUpdated;
-        this.previewImageId = previewImageId;
     }
 
     public Long getId() {
@@ -161,25 +159,17 @@ public class UserEntity /*implements UserDetails*/ {
         this.dateTimeOfUpdated = dateTimeOfUpdated;
     }
 
-//    public List<Image> getImages() {
-//        return images;
-//    }
-//
-//    public void setImages(List<Image> images) {
-//        this.images = images;
-//    }
-
-//    public void addImageToProduct(Image image) {
-////        image.setUser(this);
-//        images.add(image);
-//    }
-
-    public Long getPreviewImageId() {
-        return previewImageId;
+    public List<Image> getImages() {
+        return images;
     }
 
-    public void setPreviewImageId(Long previewImageId) {
-        this.previewImageId = previewImageId;
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
+    public void addImage(Image image) {
+        image.setUser(this);
+        images.add(image);
     }
 
     @Override
@@ -187,11 +177,11 @@ public class UserEntity /*implements UserDetails*/ {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity that = (UserEntity) o;
-        return accountNonExpired == that.accountNonExpired && accountNonLocked == that.accountNonLocked && credentialsNonExpired == that.credentialsNonExpired && enabled == that.enabled && Objects.equals(id, that.id) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(master, that.master) && Objects.equals(dateTimeOfCreated, that.dateTimeOfCreated) && Objects.equals(dateTimeOfUpdated, that.dateTimeOfUpdated) && Objects.equals(previewImageId, that.previewImageId);
+        return accountNonExpired == that.accountNonExpired && accountNonLocked == that.accountNonLocked && credentialsNonExpired == that.credentialsNonExpired && enabled == that.enabled && Objects.equals(id, that.id) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(master, that.master) && Objects.equals(dateTimeOfCreated, that.dateTimeOfCreated) && Objects.equals(dateTimeOfUpdated, that.dateTimeOfUpdated);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled, master, dateTimeOfCreated, dateTimeOfUpdated, previewImageId);
+        return Objects.hash(id, username, password, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled, master, dateTimeOfCreated, dateTimeOfUpdated);
     }
 }

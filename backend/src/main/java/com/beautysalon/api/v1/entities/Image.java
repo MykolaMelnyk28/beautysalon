@@ -26,13 +26,13 @@ public class Image {
     @Lob
     private byte[] bytes;
 
-//    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-//    private UserEntity user;
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    private UserEntity user;
 
     public Image() {
     }
 
-    public Image(Long id, String name, String originalFileName, Long size, String contentType, boolean isPreviewImage, byte[] bytes) {
+    public Image(Long id, String name, String originalFileName, Long size, String contentType, boolean isPreviewImage, byte[] bytes, UserEntity user) {
         this.id = id;
         this.name = name;
         this.originalFileName = originalFileName;
@@ -40,7 +40,7 @@ public class Image {
         this.contentType = contentType;
         this.isPreviewImage = isPreviewImage;
         this.bytes = bytes;
-        //this.user = user;
+        this.user = user;
     }
 
     public Long getId() {
@@ -99,18 +99,25 @@ public class Image {
         this.bytes = bytes;
     }
 
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Image image = (Image) o;
-        return isPreviewImage == image.isPreviewImage && Objects.equals(id, image.id) && Objects.equals(name, image.name) && Objects.equals(originalFileName, image.originalFileName) && Objects.equals(size, image.size) && Objects.equals(contentType, image.contentType) && Arrays.equals(bytes, image.bytes);
+        return isPreviewImage == image.isPreviewImage && Objects.equals(id, image.id) && Objects.equals(name, image.name) && Objects.equals(originalFileName, image.originalFileName) && Objects.equals(size, image.size) && Objects.equals(contentType, image.contentType) && Arrays.equals(bytes, image.bytes) && Objects.equals(user, image.user);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, name, originalFileName, size, contentType, isPreviewImage);
+        int result = Objects.hash(id, name, originalFileName, size, contentType, isPreviewImage, user);
         result = 31 * result + Arrays.hashCode(bytes);
         return result;
     }
