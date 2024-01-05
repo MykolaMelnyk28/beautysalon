@@ -11,6 +11,7 @@ export class ButtonComponent {
   @Input() theme?: string = "dark";
   @Input() href?: string = "";
   @Input() value?: string = "";
+  @Input() disabled?: boolean = false;
 
   constructor(private router: Router) {}
 

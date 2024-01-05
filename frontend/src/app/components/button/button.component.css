@@ -11,6 +11,10 @@
   border: none;
 }
 
+.btn[disabled] {
+  cursor: default;
+}
+
 .btn-border {
   border: 2px solid;
   background-color: transparent;

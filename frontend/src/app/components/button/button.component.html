@@ -1,4 +1,5 @@
 <button
+  class="btn"
   [ngClass]="{
     'btn-fill': isType('fill'),
     'btn-border': isType('border'),
@@ -6,6 +7,8 @@
     'dark': isTheme('dark')
   }"
   [routerLink]="getRouterLink()"
-  (click)="handleClick()">
+  (click)="handleClick()"
+  [disabled]="disabled"
+>
   {{ value }}
 </button>
