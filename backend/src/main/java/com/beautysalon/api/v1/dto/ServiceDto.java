@@ -3,6 +3,7 @@ package com.beautysalon.api.v1.dto;
 import java.util.Objects;
 
 public class ServiceDto {
+    private Long id;
     private String name;
     private String category;
     private String description;
@@ -13,13 +14,22 @@ public class ServiceDto {
     public ServiceDto() {
     }
 
-    public ServiceDto(String name, String category, String description, int durationInMinute, double price, String currency) {
+    public ServiceDto(Long id, String name, String category, String description, int durationInMinute, double price, String currency) {
+        this.id = id;
         this.name = name;
         this.category = category;
         this.description = description;
         this.durationInMinute = durationInMinute;
         this.price = price;
         this.currency = currency;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -75,23 +85,11 @@ public class ServiceDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ServiceDto that = (ServiceDto) o;
-        return Objects.equals(name, that.name) && Objects.equals(category, that.category) && Objects.equals(description, that.description) && Objects.equals(durationInMinute, that.durationInMinute) && Objects.equals(price, that.price) && Objects.equals(currency, that.currency);
+        return durationInMinute == that.durationInMinute && Double.compare(price, that.price) == 0 && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(category, that.category) && Objects.equals(description, that.description) && Objects.equals(currency, that.currency);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, category, description, durationInMinute, price, currency);
-    }
-
-    @Override
-    public String toString() {
-        return "ServiceDto(" +
-                "name='" + name + '\'' +
-                ", category='" + category + '\'' +
-                ", description='" + description + '\'' +
-                ", durationInMinute=" + durationInMinute +
-                ", price=" + price +
-                ", currency='" + currency + '\'' +
-                ')';
+        return Objects.hash(id, name, category, description, durationInMinute, price, currency);
     }
 }
