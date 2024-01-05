@@ -13,9 +13,7 @@
 
 .section-main {
   display: flex;
-
-
-
+  height: 100%;
 }
 
 #section-service>.section-left {
@@ -55,7 +53,7 @@
 /* section-employee */
 
 #section-masters {
-
+  height: 100%;
 }
 
 /* section-confim */
@@ -105,7 +103,6 @@
 .contact-item {
   display: flex;
   flex-direction: column;
-
   width: 100%;
 }
 
@@ -139,13 +136,33 @@
 }
 
 
+#section-masters {
+  height: 100%;
+}
+
 .frame-white * {
   color: var(--sidebar-color);
 }
 
 
+.emps {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 10px;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .emp {
+  cursor: pointer;
+  width: max-content;
+  border-radius: 35px;
   height: max-content;
+}
+
+.emp.active {
+  border: 5px solid #FF4D6D;
 }
 
 .emp-img {
@@ -158,19 +175,14 @@
   flex-flow: column nowrap;
   height: 100%;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
 }
 
 .emp-part {
 
 }
 
-.emp-label {
-  font-weight: bold;
-}
-
-.title {
-  font-size: 20px;
+.emp-title {
   font-weight: bold;
 }
 
@@ -208,7 +220,6 @@
   justify-content: space-between;
   padding: 10px 10px 10px 20px;
   background-color: var(--sidebar-color);
-
 }
 
 .service:first-child>.service-head {
@@ -247,7 +258,34 @@
 
 /*  section-datetime */
 
+#section-datetime {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+#section-datetime>.form-container {
+  width: max-content;
+}
+
+#section-datetime .form-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+#available-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--sidebar-color);
+  border-radius: 50px;
+  width: 150px;
+  height: 39px;
+}
+
+#available-text {
+
+}
 
 /* section-personaldata*/
 
@@ -257,13 +295,12 @@
   align-items: center;
 }
 
-.form-container {
+#section-personaldate>.form-container {
   display: flex;
   justify-content: center;
   align-items: center;
   width: auto;
   height: auto;
-
 }
 
 .form {
@@ -280,7 +317,6 @@
 .form-input {
   padding: 10px;
   width: 100%;
-  border: 1px solid;
   border-radius: 15px;
   font-size: 16px;
 }

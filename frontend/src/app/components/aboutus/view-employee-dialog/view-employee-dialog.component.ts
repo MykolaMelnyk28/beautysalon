@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {EmployeeModel} from "../../../../model/EmployeeModel";
+import {EmployeesService} from "../../../services/employees.service";
 
 @Component({
   selector: 'app-view-employee-dialog',
@@ -11,7 +12,9 @@ export class ViewEmployeeDialogComponent {
   @Output() close = new EventEmitter<void>();
   @Input() item: EmployeeModel = new EmployeeModel({});
 
-  constructor() {}
+  constructor(
+    public employeeService: EmployeesService
+  ) {}
 
   onClose() {
     this.isVisible = false;

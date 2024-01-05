@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
-import {AppointmentModel} from "../../../model/AppointmentModel";
-import {AvailableScheduleModel} from "../../../model/AvailableScheduleModel";
 import {ServiceModel} from "../../../model/ServiceModel";
 import {TreeNode} from "../../../model/TreeNode";
 import {ServiceEntityService} from "../../services/service-entity.service";
 import {EmployeeModel} from "../../../model/EmployeeModel";
+import {Appointment} from "../../../model/Appointment";
+import {AppointmentModel} from "../../../model/AppointmentModel";
+import {ClientModel} from "../../../model/ClientModel";
+import {EmployeesService} from "../../services/employees.service";
+import {AppointmentService} from "../../services/appointment.service";
 
 @Component({
   selector: 'app-appointment',
@@ -13,65 +16,21 @@ import {EmployeeModel} from "../../../model/EmployeeModel";
 })
 export class AppointmentComponent {
   selectedSection: number = 1;
-  model: AppointmentModel;
-  schedule: AvailableScheduleModel;
+  model: Appointment;
   treeRoot: TreeNode | null;
-  employees: EmployeeModel[];
+  employees: EmployeeModel[] = [];
+  datetimeAvailable: boolean | undefined;
 
   constructor(
-    private serviceService: ServiceEntityService
+    private serviceService: ServiceEntityService,
+    public employeeService: EmployeesService,
+    private appointmentService: AppointmentService
   ) {
-    this.employees = [
-      new EmployeeModel({
-        firstName: "firstname1",
-        lastName: "lastname1",
-        surName: "surname1",
-        email: "email1@gmail.com",
-        phoneNumber: "+380682365227",
-        position: "position1",
-        imageUrl: [],
-        workSchedule: []
-      })
-    ];
+    this.employeeService.getAllMasters().subscribe(data => {
+      this.employees.push(...data);
+    });
     this.treeRoot = this.serviceService.getTree();
-    this.model = new AppointmentModel({});
-    // new ServiceModel({
-    //   name: "service2",
-    //   category: "category1.category1_2",
-    //   durationInMinute: 30,
-    //   price: 50
-    // }),
-    // new ServiceModel({
-    //   name: "service2",
-    //   category: "category1.category1_2",
-    //   durationInMinute: 30,
-    //   price: 50
-    // }),
-    // new ServiceModel({
-    //   name: "service2",
-    //   category: "category1.category1_2",
-    //   durationInMinute: 30,
-    //   price: 50
-    // }),
-    // new ServiceModel({
-    //   name: "service2",
-    //   category: "category1.category1_2",
-    //   durationInMinute: 30,
-    //   price: 50
-    // }),
-    // new ServiceModel({
-    //   name: "service2",
-    //   category: "category1.category1_2",
-    //   durationInMinute: 30,
-    //   price: 50
-    // }),
-    // new ServiceModel({
-    //   name: "service2",
-    //   category: "category1.category1_2",
-    //   durationInMinute: 30,
-    //   price: 50
-    // })
-    this.schedule = new AvailableScheduleModel({});
+    this.model = new Appointment({});
   }
 
   hasContent(): boolean {
@@ -103,13 +62,40 @@ export class AppointmentComponent {
     if (this.selectedSection === 5) {
       return;
     }
-
     this.selectedSection++;
   }
 
-  handleConfirm(){
-
+  hasNext(): boolean {
+    switch (this.selectedSection) {
+      case 1:
+        return this.model.services.size > 0;
+      case 2:
+        return this.model.master !== undefined;
+      case 3:
+        return this.model.schedule.startDatetime !== undefined &&
+          this.model.schedule.endDatetime !== undefined &&
+          (this.datetimeAvailable !== undefined && this.datetimeAvailable);
+      case 4:
+        return this.model.firstNameClient !== undefined &&
+          this.model.lastNameClient !== undefined &&
+          this.model.emailClient !== undefined &&
+          this.model.phoneNumberClient !== undefined;
+      default:
+        return true;
+    }
   }
+
+  handleConfirm(){
+    let appointment: AppointmentModel | null = this.appointmentService.completeModel(this.model);
+
+    if (appointment) {
+      this.appointmentService.createAppointment(appointment).subscribe(data => {
+        console.log(data);
+      });
+    }
+  }
+
+
 
   totalPrice(): number {
     let totalPrice = 0;
@@ -128,17 +114,56 @@ export class AppointmentComponent {
   }
 
   getEndDate(): string {
-    if (!this.schedule.startDatetime) {
+    if (!this.model.schedule.startDatetime) {
       return "";
     }
-    let end = new Date(this.schedule.startDatetime);
+    let end = new Date(this.model.schedule.startDatetime);
     end.setMinutes(end.getMinutes() + this.totalDuration());
-    this.schedule.endDatetime = end;
+    this.model.schedule.endDatetime = end;
     return end.toLocaleString(undefined, { year: "numeric", day: "numeric", month: "numeric", hour: "numeric", minute: "numeric"});
   }
 
+  getDataString(date: Date | undefined): string {
+    if (date) {
+      let dateS = date.toLocaleString("uk_UA");
+      return dateS.replace("T", " ").replaceAll("-", ".");
+    }
+    return "";
+  }
+
+  handleAvailableDatatimeBtnClick() {
+    const startDatetime: Date | undefined = this.model.schedule.startDatetime;
+    const endDatetime: Date | undefined = this.model.schedule.endDatetime;
+    const master: EmployeeModel | undefined = this.model.master;
+
+    if (startDatetime && endDatetime && master) {
+      let startD = new Date(startDatetime);
+      let endD = new Date(endDatetime);
+      const userTimezoneOffset = startD.getTimezoneOffset();
+
+      const correctedStartDatetime = new Date(startD.getTime() - (userTimezoneOffset * 60000));
+      const correctedEndDatetime = new Date(endD.getTime() - (userTimezoneOffset * 60000));
+
+      this.employeeService.getAvailableDatetimeMaster(
+        correctedStartDatetime, correctedEndDatetime, master
+      ).subscribe(data => {
+        this.datetimeAvailable = data.accessibility;
+      });
+    }
+  }
+
+  getDatetimeAvailability(): string {
+    if (this.datetimeAvailable === undefined) {
+      return " ";
+    } else if (this.datetimeAvailable) {
+      return "Доступно";
+    } else {
+      return "Не доступно";
+    }
+  }
+
   getDate(): string | undefined {
-    const startDatetime = this.schedule?.startDatetime;
+    const startDatetime = this.model.schedule.startDatetime;
     return (!startDatetime)
       ? undefined
       : startDatetime.toLocaleDateString(undefined, {
@@ -151,6 +176,6 @@ export class AppointmentComponent {
   }
 
   getTime(): string | undefined {
-    return this.schedule?.startDatetime?.toLocaleTimeString(undefined, {hour: "numeric", minute: "numeric"});
+    return this.model.schedule.startDatetime?.toLocaleTimeString(undefined, {hour: "numeric", minute: "numeric"});
   }
 }

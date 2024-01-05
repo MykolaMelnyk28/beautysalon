@@ -63,12 +63,13 @@
         <frame-light
           class="emp"
           *ngFor="let e of employees"
+          [ngClass]="{'active': model.master === e}"
           (click)="handleEmployeeClick(e)">
           <div class="emp-content">
             <div class="emp-part">
               <img
                 class="emp-img"
-                [src]="e.getFirstImageOrDefault()"
+                [src]="employeeService.getFirstImageOrDefault(e)"
               />
             </div>
             <div class="emp-part">
@@ -89,15 +90,22 @@
         <frame-light vr="hug" hr="hug">
           <div class="form">
             <div class="form-part">
-              <input class="form-input" type="datetime-local" [(ngModel)]="schedule.startDatetime" />
+              <input class="form-input" type="datetime-local"
+                     [(ngModel)]="model.schedule.startDatetime"
+              />
             </div>
             <div class="form-part">
-              <input class="form-input" type="text" [disabled]="!schedule.startDatetime" [value]="getEndDate()" />
+              <input class="form-input" type="text" disabled [value]="getEndDate()" />
             </div>
             <div class="form-actions">
               <div id="available-box">
-                <p id="available-text">Доступно</p>
+                <p id="available-text">{{getDatetimeAvailability()}}</p>
               </div>
+              <app-button
+                theme="light"
+                value="Перевірити"
+                (click)="handleAvailableDatatimeBtnClick()"
+              />
             </div>
           </div>
         </frame-light>
@@ -113,19 +121,19 @@
           <div class="form">
             <div class="form-part">
               <p class="form-label">Ім'я</p>
-              <input class="form-input" type="text" [(ngModel)]="model.client.firstName" />
+              <input class="form-input" type="text" [(ngModel)]="model.firstNameClient" />
             </div>
             <div class="form-part">
               <p class="form-label">Прізвище</p>
-              <input class="form-input" type="text" [(ngModel)]="model.client.lastName" />
+              <input class="form-input" type="text" [(ngModel)]="model.lastNameClient" />
             </div>
             <div class="form-part">
               <p class="form-label">Email</p>
-              <input class="form-input" type="email" [(ngModel)]="model.client.email" />
+              <input class="form-input" type="email" [(ngModel)]="model.emailClient" />
             </div>
             <div class="form-part">
               <p class="form-label">Номер телефону</p>
-              <input class="form-input" type="text" [(ngModel)]="model.client.phoneNumber" />
+              <input class="form-input" type="text" [(ngModel)]="model.phoneNumberClient" />
             </div>
           </div>
         </frame-light>
@@ -142,17 +150,17 @@
             <div>
               <img
                 class="emp-img"
-                [src]="model.master.getFirstImageOrDefault()"
+                [src]="employeeService.getFirstImageOrDefault(model.master)"
               />
             </div>
             <div class="contact-item">
-              <span class="emp-label">{{model.master.firstName}} {{model.master.lastName}} {{model.master.surName}}</span>
+              <span class="emp-label">{{model.master?.firstName ?? ""}} {{model.master?.lastName ?? ""}} {{model.master?.surName ?? ""}}</span>
             </div>
             <div class="contact-item">
-              <span class="contact-desc">{{model.master.email}}</span>
+              <span class="contact-desc">{{model.master?.email ?? ""}}</span>
             </div>
             <div class="contact-item">
-              <span class="contact-desc">{{model.master.phoneNumber}}</span>
+              <span class="contact-desc">{{model.master?.phoneNumber ?? ""}}</span>
             </div>
           </div>
         </div>
@@ -161,19 +169,19 @@
           <div class="contact-content">
             <div class="contact-item">
               <span class="contact-label">Ім'я</span>
-              <span class="contact-desc">{{model.client.firstName}}</span>
+              <span class="contact-desc">{{model.firstNameClient}}</span>
             </div>
             <div class="contact-item">
               <span class="contact-label">Прізвище</span>
-              <span class="contact-desc">{{model.client.lastName}}</span>
+              <span class="contact-desc">{{model.lastNameClient}}</span>
             </div>
             <div class="contact-item">
               <span class="contact-label">Email</span>
-              <span class="contact-desc">{{model.client.email}}</span>
+              <span class="contact-desc">{{model.emailClient}}</span>
             </div>
             <div class="contact-item">
               <span class="contact-label">Номер телефону</span>
-              <span class="contact-desc">{{model.client.phoneNumber}}</span>
+              <span class="contact-desc">{{model.phoneNumberClient}}</span>
             </div>
           </div>
         </div>
@@ -182,7 +190,7 @@
           <div class="contact-content">
             <div class="contact-item">
               <span class="contact-label">Дата і час</span>
-              <span class="contact-desc">{{getDate()}}</span>
+              <span class="contact-desc">{{getDataString(this.model.schedule.startDatetime)}}</span>
             </div>
             <div class="contact-item">
               <span class="contact-label">Тривалість</span>
@@ -215,7 +223,6 @@
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
             <div class="data-container">
@@ -242,6 +249,7 @@
       <app-button
         [ngClass]="{'hidden': selectedSection === 5}"
         (click)="nextPart()"
+        [disabled]="!hasNext()"
         value="Далі"
       />
       <app-button
