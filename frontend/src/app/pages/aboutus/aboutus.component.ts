@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { EmployeeModel } from "../../../model/EmployeeModel";
+import {EmployeesService} from "../../services/employees.service";
 
 @Component({
   selector: 'app-aboutus',
@@ -7,12 +8,17 @@ import { EmployeeModel } from "../../../model/EmployeeModel";
   styleUrls: ['./aboutus.component.css']
 })
 export class AboutusComponent {
-  employees: EmployeeModel[];
+  employees: EmployeeModel[] = [];
   isDialogVisible: boolean = false;
   selectedEmployee: EmployeeModel;
 
-  constructor() {
-    this.employees = [];
+  constructor(
+    public employeeService: EmployeesService
+  ) {
+    this.employeeService.getAllMasters().subscribe(data => {
+      this.employees.push(...data);
+    });
+    console.log(this.employees);
     this.selectedEmployee = new EmployeeModel({});
   }
 

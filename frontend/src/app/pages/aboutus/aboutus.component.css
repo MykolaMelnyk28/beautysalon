@@ -81,15 +81,17 @@
 
 .emps {
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-wrap: wrap;
+  /*justify-content: flex-start;*/
+  /*align-items: flex-start;*/
+  flex-flow: row wrap;
   gap: 10px;
   padding: 0;
+  width: 100%;
 }
 
 .emp {
   cursor: pointer;
+  width: max-content;
 }
 
 .emp-img {
