@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {ImageModel} from "../../model/ImageModel";
 import {Observable} from "rxjs";
 
@@ -25,7 +25,9 @@ export class ImageService {
   }
 
   getImagesByGroup(group: string): Observable<ImageModel[]> {
-    let url: string = `${ImageService.baseUrlApiImage}/${group}/`;
-    return this.http.get<ImageModel[]>(url);
+    let url: string = `${ImageService.baseUrlApiImage}`;
+    return this.http.get<ImageModel[]>(url, {
+      params: new HttpParams().append("g", group)
+    });
   }
 }

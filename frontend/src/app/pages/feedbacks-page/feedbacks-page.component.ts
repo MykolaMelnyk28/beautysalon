@@ -23,6 +23,7 @@ export class FeedbacksPageComponent {
   refreshFeedbacks() {
     this.feedbackService.getAllFeedbacks().subscribe(data => {
       this.feedbacks = data.content;
+      console.log(this.feedbacks);
     });
   }
 

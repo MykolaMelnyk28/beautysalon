@@ -23,11 +23,11 @@ export class FeedbackService {
 
   getAllFeedbacks(
     page: number = 0,
-    limit: number = 10
+    size: number = 10
   ): Observable<any> {
     let url: string = `${FeedbackService.baseUrlApiFeedbacks}`;
     return this.http.get(url,{
-      params: new HttpParams().set('limit', limit).set('page', page)
+      params: new HttpParams().set('page', page).set('size', size)
     }).pipe( catchError(this.handleError) );
   }
 

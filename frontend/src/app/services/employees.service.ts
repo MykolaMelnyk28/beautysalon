@@ -3,6 +3,8 @@ import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {EmployeeModel} from "../../model/EmployeeModel";
 import {ResponseAvailabilityDateTime} from "../../model/ResponseAvailabilityDateTime";
+import {Page} from "../../model/Page";
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +19,10 @@ export class EmployeesService {
 
   getAllMasters(): Observable<EmployeeModel[]> {
     let url: string = `${EmployeesService.baseUrlApiClients}/masters`;
-    return this.http.get<EmployeeModel[]>(url).pipe(
+    return this.http.get<Page<EmployeeModel>>(url).pipe(
       map(masters => {
-        return masters.map(master => {
+        console.log(masters);
+        return masters.content.map(master => {
           if ((master.imageUrl && master.imageUrl.length === 0) || !master.imageUrl) {
             master.imageUrl = ["assets/default_user_photo.png"];
           }
@@ -30,7 +33,7 @@ export class EmployeesService {
   }
 
   getAvailableDatetimeMaster(start: Date, end: Date, e: EmployeeModel): Observable<ResponseAvailabilityDateTime> {
-    let url: string = `http://localhost:8080/api/v1/employees/masters/1/availability`;
+    let url: string = `http://localhost:8080/api/v1/employees/masters/${e.id}/availability`;
 
     let startD: string = new Date(start).toJSON();
     let endD: string = new Date(end).toJSON();
