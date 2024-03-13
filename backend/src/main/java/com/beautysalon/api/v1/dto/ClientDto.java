@@ -3,7 +3,7 @@ package com.beautysalon.api.v1.dto;
 import java.util.Objects;
 
 public class ClientDto {
-
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
@@ -12,11 +12,19 @@ public class ClientDto {
     public ClientDto() {
     }
 
-    public ClientDto(String firstName, String lastName, String email, String phoneNumber) {
+    public ClientDto(Long id, String firstName, String lastName, String email, String phoneNumber) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
+    }
+
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -56,11 +64,11 @@ public class ClientDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ClientDto clientDto = (ClientDto) o;
-        return Objects.equals(firstName, clientDto.firstName) && Objects.equals(lastName, clientDto.lastName) && Objects.equals(email, clientDto.email) && Objects.equals(phoneNumber, clientDto.phoneNumber);
+        return Objects.equals(id, clientDto.id) && Objects.equals(firstName, clientDto.firstName) && Objects.equals(lastName, clientDto.lastName) && Objects.equals(email, clientDto.email) && Objects.equals(phoneNumber, clientDto.phoneNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, email, phoneNumber);
+        return Objects.hash(id, firstName, lastName, email, phoneNumber);
     }
 }

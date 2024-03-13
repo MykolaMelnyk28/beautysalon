@@ -12,7 +12,6 @@ public class EmployeeDto {
     private String phoneNumber;
     private String position;
     private List<ImageDto> imageUrl;
-
     private List<WorkScheduleDto> workSchedule;
 
     public EmployeeDto() {}

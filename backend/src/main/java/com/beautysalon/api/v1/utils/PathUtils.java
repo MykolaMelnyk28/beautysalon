@@ -4,8 +4,12 @@ import java.nio.file.Path;
 
 public final class PathUtils {
 
-    public static String normalizeUrlPath(String path) {
+    public static String normalizeForUrl(String path) {
         return path.replaceAll("[/\\\\]", "+");
+    }
+
+    public static String originalPath(String path) {
+        return path.replaceAll("\\+", "/");
     }
 
     public static String[] splitPathFilename(Path path) {
@@ -13,6 +17,10 @@ public final class PathUtils {
         String pathFile = (parent != null) ? parent.toString() : "";
         String filename = path.toFile().getName();
         return new String[] {pathFile, filename};
+    }
+    
+    public static String[] splitNormalizedFilename(String filename) {
+        return filename.split("\\+");
     }
 
 }

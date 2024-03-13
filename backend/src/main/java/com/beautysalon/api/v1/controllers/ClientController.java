@@ -37,8 +37,15 @@ public class ClientController {
     public ResponseEntity<ClientDto> getByEmail(
             @PathVariable String email
     ) {
-        Optional<Client> client = clientService.getByEmail(email);
-        return ResponseEntity.of(client.map(clientMapper::toDto));
+        return ResponseEntity.of(clientService.getByEmail(email)
+                .map(clientMapper::toDto));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(
+            @PathVariable Long id
+    ) {
+        clientService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

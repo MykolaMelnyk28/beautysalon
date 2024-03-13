@@ -25,6 +25,9 @@ public class Appointment {
     @JoinColumn(name = "master_id")
     private Master master;
 
+    @Enumerated(EnumType.STRING)
+    private AppointmentStatus status;
+
     @Column(nullable = false)
     private int totalDurationInMinutes;
 
@@ -94,6 +97,14 @@ public class Appointment {
         this.totalDurationInMinutes = totalDurationInMinutes;
     }
 
+    public AppointmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AppointmentStatus status) {
+        this.status = status;
+    }
+
     public BigDecimal getTotalPrice() {
         return totalPrice;
     }
@@ -139,12 +150,12 @@ public class Appointment {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Appointment that = (Appointment) o;
-        return totalDurationInMinutes == that.totalDurationInMinutes && Objects.equals(id, that.id) && Objects.equals(client, that.client) && Objects.equals(master, that.master) && Objects.equals(totalPrice, that.totalPrice) && Objects.equals(appointmentDate, that.appointmentDate) && Objects.equals(dateCreated, that.dateCreated) && Objects.equals(dateUpdated, that.dateUpdated) && Objects.equals(services, that.services);
+        return totalDurationInMinutes == that.totalDurationInMinutes && Objects.equals(id, that.id) && Objects.equals(client, that.client) && Objects.equals(master, that.master) && status == that.status && Objects.equals(totalPrice, that.totalPrice) && Objects.equals(appointmentDate, that.appointmentDate) && Objects.equals(dateCreated, that.dateCreated) && Objects.equals(dateUpdated, that.dateUpdated) && Objects.equals(services, that.services);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, client, master, totalDurationInMinutes, totalPrice, appointmentDate, dateCreated, dateUpdated, services);
+        return Objects.hash(id, client, master, status, totalDurationInMinutes, totalPrice, appointmentDate, dateCreated, dateUpdated, services);
     }
 }
 

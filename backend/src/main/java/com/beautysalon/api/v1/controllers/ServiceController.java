@@ -4,9 +4,11 @@ import com.beautysalon.api.v1.dto.ServiceDto;
 import com.beautysalon.api.v1.dto.mapper.base.AutoMapper;
 import com.beautysalon.api.v1.entities.ServiceEntity;
 import com.beautysalon.api.v1.services.ServiceEntityService;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -29,9 +31,11 @@ public class ServiceController {
             @RequestBody ServiceDto request
     ) {
         ServiceEntity entity = serviceMapper.toEntity(request);
-        return ResponseEntity.ok(serviceMapper.toDto(
-                serviceEntityService.create(entity)
-        ));
+        ServiceEntity saved = serviceEntityService.create(entity);
+        ServiceDto response = serviceMapper.toDto(saved);
+        return ResponseEntity
+                .created(URI.create("/v1/services/"+saved.getId()))
+                .body(response);
     }
 
     @GetMapping
@@ -43,11 +47,30 @@ public class ServiceController {
         return ResponseEntity.ok(dtos);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ServiceDto> getServiceById(
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.of(serviceEntityService.getById(id)
+                .map(serviceMapper::toDto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ServiceDto> updateService(
+            @PathVariable Long id,
+            @RequestBody ServiceDto serviceDto
+    ) {
+        ServiceEntity entity = serviceMapper.toEntity(serviceDto);
+        ServiceEntity updated = serviceEntityService.updateService(id, entity);
+        return ResponseEntity.ok(serviceMapper.toDto(updated));
+    }
+
     @DeleteMapping("/{id}")
-    public void deleteById(
+    public ResponseEntity<?> deleteById(
             @PathVariable Long id
     ) {
         serviceEntityService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

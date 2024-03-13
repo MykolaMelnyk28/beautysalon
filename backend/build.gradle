@@ -15,15 +15,21 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+	postgresqlVers = '42.7.0'
+	mockitoVers = '5.10.0'
+}
+
 dependencies {
 	// Spring Boot
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	// PostgreSQL
-	runtimeOnly "org.postgresql:postgresql:42.7.0"
+	runtimeOnly "org.postgresql:postgresql:$postgresqlVers"
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation "org.mockito:mockito-core:$mockitoVers"
 }
 
 tasks.named('test') {

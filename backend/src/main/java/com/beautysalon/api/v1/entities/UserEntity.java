@@ -66,7 +66,7 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public UserEntity(Long id, String username, String password, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled, Master master, LocalDateTime dateTimeOfCreated, LocalDateTime dateTimeOfUpdated, List<Image> images, Long previewImageId) {
+    public UserEntity(Long id, String username, String password, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled, Master master, Administrator administrator, LocalDateTime dateTimeOfCreated, LocalDateTime dateTimeOfUpdated, List<Image> images, Long previewImageId) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -75,6 +75,7 @@ public class UserEntity {
         this.credentialsNonExpired = credentialsNonExpired;
         this.enabled = enabled;
         this.master = master;
+        this.administrator = administrator;
         this.dateTimeOfCreated = dateTimeOfCreated;
         this.dateTimeOfUpdated = dateTimeOfUpdated;
     }
@@ -141,6 +142,22 @@ public class UserEntity {
 
     public void setMaster(Master master) {
         this.master = master;
+    }
+
+    public Administrator getAdministrator() {
+        return administrator;
+    }
+
+    public void setAdministrator(Administrator administrator) {
+        this.administrator = administrator;
+    }
+
+    public Set<UserRole> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<UserRole> authorities) {
+        this.authorities = authorities;
     }
 
     public LocalDateTime getDateTimeOfCreated() {

@@ -18,5 +18,5 @@ public interface ImageService {
     List<Image> getAll(String path);
     void move(Path fromPath, Path toPath);
     void delete(Path path);
-
+    boolean exists(Path path);
 }

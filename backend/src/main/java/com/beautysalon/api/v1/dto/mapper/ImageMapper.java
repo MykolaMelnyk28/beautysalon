@@ -29,7 +29,7 @@ public class ImageMapper extends AbstractMapper<Image, ImageDto> {
         destination.setFullName(path.toString());
         destination.setUrl(String.format("%s/images/%s",
                 apiProp.getBaseUrl(),
-                PathUtils.normalizeUrlPath(source.getName())
+                PathUtils.normalizeForUrl(source.getName())
         ));
     }
 }

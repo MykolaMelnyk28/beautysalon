@@ -1,14 +1,10 @@
 package com.beautysalon.api.v1.services;
 
-import com.beautysalon.api.v1.entities.Appointment;
-import com.beautysalon.api.v1.entities.Client;
-import com.beautysalon.api.v1.entities.Master;
-import com.beautysalon.api.v1.entities.ServiceEntity;
+import com.beautysalon.api.v1.entities.*;
+import com.beautysalon.api.v1.exceptions.ResourceNotFoundException;
 import com.beautysalon.api.v1.repository.AppointmentRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,41 +32,68 @@ public class AppointmentService {
         assignClient(appointment);
         assignMaster(appointment);
         assignServices(appointment);
-        appointment.setAppointmentDate(LocalDateTime.now());
-
-
+        appointment.setStatus(AppointmentStatus.NEW);
         Appointment saved = appointmentRepository.save(appointment);
+        // TODO: Send massage to client email
+        // TODO: Send message to master email
         return saved;
     }
 
-    public void assignClient(Appointment appointment) {
+    public Appointment assignClient(Appointment appointment) {
         if (appointment.getClient() != null && appointment.getClient().getEmail() != null) {
             Optional<Client> clientOpt = clientService.getByEmail(appointment.getClient().getEmail());
             clientOpt.ifPresent(appointment::setClient);
         }
+        return appointment;
     }
 
-    public void assignMaster(Appointment appointment) {
-        if (appointment.getMaster() != null) {
-            Master master = null;
-            if (appointment.getMaster().getId() != null) {
-                master = masterService.getByIdOrThrow(appointment.getMaster().getId());
-            } else if (appointment.getMaster().getEmail() != null) {
-                master = masterService.getByEmailOrThrow(appointment.getMaster().getEmail());
+    public Appointment assignMaster(Appointment appointment) {
+        Master master = appointment.getMaster();
+        if (master != null) {
+            if (master.getId() != null) {
+                appointment.setMaster(masterService.getByIdOrThrow(master.getId()));
+            } else if(master.getEmail() != null) {
+                appointment.setMaster(masterService.getByEmailOrThrow(master.getEmail()));
+            } else if (master.getUser() != null && master.getUser().getUsername() != null) {
+                appointment.setMaster(masterService.getByUsernameOrThrow(master.getUser().getUsername()));
+            } else {
+                throw new ResourceNotFoundException("Master entity from specify Appointment object is not found.");
             }
-            appointment.setMaster(master);
         }
+        return appointment;
     }
 
-    public void assignServices(Appointment appointment) {
+    public Appointment assignServices(Appointment appointment) {
         if (appointment.getServices() != null && !appointment.getServices().isEmpty()) {
-            List<ServiceEntity> services = new ArrayList<>();
-            appointment.getServices().forEach(x -> {
-                ServiceEntity service = serviceEntityService.getByIdOrThrow(x.getId());
-                services.add(service);
-            });
-            appointment.setServices(services);
+            appointment.setServices(appointment.getServices().stream()
+                    .map(x -> (x.getId() == null) ? x : serviceEntityService.getByIdOrThrow(x.getId()))
+                    .toList());
         }
+        return appointment;
+    }
+
+    public Appointment update(Long id, Appointment appointment) {
+        Appointment found = getByIdOrThrow(id);
+        found.setMaster(appointment.getMaster());
+        found.setClient(appointment.getClient());
+        found.setServices(appointment.getServices());
+        assignServices( assignClient( assignMaster(found) ) );
+        Appointment updated = appointmentRepository.save(appointment);
+        // TODO: Send massage to client email
+        // TODO: Send message to master email
+        return updated;
+    }
+
+    public void setStatus(Long id, AppointmentStatus status) {
+        setStatus(id, status, "");
+    }
+
+    public void setStatus(Long id, AppointmentStatus status, String comment) {
+        Appointment found = getByIdOrThrow(id);
+        found.setStatus(status);
+        appointmentRepository.save(found);
+        // TODO: Send massage to client email
+        // TODO: Send message to master email
     }
 
     public Optional<Appointment> getById(Long id) {
@@ -83,5 +106,12 @@ public class AppointmentService {
 
     public void deleteById(Long id) {
         appointmentRepository.deleteById(id);
+        // TODO: Send massage to client email
+        // TODO: Send message to master email
     }
+    public Appointment getByIdOrThrow(Long id) throws ResourceNotFoundException {
+        return getById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Appointment not found."));
+    }
+
 }

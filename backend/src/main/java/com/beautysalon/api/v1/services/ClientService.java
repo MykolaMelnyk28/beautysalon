@@ -33,4 +33,7 @@ public class ClientService {
         return clientOpt.orElseThrow(() -> new ResourceNotFoundException("Client not found"));
     }
 
+    public void deleteById(Long id) {
+        clientRepository.deleteById(id);
+    }
 }

@@ -31,7 +31,7 @@ public class ControllerAdvice {
     @ExceptionHandler(ResourceAlreadyExists.class)
     @ResponseStatus(HttpStatus.ALREADY_REPORTED)
     public ExceptionBody handleResourceAlreadyExists(
-            ResourceAlreadyExists e
+            final ResourceAlreadyExists e
     ) {
         return new ExceptionBody(e.getMessage());
     }
@@ -44,6 +44,14 @@ public class ControllerAdvice {
         return new ExceptionBody(e.getMessage());
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionBody handleIllegalArgument(
+            final IllegalArgumentException e
+    ) {
+        return new ExceptionBody(e.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionBody handleException(
@@ -52,5 +60,4 @@ public class ControllerAdvice {
         e.printStackTrace();
         return new ExceptionBody("Internal error.");
     }
-
 }

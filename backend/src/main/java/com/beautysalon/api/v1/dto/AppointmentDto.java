@@ -8,6 +8,7 @@ public class AppointmentDto {
     private Long id;
     private ClientDto client;
     private EmployeeDto master;
+    private String status;
     private int totalDurationInMinute;
     private double totalPrice;
     private LocalDateTime appointmentDate;
@@ -17,10 +18,11 @@ public class AppointmentDto {
     public AppointmentDto() {
     }
 
-    public AppointmentDto(Long id, ClientDto client, EmployeeDto master, int totalDurationInMinute, double totalPrice, LocalDateTime appointmentDate, List<ServiceDto> services) {
+    public AppointmentDto(Long id, ClientDto client, EmployeeDto master, String status, int totalDurationInMinute, double totalPrice, LocalDateTime appointmentDate, List<ServiceDto> services) {
         this.id = id;
         this.client = client;
         this.master = master;
+        this.status = status;
         this.totalDurationInMinute = totalDurationInMinute;
         this.totalPrice = totalPrice;
         this.appointmentDate = appointmentDate;
@@ -49,6 +51,14 @@ public class AppointmentDto {
 
     public void setMaster(EmployeeDto master) {
         this.master = master;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public int getTotalDurationInMinute() {
@@ -88,11 +98,11 @@ public class AppointmentDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AppointmentDto that = (AppointmentDto) o;
-        return totalDurationInMinute == that.totalDurationInMinute && Double.compare(totalPrice, that.totalPrice) == 0 && Objects.equals(id, that.id) && Objects.equals(client, that.client) && Objects.equals(master, that.master) && Objects.equals(appointmentDate, that.appointmentDate) && Objects.equals(services, that.services);
+        return totalDurationInMinute == that.totalDurationInMinute && Double.compare(totalPrice, that.totalPrice) == 0 && Objects.equals(id, that.id) && Objects.equals(client, that.client) && Objects.equals(master, that.master) && Objects.equals(status, that.status) && Objects.equals(appointmentDate, that.appointmentDate) && Objects.equals(services, that.services);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, client, master, totalDurationInMinute, totalPrice, appointmentDate, services);
+        return Objects.hash(id, client, master, status, totalDurationInMinute, totalPrice, appointmentDate, services);
     }
 }

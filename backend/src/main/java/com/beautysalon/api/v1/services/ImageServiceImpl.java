@@ -91,6 +91,11 @@ public class ImageServiceImpl implements ImageService {
         return img;
     }
 
+    @Override
+    public boolean exists(Path path) {
+        return imageRepository.existsByName(path.toString());
+    }
+
     private String[] extractPathFilename(Path path) {
         Path parent = path.getParent();
         String pathFile = (parent != null) ? parent.toString() : "";

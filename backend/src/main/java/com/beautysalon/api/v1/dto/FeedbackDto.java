@@ -7,6 +7,7 @@ public class FeedbackDto {
 
     private Long id;
     private ClientDto author;
+    private EmployeeDto recipient;
     private LocalDateTime dateCreated;
     private int rating;
     private String text;
@@ -14,9 +15,10 @@ public class FeedbackDto {
     public FeedbackDto() {
     }
 
-    public FeedbackDto(Long id, ClientDto author, LocalDateTime dateCreated, int rating, String text) {
+    public FeedbackDto(Long id, ClientDto author, EmployeeDto recipient, LocalDateTime dateCreated, int rating, String text) {
         this.id = id;
         this.author = author;
+        this.recipient = recipient;
         this.dateCreated = dateCreated;
         this.rating = rating;
         this.text = text;
@@ -36,6 +38,14 @@ public class FeedbackDto {
 
     public void setAuthor(ClientDto author) {
         this.author = author;
+    }
+
+    public EmployeeDto getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(EmployeeDto recipient) {
+        this.recipient = recipient;
     }
 
     public LocalDateTime getDateCreated() {
@@ -67,11 +77,23 @@ public class FeedbackDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FeedbackDto that = (FeedbackDto) o;
-        return id.equals(that.id) && rating == that.rating && Objects.equals(author, that.author) && Objects.equals(dateCreated, that.dateCreated) && Objects.equals(text, that.text);
+        return rating == that.rating && Objects.equals(id, that.id) && Objects.equals(author, that.author) && Objects.equals(recipient, that.recipient) && Objects.equals(dateCreated, that.dateCreated) && Objects.equals(text, that.text);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, author, dateCreated, rating, text);
+        return Objects.hash(id, author, recipient, dateCreated, rating, text);
+    }
+
+    @Override
+    public String toString() {
+        return "FeedbackDto{" +
+                "id=" + id +
+                ", author=" + author +
+                ", recipient=" + recipient +
+                ", dateCreated=" + dateCreated +
+                ", rating=" + rating +
+                ", text='" + text + '\'' +
+                '}';
     }
 }

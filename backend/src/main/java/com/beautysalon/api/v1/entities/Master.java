@@ -11,27 +11,29 @@ public class Master implements Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
     @Column(nullable = false)
-    private String firstName;
+    protected String firstName;
 
     @Column(nullable = false)
-    private String lastName;
+    protected String lastName;
 
     @Column(nullable = false)
-    private String surName;
+    protected String surName;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    protected String email;
 
     @Column(nullable = false, unique = true)
-    private String phoneNumber;
+    protected String phoneNumber;
 
     @Column(nullable = false)
-    private String position;
+    @Enumerated(EnumType.STRING)
+    protected EmployeePosition position;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false, mappedBy = "master")
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "user_id")
     private UserEntity user;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -41,22 +43,26 @@ public class Master implements Employee {
     )
     private List<WorkSchedule> workSchedules;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "master")
+    private List<Feedback> feedbacks;
+
     @OneToMany(mappedBy = "master")
     private List<AvailabilitySchedule> availabilitySchedules;
 
     public Master() {
     }
 
-    public Master(Long id, String firstName, String lastName, String surName, String email, String phoneNumber, String position, UserEntity user, List<WorkSchedule> workSchedules, List<AvailabilitySchedule> availabilitySchedules) {
+    public Master(Long id, String firstName, String lastName, String surName, String email, String phoneNumber, UserEntity user, List<WorkSchedule> workSchedules, List<Feedback> feedbacks, List<AvailabilitySchedule> availabilitySchedules) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.surName = surName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.position = position;
+        this.position = EmployeePosition.MASTER;
         this.user = user;
         this.workSchedules = workSchedules;
+        this.feedbacks = feedbacks;
         this.availabilitySchedules = availabilitySchedules;
     }
 
@@ -121,12 +127,12 @@ public class Master implements Employee {
     }
 
     @Override
-    public String getPosition() {
+    public EmployeePosition getPosition() {
         return position;
     }
 
     @Override
-    public void setPosition(String position) {
+    public void setPosition(EmployeePosition position) {
         this.position = position;
     }
 
@@ -140,12 +146,24 @@ public class Master implements Employee {
         this.user = user;
     }
 
+    @Override
     public List<WorkSchedule> getWorkSchedules() {
         return workSchedules;
     }
 
+    @Override
     public void setWorkSchedules(List<WorkSchedule> workSchedules) {
         this.workSchedules = workSchedules;
+    }
+
+    @Override
+    public List<Feedback> getFeedbacks() {
+        return feedbacks;
+    }
+
+    @Override
+    public void setFeedbacks(List<Feedback> feedbacks) {
+        this.feedbacks = feedbacks;
     }
 
     public List<AvailabilitySchedule> getAvailabilitySchedules() {
@@ -161,12 +179,12 @@ public class Master implements Employee {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Master master = (Master) o;
-        return Objects.equals(id, master.id) && Objects.equals(firstName, master.firstName) && Objects.equals(lastName, master.lastName) && Objects.equals(surName, master.surName) && Objects.equals(email, master.email) && Objects.equals(phoneNumber, master.phoneNumber) && Objects.equals(position, master.position) && Objects.equals(user, master.user) && Objects.equals(workSchedules, master.workSchedules) && Objects.equals(availabilitySchedules, master.availabilitySchedules);
+        return Objects.equals(id, master.id) && Objects.equals(firstName, master.firstName) && Objects.equals(lastName, master.lastName) && Objects.equals(surName, master.surName) && Objects.equals(email, master.email) && Objects.equals(phoneNumber, master.phoneNumber) && position == master.position && Objects.equals(user, master.user) && Objects.equals(workSchedules, master.workSchedules) && Objects.equals(feedbacks, master.feedbacks) && Objects.equals(availabilitySchedules, master.availabilitySchedules);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, surName, email, phoneNumber, position, user, workSchedules, availabilitySchedules);
+        return Objects.hash(id, firstName, lastName, surName, email, phoneNumber, position, user, workSchedules, feedbacks, availabilitySchedules);
     }
 }
 

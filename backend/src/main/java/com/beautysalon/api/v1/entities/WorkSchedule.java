@@ -16,6 +16,7 @@ public class WorkSchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "dayOfWeek", unique = true)
     @Enumerated(EnumType.ORDINAL)
     private DayOfWeek dayOfWeek;
 

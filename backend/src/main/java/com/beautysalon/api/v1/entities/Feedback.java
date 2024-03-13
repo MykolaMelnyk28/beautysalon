@@ -21,6 +21,22 @@ public class Feedback {
     @JoinColumn(name = "author_id")
     private Client author;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "feedbacks_administrators",
+            joinColumns = @JoinColumn(name = "feedback_id"),
+            inverseJoinColumns = @JoinColumn(name = "administrator_id")
+    )
+    private Administrator administrator;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "feedbacks_masters",
+            joinColumns = @JoinColumn(name = "feedback_id"),
+            inverseJoinColumns = @JoinColumn(name = "master_id")
+    )
+    private Master master;
+
     @CreationTimestamp
     private LocalDateTime dateCreated;
 
@@ -38,9 +54,11 @@ public class Feedback {
 
     }
 
-    public Feedback(Long id, Client author, LocalDateTime dateCreated, LocalDateTime dateUpdated, int rating, String text) {
+    public Feedback(Long id, Client author, Master master, Administrator administrator, LocalDateTime dateCreated, LocalDateTime dateUpdated, int rating, String text) {
         this.id = id;
         this.author = author;
+        this.master = master;
+        this.administrator = administrator;
         this.dateCreated = dateCreated;
         this.dateUpdated = dateUpdated;
         this.rating = rating;
@@ -62,6 +80,22 @@ public class Feedback {
 
     public void setAuthor(Client author) {
         this.author = author;
+    }
+
+    public Master getMaster() {
+        return master;
+    }
+
+    public void setMaster(Master master) {
+        this.master = master;
+    }
+
+    public Administrator getAdministrator() {
+        return administrator;
+    }
+
+    public void setAdministrator(Administrator administrator) {
+        this.administrator = administrator;
     }
 
     public LocalDateTime getDateCreated() {
@@ -101,11 +135,11 @@ public class Feedback {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Feedback feedback = (Feedback) o;
-        return rating == feedback.rating && Objects.equals(id, feedback.id) && Objects.equals(author, feedback.author) && Objects.equals(dateCreated, feedback.dateCreated) && Objects.equals(dateUpdated, feedback.dateUpdated) && Objects.equals(text, feedback.text);
+        return rating == feedback.rating && Objects.equals(id, feedback.id) && Objects.equals(author, feedback.author) && Objects.equals(master, feedback.master) && Objects.equals(administrator, feedback.administrator) && Objects.equals(dateCreated, feedback.dateCreated) && Objects.equals(dateUpdated, feedback.dateUpdated) && Objects.equals(text, feedback.text);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, author, dateCreated, dateUpdated, rating, text);
+        return Objects.hash(id, author, master, administrator, dateCreated, dateUpdated, rating, text);
     }
 }

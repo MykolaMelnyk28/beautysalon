@@ -13,8 +13,8 @@ import java.util.List;
 @RequestMapping("/v1/appointments")
 public class AppointmentController {
 
-    private AutoMapper<Appointment, AppointmentDto> appointmentMapper;
-    private AppointmentService appointmentService;
+    private final AutoMapper<Appointment, AppointmentDto> appointmentMapper;
+    private final AppointmentService appointmentService;
 
     public AppointmentController(
             AutoMapper<Appointment, AppointmentDto> appointmentMapper,

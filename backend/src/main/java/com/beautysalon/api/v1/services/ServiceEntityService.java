@@ -1,5 +1,8 @@
 package com.beautysalon.api.v1.services;
 
+import com.beautysalon.api.v1.dto.ServiceDto;
+import com.beautysalon.api.v1.dto.mapper.base.AbstractMapper;
+import com.beautysalon.api.v1.dto.mapper.base.AutoMapper;
 import com.beautysalon.api.v1.entities.ServiceEntity;
 import com.beautysalon.api.v1.exceptions.ResourceNotFoundException;
 import com.beautysalon.api.v1.repository.ServiceRepository;
@@ -12,7 +15,9 @@ import java.util.Optional;
 public class ServiceEntityService {
     private final ServiceRepository serviceRepository;
 
-    public ServiceEntityService(ServiceRepository serviceRepository) {
+    public ServiceEntityService(
+            ServiceRepository serviceRepository
+    ) {
         this.serviceRepository = serviceRepository;
     }
 
@@ -30,6 +35,14 @@ public class ServiceEntityService {
 
     public List<ServiceEntity> getAllServices() {
         return serviceRepository.findAll();
+    }
+
+    public ServiceEntity updateService(Long id, ServiceEntity source) {
+        ServiceEntity found = getByIdOrThrow(id);
+        var mapper = new AbstractMapper<ServiceEntity, ServiceEntity>() {};
+        mapper.transferDtoEntity(source, found);
+        ServiceEntity updated = serviceRepository.save(found);
+        return updated;
     }
 
     public void deleteById(Long id) {
