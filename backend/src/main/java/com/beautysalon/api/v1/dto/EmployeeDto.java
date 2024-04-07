@@ -8,6 +8,7 @@ public class EmployeeDto {
     private String firstName;
     private String lastName;
     private String surName;
+    private String username;
     private String email;
     private String phoneNumber;
     private String position;
@@ -16,11 +17,12 @@ public class EmployeeDto {
 
     public EmployeeDto() {}
 
-    public EmployeeDto(Long id, String firstName, String lastName, String surName, String email, String phoneNumber, String position, List<ImageDto> imageUrl, List<WorkScheduleDto> workSchedule) {
+    public EmployeeDto(Long id, String firstName, String lastName, String surName, String username, String email, String phoneNumber, String position, List<ImageDto> imageUrl, List<WorkScheduleDto> workSchedule) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.surName = surName;
+        this.username = username;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.position = position;
@@ -60,6 +62,14 @@ public class EmployeeDto {
         this.surName = surName;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -88,8 +98,8 @@ public class EmployeeDto {
         return imageUrl;
     }
 
-    public void setImageUrl(List<ImageDto> imageUrls) {
-        this.imageUrl = imageUrls;
+    public void setImageUrl(List<ImageDto> imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public List<WorkScheduleDto> getWorkSchedule() {
@@ -105,11 +115,11 @@ public class EmployeeDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EmployeeDto that = (EmployeeDto) o;
-        return Objects.equals(id, that.id) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(surName, that.surName) && Objects.equals(email, that.email) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(position, that.position) && Objects.equals(imageUrl, that.imageUrl) && Objects.equals(workSchedule, that.workSchedule);
+        return Objects.equals(id, that.id) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(surName, that.surName) && Objects.equals(username, that.username) && Objects.equals(email, that.email) && Objects.equals(phoneNumber, that.phoneNumber) && Objects.equals(position, that.position) && Objects.equals(imageUrl, that.imageUrl) && Objects.equals(workSchedule, that.workSchedule);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, surName, email, phoneNumber, position, imageUrl, workSchedule);
+        return Objects.hash(id, firstName, lastName, surName, username, email, phoneNumber, position, imageUrl, workSchedule);
     }
 }

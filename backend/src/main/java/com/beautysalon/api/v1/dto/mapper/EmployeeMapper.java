@@ -34,6 +34,7 @@ public class EmployeeMapper extends AbstractMapper<Employee, EmployeeDto> {
             } else {
               destination.setImageUrl(new ArrayList<>());
             }
+            destination.setUsername(source.getUser().getUsername());
         }
     }
 
@@ -50,5 +51,6 @@ public class EmployeeMapper extends AbstractMapper<Employee, EmployeeDto> {
         } else {
             destination.getUser().setImages(new ArrayList<>());
         }
+        destination.getUser().setUsername(source.getUsername());
     }
 }

@@ -13,7 +13,8 @@ import {ImageModel} from "../../model/ImageModel";
 export class EmployeesService {
 
   static baseUrlApiEmployees: string = "http://localhost:8080/api/v1/employees";
-  static defaultUserPhoto: string = 'assets/default_user_photo.png';
+  //static defaultUserPhoto: string = 'assets/default_user_photo.png';
+  static defaultUserPhoto: ImageModel = { url: "assets/default_user_photo.png", fullName: "", name: "", path: "" };
 
   constructor(
     private http: HttpClient
@@ -49,9 +50,10 @@ export class EmployeesService {
   }
 
   getFirstImageOrDefault(employee: EmployeeModel | undefined): string {
-    return (employee?.imageUrl.length) ? employee.imageUrl[0] : EmployeesService.defaultUserPhoto;
+    let img = (employee?.imageUrl.length) ? employee.imageUrl[0] : EmployeesService.defaultUserPhoto;
+    return img.url;
   }
   getOtherImages(employee: EmployeeModel): string[] {
-    return (employee?.imageUrl.length <= 1) ? [] : employee.imageUrl.slice(1);
+    return (employee?.imageUrl.length <= 1) ? [] : employee.imageUrl.slice(1).map(x => x.url);
   }
 }

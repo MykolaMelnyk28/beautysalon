@@ -5,6 +5,7 @@ import com.beautysalon.api.v1.exceptions.ResourceNotFoundException;
 import com.beautysalon.api.v1.repository.AppointmentRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,14 +30,38 @@ public class AppointmentService {
     }
 
     public Appointment create(Appointment appointment) {
-        assignClient(appointment);
-        assignMaster(appointment);
-        assignServices(appointment);
+        assignAll(appointment);
         appointment.setStatus(AppointmentStatus.NEW);
+        appointment.setTotalPrice(calculateTotalPrice(appointment));
+        appointment.setTotalDurationInMinutes(calculateDurationInMinute(appointment));
         Appointment saved = appointmentRepository.save(appointment);
         // TODO: Send massage to client email
         // TODO: Send message to master email
         return saved;
+    }
+
+    private void assignAll(Appointment appointment) {
+        assignClient(appointment);
+        assignMaster(appointment);
+        assignServices(appointment);
+    }
+
+    private BigDecimal calculateTotalPrice(Appointment a) {
+        if (a == null || a.getServices() == null || a.getServices().isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        return BigDecimal.valueOf(a.getServices().stream()
+                .map(ServiceEntity::getPrice)
+                .reduce(0.0, Double::sum));
+    }
+
+    private int calculateDurationInMinute(Appointment a) {
+        if (a == null || a.getServices() == null || a.getServices().isEmpty()) {
+            return 0;
+        }
+        return a.getServices().stream()
+                .map(ServiceEntity::getDurationInMinute)
+                .reduce(0, Integer::sum);
     }
 
     public Appointment assignClient(Appointment appointment) {

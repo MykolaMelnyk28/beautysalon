@@ -71,3 +71,9 @@ textarea.form-input {
   font-size: 18px;
   font-weight: 600;
 }
+
+.dialog .dialog-part img {
+  width: 150px;
+  border-radius: 100px;
+  height: 130px;
+}

@@ -95,7 +95,9 @@
 }
 
 .emp-img {
-  width: 100px;
+  width: 150px;
+  border-radius: 100px;
+  height: 130px;
 }
 
 .emp-content {
