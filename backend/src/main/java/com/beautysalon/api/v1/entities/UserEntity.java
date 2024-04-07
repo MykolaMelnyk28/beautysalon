@@ -36,12 +36,10 @@ public class UserEntity {
     @Column(nullable = false, columnDefinition = "boolean default true")
     private boolean enabled = true;
 
-    @OneToOne
-    @JoinColumn(name = "master_id")
+    @OneToOne(mappedBy = "user")
     private Master master;
 
-    @OneToOne
-    @JoinColumn(name = "administrator_id")
+    @OneToOne(mappedBy = "user")
     private Administrator administrator;
 
     @ElementCollection(targetClass = UserRole.class)
@@ -56,17 +54,14 @@ public class UserEntity {
     @UpdateTimestamp
     private LocalDateTime dateTimeOfUpdated;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_images",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "image_id"))
+    @OneToMany(mappedBy = "user")
     private List<Image> images = new ArrayList<>();
 
 
     public UserEntity() {
     }
 
-    public UserEntity(Long id, String username, String password, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled, Master master, Administrator administrator, LocalDateTime dateTimeOfCreated, LocalDateTime dateTimeOfUpdated, List<Image> images, Long previewImageId) {
+    public UserEntity(Long id, String username, String password, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled, Master master, Administrator administrator, Set<UserRole> authorities, LocalDateTime dateTimeOfCreated, LocalDateTime dateTimeOfUpdated, List<Image> images, Long previewImageId) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -76,6 +71,7 @@ public class UserEntity {
         this.enabled = enabled;
         this.master = master;
         this.administrator = administrator;
+        this.authorities = authorities;
         this.dateTimeOfCreated = dateTimeOfCreated;
         this.dateTimeOfUpdated = dateTimeOfUpdated;
     }
@@ -194,11 +190,11 @@ public class UserEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity that = (UserEntity) o;
-        return accountNonExpired == that.accountNonExpired && accountNonLocked == that.accountNonLocked && credentialsNonExpired == that.credentialsNonExpired && enabled == that.enabled && Objects.equals(id, that.id) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(master, that.master) && Objects.equals(dateTimeOfCreated, that.dateTimeOfCreated) && Objects.equals(dateTimeOfUpdated, that.dateTimeOfUpdated);
+        return accountNonExpired == that.accountNonExpired && accountNonLocked == that.accountNonLocked && credentialsNonExpired == that.credentialsNonExpired && enabled == that.enabled && Objects.equals(id, that.id) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(master, that.master) && Objects.equals(administrator, that.administrator) && Objects.equals(authorities, that.authorities) && Objects.equals(dateTimeOfCreated, that.dateTimeOfCreated) && Objects.equals(dateTimeOfUpdated, that.dateTimeOfUpdated) && Objects.equals(images, that.images);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled, master, dateTimeOfCreated, dateTimeOfUpdated);
+        return Objects.hash(id, username, password, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled, authorities, dateTimeOfCreated, dateTimeOfUpdated, images);
     }
 }

@@ -1,24 +1,23 @@
 package com.beautysalon.api.v1.services;
 
 import com.beautysalon.api.v1.entities.*;
+import com.beautysalon.api.v1.exceptions.ResourceAlreadyExists;
 import com.beautysalon.api.v1.exceptions.ResourceNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
-import java.util.stream.Stream;
+import java.util.function.Function;
 
 @Service
 public class EmployeeService {
 
-    public enum Position {
-        MASTER, ADMINISTRATOR
-    }
+    public static final Function<Master, Employee> MASTER_IDENTITY = m -> m;
+    public static final Function<Administrator, Employee> ADMINISTRATOR_IDENTITY = a -> a;
 
     private final MasterService masterService;
     private final AdministratorService administratorService;
@@ -28,43 +27,59 @@ public class EmployeeService {
         this.administratorService = administratorService;
     }
 
-    public void putImage(String username, Image image) {
-        putImage(username, image, image.getName());
+    public Image putImage(String username, Image image) {
+        return putImage(username, image, image.getName());
     }
 
-    public void putImage(String username, Image image, String filename) {
-        Optional<Master> masterOpt = masterService.getByUsername(username);
-        Optional<Administrator> administratorOpt = administratorService.getByUsername(username);
-        if (masterOpt.isEmpty() && administratorOpt.isEmpty()) {
-            throw new RuntimeException("Employee not found.");
-        }
-        masterOpt.ifPresent(x -> {
-           masterService.putImage(username, image);
-        });
-        administratorOpt.ifPresent(x -> {
-            masterService.putImage(username, image);
-        });
+    public Image putImage(String username, Image image, String filename) {
+        return fromEmployee(username,
+                m -> masterService.putImage(username, image, filename),
+                a -> administratorService.putImage(username, image, filename)
+        ).orElseThrow(() -> new RuntimeException("Error save image."));
     }
 
-    public List<Image> getImagesByUsername(String username) {
-        Optional<Master> masterOpt = masterService.getByUsername(username);
-        Optional<Administrator> administratorOpt = administratorService.getByUsername(username);
-        if (masterOpt.isEmpty() && administratorOpt.isEmpty()) {
-            throw new RuntimeException("Employee not found.");
-        }
-        if (masterOpt.isEmpty()) {
-            return masterOpt.get().getUser().getImages();
-        } else {
-            return administratorOpt.get().getUser().getImages();
-        }
+    public Image putPreviewImage(String username, Image image) {
+        return fromEmployee(username,
+                m -> masterService.putPreviewImage(username, image),
+                a -> administratorService.putPreviewImage(username, image)
+        ).orElseThrow(() -> new RuntimeException("Error save image."));
+    }
+
+    public List<Image> getImages(String username) {
+        return fromEmployee(username,
+                m -> m.getUser().getImages(),
+                a -> a.getUser().getImages()
+        ).orElse(new ArrayList<>());
+    }
+
+    public Optional<Image> getPreviewImage(String username) {
+        return fromEmployee(username,
+                m -> masterService.getPreviewImage(username),
+                a -> administratorService.getPreviewImage(username)
+                ).get();
+    }
+
+    public void deleteImage(String username, String filename) {
+        fromEmployee(username, m -> {
+            masterService.deleteImage(username, filename);
+            return null;
+        }, a -> {
+            administratorService.deleteImage(username, filename);
+            return null;
+        });
     }
 
     public Page<Employee> getAllEmployees(EmployeeFilter filter) {
         List<Employee> allEmployees = new ArrayList<>();
-        allEmployees.addAll(masterService.getAll());
-        allEmployees.addAll(administratorService.getAll());
+        if (filter.getPosition() == EmployeePosition.ALL ||
+            filter.getPosition() == EmployeePosition.MASTER) {
+            allEmployees.addAll(masterService.getAll());
+        }
+        if (filter.getPosition() == EmployeePosition.ALL ||
+                filter.getPosition() == EmployeePosition.ADMINISTRATOR) {
+            allEmployees.addAll(administratorService.getAll());
+        }
         allEmployees = allEmployees.stream()
-                .filter(employee -> employee.getPosition() == filter.getPosition())
                 .filter(employee -> filter.getWorkSchedules().stream().allMatch(
                                 workSchedule -> employee.getWorkSchedules().contains(workSchedule)
                         )
@@ -78,63 +93,63 @@ public class EmployeeService {
         else if (!checkInDatabase)
             return true;
 
-        boolean isSaved = (employee.getId() != null);
-        boolean existsAdministrator = false;
-        boolean existsMaster = false;
+        Optional<Employee> found = fromEmployee(employee.getUser().getUsername(), MASTER_IDENTITY, ADMINISTRATOR_IDENTITY);
 
-        if (isSaved) {
-            existsAdministrator = administratorService.getById(employee.getId()).isPresent();
-            existsMaster = masterService.getById(employee.getId()).isPresent();
-        } else if (employee.getUser() != null && employee.getUser().getUsername() != null) {
-            isSaved = true;
-            existsAdministrator = administratorService.getByUsername(employee.getUser().getUsername()).isPresent();
-            existsMaster = masterService.getByUsername(employee.getUser().getUsername()).isPresent();
-        }
+        boolean isSaved = found.isPresent();
+        boolean existsAdministrator = found.stream().allMatch(x -> x.getPosition() == EmployeePosition.ADMINISTRATOR);
+        boolean existsMaster = found.stream().allMatch(x -> x.getPosition() == EmployeePosition.MASTER);
 
         return !isSaved || ((position == EmployeePosition.MASTER && existsMaster) ||
                 (position == EmployeePosition.ADMINISTRATOR && existsAdministrator));
     }
 
-    public Optional<Employee> getEmployeeById(Long id) {
-        Optional<Master> masterOpt = masterService.getById(id);
-        Optional<Administrator> administratorOpt = administratorService.getById(id);
-        if (masterOpt.isPresent() && administratorOpt.isPresent()) {
-            throw new RuntimeException("More than one employee found.");
-        } else if (masterOpt.isPresent()) {
-            return masterOpt.map(x -> (Employee)x);
-        } else if (administratorOpt.isPresent()) {
-            return administratorOpt.map(x -> (Employee) x);
-        } else {
-            throw new RuntimeException("Employee not found.");
+
+    public Optional<Employee> getEmployee(String username) {
+        return fromEmployee(username, MASTER_IDENTITY, ADMINISTRATOR_IDENTITY);
+    }
+
+    public void delete(String username) {
+        fromEmployee(username, m -> {
+            masterService.deleteByUsername(username);
+            return null;
+        }, a -> {
+            administratorService.deleteByUsername(username);
+            return null;
+        });
+    }
+
+    <T extends Employee> Optional<T> getEmployeeAs(String username, Class<T> type) {
+        try {
+            return fromEmployee(username, MASTER_IDENTITY, ADMINISTRATOR_IDENTITY).map(type::cast);
+        } catch (Exception e) {
+            return Optional.empty();
         }
     }
 
-    public Optional<Employee> getEmployeeByUsername(String username) {
+    <T> Optional<T> fromEmployee(
+            String username,
+            Function<Master, T> masterSupplier,
+            Function<Administrator, T> administratorSupplier
+    ) {
         Optional<Master> masterOpt = masterService.getByUsername(username);
         Optional<Administrator> administratorOpt = administratorService.getByUsername(username);
-        if (masterOpt.isPresent() && administratorOpt.isPresent()) {
-            throw new RuntimeException("More than one employee found.");
-        } else if (masterOpt.isPresent()) {
-            return masterOpt.map(x -> (Employee)x);
-        } else if (administratorOpt.isPresent()) {
-            return administratorOpt.map(x -> (Employee) x);
-        } else {
-            throw new RuntimeException("Employee not found.");
-        }
+        return fromEmployee(masterSupplier, administratorSupplier, masterOpt, administratorOpt);
     }
 
-    public void deleteById(Long id) {
-        Optional<Master> masterOpt = masterService.getById(id);
-        Optional<Administrator> administratorOpt = administratorService.getById(id);
-
+    <T> Optional<T> fromEmployee(
+            Function<Master, T> masterSupplier,
+            Function<Administrator, T> administratorSupplier,
+            Optional<Master> masterOpt,
+            Optional<Administrator> administratorOpt
+    ) {
         if (masterOpt.isPresent() && administratorOpt.isPresent()) {
-            throw new RuntimeException("More than one employee found.");
+            throw new ResourceAlreadyExists("More than one employee found.");
         } else if (masterOpt.isPresent()) {
-            masterService.deleteByUsername(masterOpt.get().getEmail());
+            return Optional.of( masterSupplier.apply(masterOpt.get()) );
         } else if (administratorOpt.isPresent()) {
-            administratorService.deleteByUsername(administratorOpt.get().getUser().getUsername());
+            return Optional.of( administratorSupplier.apply(administratorOpt.get()) );
         } else {
-            throw new RuntimeException("Employee not found.");
+            throw new ResourceNotFoundException("Employee not found.");
         }
     }
 }

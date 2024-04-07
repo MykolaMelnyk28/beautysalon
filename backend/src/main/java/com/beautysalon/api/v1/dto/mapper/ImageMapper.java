@@ -20,16 +20,10 @@ public class ImageMapper extends AbstractMapper<Image, ImageDto> {
     }
 
     @Override
-    protected void copyDto(Image source, ImageDto destination) {
-        Path path = Path.of(source.getName());
-        String[] fileData = PathUtils.splitPathFilename(path);
-
-        destination.setPath(fileData[0]);
-        destination.setName(fileData[1]);
-        destination.setFullName(path.toString());
+    protected void postDtoCopy(Image source, ImageDto destination) {
         destination.setUrl(String.format("%s/images/%s",
                 apiProp.getBaseUrl(),
-                PathUtils.normalizeForUrl(source.getName())
+                PathUtils.normalizeForUrl(source.getFullName())
         ));
     }
 }

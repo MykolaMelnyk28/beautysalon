@@ -50,7 +50,7 @@ class ImageControllerTest {
         byte[] content = "test content".getBytes();
         MockMultipartFile file = new MockMultipartFile("image1", "image1.jpg", MediaType.IMAGE_JPEG_VALUE, content);
 
-        when(imageService.exists(any(Path.class))).thenReturn(false);
+        when(imageService.exists(any(String.class))).thenReturn(false);
         when(apiProp.getBaseUrl()).thenReturn(baseUrl);
 
         mvc.perform(put("/v1/images/{imagename}", imageName)
@@ -65,7 +65,7 @@ class ImageControllerTest {
         byte[] content = "test content".getBytes();
         MockMultipartFile file = new MockMultipartFile("image1", "image1.jpg", MediaType.IMAGE_JPEG_VALUE, content);
 
-        when(imageService.exists(any(Path.class))).thenReturn(true);
+        when(imageService.exists(any(String.class))).thenReturn(true);
         when(apiProp.getBaseUrl()).thenReturn(baseUrl);
 
         mvc.perform(put("/v1/images/{imagename}", imageName)
@@ -80,8 +80,10 @@ class ImageControllerTest {
         final String imageName = "group1+image1.jpg";
         final Image image = new Image(
                 1L,
-                "group1/image1.jpg",
+                "group1",
                 "image1.jpg",
+                "image1.jpg",
+                "group1/image1.jpg",
                 3145728L,
                 "image/jpeg",
                 true,
@@ -107,18 +109,22 @@ class ImageControllerTest {
                         String.format("%s/images/%s", baseUrl, "group1+image1.jpg"),
                         "group1/image1.jpg",
                         "image1.jpg",
-                        "group1"
+                        "group1",
+                        false
                 ),
                 new ImageDto(
                         String.format("%s/images/%s", baseUrl, "group1+group1_2+image2.jpg"),
                         "group1/group1_2/image2.jpg",
                         "image2.jpg",
-                        "group1/group1_2"
+                        "group1/group1_2",
+                        false
                 )
         );
         List<Image> images = List.of(
                 new Image(
                         1L,
+                        "image1.jpg",
+                        "group1",
                         "group1/image1.jpg",
                         "image1.jpg",
                         3145728L,
@@ -129,6 +135,8 @@ class ImageControllerTest {
                 ),
                 new Image(
                         2L,
+                        "image2.jpg",
+                        "group1/group1_2",
                         "group1/group1_2/image2.jpg",
                         "image2.jpg",
                         2097152L,
@@ -157,6 +165,6 @@ class ImageControllerTest {
         mvc.perform(delete("/v1/images/{imageName}", normalizeImageFullName))
                 .andExpect(status().isNoContent());
 
-        verify(imageService, times(1)).delete(Path.of(normalizeImageFullName));
+        verify(imageService, times(1)).delete(normalizeImageFullName);
     }
 }

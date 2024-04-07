@@ -5,7 +5,10 @@ import com.beautysalon.api.v1.entities.EmployeeFilter;
 import com.beautysalon.api.v1.entities.Image;
 import com.beautysalon.api.v1.entities.Master;
 import com.beautysalon.api.v1.exceptions.ResourceNotFoundException;
+import com.beautysalon.api.v1.exceptions.StorageException;
 import com.beautysalon.api.v1.repository.AdministratorRepository;
+import com.beautysalon.api.v1.utils.PathUtils;
+import jakarta.persistence.criteria.Path;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,21 +35,47 @@ public class AdministratorService {
         return administratorRepository.findById(id);
     }
 
-    public void putImage(String username, Image image) {
-        putImage(username, image, image.getName());
+    public Image putPreviewImage(String username, Image image) {
+        String path = PathUtils.parseEmployeeImagePath(username, image.getName());
+        if (imageService.exists(path)) {
+            imageService.delete(path);
+        }
+        image.setPreviewImage(true);
+        return putImage(username, image, image.getName());
     }
 
-    public void putImage(String username, Image image, String filename) {
-        Administrator admin = getByUsernameOrThrow(username);
-        String fullName = String.format("emp/%s/%s", admin.getId().toString(), filename);
-        image.setName(fullName);
-        admin.getUser().getImages().add(image);
-        administratorRepository.save(admin);
+    public Image putImage(String username, Image image) {
+        return putImage(username, image, image.getName());
+    }
+
+    public Image putImage(String username, Image image, String filename) {
+        try {
+            String oPath = PathUtils.originalPath(filename);
+            Administrator admin = getByUsernameOrThrow(username);
+            String fullName = PathUtils.parseEmployeeImagePath(username, oPath);
+            image.setUser(admin.getUser());
+            return imageService.store(image, fullName);
+        } catch (Exception e) {
+            throw new StorageException("Error store image for employee.");
+        }
     }
 
     public List<Image> getImages(String username) {
-        Administrator master = getByUsernameOrThrow(username);
-        return imageService.getAll(String.format("emp/%s", master.getId().toString()));
+        Administrator admin = getByUsernameOrThrow(username);
+        return imageService.getAll(PathUtils.parseEmployeeImagePath(username, ""));
+    }
+
+    public void deleteImage(String username, String filename) {
+        Administrator admin = getByUsernameOrThrow(username);
+        imageService.delete(PathUtils.parseEmployeeImagePath(username, filename));
+    }
+
+    public Optional<Image> getPreviewImage(String username) {
+        List<Image> images = getImages(username);
+        if (images.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(images.get(0));
     }
 
     public Optional<Administrator> getByUsername(String username) {

@@ -7,34 +7,43 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "images")
+@Table(name = "images", uniqueConstraints = @UniqueConstraint(
+        columnNames = { "user_id", "isPreviewImage" }
+))
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "originalFileName")
+    @Column(name="path", nullable = false)
+    private String path;
+    @Column(name="fullName", nullable = false, unique = true)
+    private String fullName;
+    @Column(name = "originalFileName", nullable = false)
     private String originalFileName;
-    @Column(name = "size")
+    @Column(name = "size", nullable = false)
     private Long size;
-    @Column(name = "contentType")
+    @Column(name = "contentType", nullable = false)
     private String contentType;
-    @Column(name = "isPreviewImage")
-    private boolean isPreviewImage;
-    @Lob
+    @Column(name = "isPreviewImage", nullable = false)
+    private boolean isPreviewImage = false;
+
+    @Column(name = "bytes", nullable = false)
     private byte[] bytes;
 
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     public Image() {
     }
 
-    public Image(Long id, String name, String originalFileName, Long size, String contentType, boolean isPreviewImage, byte[] bytes, UserEntity user) {
+    public Image(Long id, String name, String path, String fullName, String originalFileName, Long size, String contentType, boolean isPreviewImage, byte[] bytes, UserEntity user) {
         this.id = id;
         this.name = name;
+        this.path = path;
+        this.fullName = fullName;
         this.originalFileName = originalFileName;
         this.size = size;
         this.contentType = contentType;
@@ -57,6 +66,22 @@ public class Image {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getOriginalFileName() {
@@ -112,12 +137,12 @@ public class Image {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Image image = (Image) o;
-        return isPreviewImage == image.isPreviewImage && Objects.equals(id, image.id) && Objects.equals(name, image.name) && Objects.equals(originalFileName, image.originalFileName) && Objects.equals(size, image.size) && Objects.equals(contentType, image.contentType) && Arrays.equals(bytes, image.bytes) && Objects.equals(user, image.user);
+        return isPreviewImage == image.isPreviewImage && Objects.equals(id, image.id) && Objects.equals(name, image.name) && Objects.equals(path, image.path) && Objects.equals(fullName, image.fullName) && Objects.equals(originalFileName, image.originalFileName) && Objects.equals(size, image.size) && Objects.equals(contentType, image.contentType) && Arrays.equals(bytes, image.bytes) && Objects.equals(user, image.user);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, name, originalFileName, size, contentType, isPreviewImage, user);
+        int result = Objects.hash(id, name, path, fullName, originalFileName, size, contentType, isPreviewImage, user);
         result = 31 * result + Arrays.hashCode(bytes);
         return result;
     }

@@ -3,11 +3,16 @@ package com.beautysalon.api.v1.services;
 import com.beautysalon.api.v1.entities.*;
 import com.beautysalon.api.v1.exceptions.ResourceAlreadyExists;
 import com.beautysalon.api.v1.exceptions.ResourceNotFoundException;
+import com.beautysalon.api.v1.exceptions.StorageException;
 import com.beautysalon.api.v1.repository.AppointmentRepository;
+import com.beautysalon.api.v1.repository.ImageRepository;
 import com.beautysalon.api.v1.repository.MasterRepository;
+import com.beautysalon.api.v1.utils.PathUtils;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,15 +25,19 @@ import java.util.Optional;
 public class MasterService {
     private final MasterRepository masterRepository;
     private final AppointmentRepository appointmentRepository;
-    private final ImageService imageService;
+    private final ImageRepository imageRepository;
+    private final ImageServiceImpl imageService;
+
 
     public MasterService(
             MasterRepository masterRepository,
             AppointmentRepository appointmentRepository,
-            ImageService imageService
+            ImageRepository imageRepository,
+            ImageServiceImpl imageService
     ) {
         this.masterRepository = masterRepository;
         this.appointmentRepository = appointmentRepository;
+        this.imageRepository = imageRepository;
         this.imageService = imageService;
     }
 
@@ -37,21 +46,42 @@ public class MasterService {
         return saved;
     }
 
-    public void putImage(String username, Image image) {
-        putImage(username, image, image.getName());
+    public Image putPreviewImage(String username, Image image) {
+        String path = PathUtils.parseEmployeeImagePath(username, image.getName());
+        if (imageService.exists(path)) {
+            imageService.delete(path);
+        }
+        image.setPreviewImage(true);
+        return putImage(username, image, image.getName());
+    }
+    public Image putImage(String username, Image image) {
+        return putImage(username, image, image.getName());
     }
 
-    public void putImage(String username, Image image, String filename) {
-        Master master = getByUsernameOrThrow(username);
-        String fullName = String.format("emp/%s/%s", master.getId().toString(), filename);
-        image.setName(fullName);
-        master.getUser().getImages().add(image);
-        masterRepository.save(master);
+    public Image putImage(String username, Image image, String filename) {
+        try {
+            String oPath = PathUtils.originalPath(filename);
+            Master master = getByUsernameOrThrow(username);
+            String fullName = PathUtils.parseEmployeeImagePath(username, oPath);
+            image.setUser(master.getUser());
+            return imageService.store(image, fullName);
+        } catch (Exception e) {
+            throw new StorageException("Error store image for employee.");
+        }
     }
 
     public List<Image> getImages(String username) {
-        Master master = getByUsernameOrThrow(username);
-        return imageService.getAll(String.format("emp/%s", master.getId().toString()));
+        getByUsernameOrThrow(username);
+        return imageService.getAll(PathUtils.parseEmployeeImagePath(username, ""));
+    }
+
+    public void deleteImage(String username, String filename) {
+        getByUsernameOrThrow(username);
+        imageService.delete(PathUtils.parseEmployeeImagePath(username, filename));
+    }
+
+    public Optional<Image> getPreviewImage(String username) {
+        return imageRepository.findUserPreviewImage(username);
     }
 
     public Optional<Master> getById(Long id) {
@@ -66,6 +96,7 @@ public class MasterService {
         return masterRepository.findByUsername(username);
     }
 
+    @Transactional(readOnly = true)
     public List<Master> getAll() {
         return masterRepository.findAll();
     }

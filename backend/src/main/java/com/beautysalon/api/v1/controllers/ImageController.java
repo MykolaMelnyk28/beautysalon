@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -37,20 +38,19 @@ public class ImageController {
     }
 
     @PutMapping("/{filename}")
-    public ResponseEntity<?> create(
+    public ResponseEntity<ImageDto> create(
             @PathVariable("filename") String filename,
             @RequestBody MultipartFile file
     ) throws IOException {
         String oFilename = PathUtils.originalPath(filename);
-        Path path = Path.of(oFilename);
-        boolean isFileExists = imageService.exists(path);
+        boolean isFileExists = imageService.exists(oFilename);
         if (!isFileExists) {
-            imageService.store(file, path);
-            System.out.println(apiProp.getBaseUrl());
-            String url = String.join("/", apiProp.getBaseUrl(), "images", filename);
-            return ResponseEntity.status(HttpStatus.CREATED).body(url);
+            Image image = imageService.store(file, oFilename);
+            ImageDto response = imageMapper.toDto(image);
+            URI uri = URI.create(PathUtils.normalizeForUrl(response.getFullName()));
+            return ResponseEntity.created(uri).body(response);
         }
-        imageService.store(file, path);
+        imageService.store(file, oFilename);
         return ResponseEntity.noContent().build();
     }
 
@@ -58,7 +58,6 @@ public class ImageController {
     private ResponseEntity<?> getImageByName(
             @PathVariable String filename
     ) {
-        System.out.println(filename);
         String s = filename.replace("+", "/");
         Image image = imageService.get(s);
         return ResponseEntity.ok()
@@ -77,7 +76,6 @@ public class ImageController {
         List<ImageDto> dtos = images.stream()
                 .map(imageMapper::toDto)
                 .toList();
-        System.out.println(dtos);
         return ResponseEntity.ok(dtos);
     }
 
@@ -85,7 +83,7 @@ public class ImageController {
     public ResponseEntity<Void> deleteByName(
             @PathVariable String imageName
     ) {
-        imageService.delete(Path.of(imageName));
+        imageService.delete(imageName);
         return ResponseEntity.noContent().build();
     }
 }

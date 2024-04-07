@@ -188,10 +188,10 @@ class EmployeeControllerTest {
                 wshs.stream().map(workScheduleMapper::toEntity).toList()
         );
 
-        when(mockWorkScheduleMapper.toEntity(objects.wshDto1)).thenReturn(objects.wsh1);
-        when(mockEmployeeService.getAllEmployees(employeeFilter)).thenReturn(objects.employees);
-        when(mockEmployeeMapper.toDto(objects.employees.get(0))).thenReturn(objects.dtos.get(0));
-        when(mockEmployeeMapper.toDto(objects.employees.get(1))).thenReturn(objects.dtos.get(1));
+        //when(mockWorkScheduleMapper.toEntity(objects.wshDto1)).thenReturn(objects.wsh1);
+        //when(mockEmployeeService.getAllEmployees(employeeFilter)).thenReturn(objects.employees);
+        //when(mockEmployeeMapper.toDto(objects.employees.get(0))).thenReturn(objects.dtos.get(0));
+        //when(mockEmployeeMapper.toDto(objects.employees.get(1))).thenReturn(objects.dtos.get(1));
 
         mvc.perform(get("/v1/employees")
                         .param("page", "0")

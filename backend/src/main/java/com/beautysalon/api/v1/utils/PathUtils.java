@@ -1,6 +1,9 @@
 package com.beautysalon.api.v1.utils;
 
+import com.beautysalon.api.v1.entities.Image;
+
 import java.nio.file.Path;
+import java.util.regex.Pattern;
 
 public final class PathUtils {
 
@@ -12,10 +15,12 @@ public final class PathUtils {
         return path.replaceAll("\\+", "/");
     }
 
-    public static String[] splitPathFilename(Path path) {
+    public static String[] splitPathFilename(String fullName) {
+        Path path = Path.of(fullName);
         Path parent = path.getParent();
         String pathFile = (parent != null) ? parent.toString() : "";
         String filename = path.toFile().getName();
+        pathFile = pathFile.replaceAll("[\\\\]", "/");
         return new String[] {pathFile, filename};
     }
     
@@ -23,4 +28,16 @@ public final class PathUtils {
         return filename.split("\\+");
     }
 
+    public static String parseEmployeeImagePath(String username, String filename) {
+        return filename != null
+                ? String.format("emp/%s/%s", username, filename)
+                : String.format("emp/%s", username);
+    }
+
+    public static String parsePreviewImageFilename(String filename) {
+        String[] s = filename.split("\\.");
+        return (s.length > 0)
+                ? "preview"
+                : String.format("%s.%s", "preview", s[s.length-1]);
+    }
 }

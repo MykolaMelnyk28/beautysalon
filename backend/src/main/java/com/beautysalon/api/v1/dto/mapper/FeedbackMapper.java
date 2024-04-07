@@ -42,9 +42,9 @@ public class FeedbackMapper extends AbstractMapper<Feedback, FeedbackDto> {
         destination.setAuthor(clientMapper.toEntity(source.getAuthor()));
         if (source.getRecipient() != null) {
             final String position = source.getRecipient().getPosition();
-            if (position.equals("master")) {
+            if ("master".equals(position)) {
                 destination.setMaster(masterMapper.toEntity(source.getRecipient()));
-            } else if (position.equals("administrator")) {
+            } else if ("administrator".equals(position)) {
                 destination.setAdministrator(administratorMapper.toEntity(source.getRecipient()));
             }
         }

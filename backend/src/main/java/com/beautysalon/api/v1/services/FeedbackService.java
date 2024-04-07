@@ -1,14 +1,10 @@
 package com.beautysalon.api.v1.services;
 
-import com.beautysalon.api.v1.dto.FeedbackDto;
-import com.beautysalon.api.v1.dto.mapper.FeedbackMapper;
 import com.beautysalon.api.v1.dto.mapper.base.AbstractMapper;
 import com.beautysalon.api.v1.dto.mapper.base.AutoMapper;
-import com.beautysalon.api.v1.entities.Administrator;
 import com.beautysalon.api.v1.entities.Client;
 import com.beautysalon.api.v1.entities.Feedback;
 import com.beautysalon.api.v1.exceptions.ResourceNotFoundException;
-import com.beautysalon.api.v1.repository.ClientRepository;
 import com.beautysalon.api.v1.repository.FeedbackRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,11 +35,7 @@ public class FeedbackService {
     public Feedback create(Feedback feedback)
             throws ResourceNotFoundException {
         Optional<Client> foundClient = clientService.getByEmail(feedback.getAuthor().getEmail());
-        foundClient.ifPresent(client -> {
-            feedback.setAuthor(client);
-
-        });
-
+        foundClient.ifPresent(feedback::setAuthor);
         return feedbackRepository.save(feedback);
     }
 

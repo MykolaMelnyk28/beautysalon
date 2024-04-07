@@ -11,12 +11,15 @@ import java.util.List;
 
 public interface ImageService {
 
-    String store(MultipartFile file, Path path) throws IOException;
-    String load(Path path);
+    Image store(MultipartFile file, String path) throws IOException;
+    Image store(Image image, String path) throws IOException;
+    String load(String path);
 
     Image get(String filename);
     List<Image> getAll(String path);
-    void move(Path fromPath, Path toPath);
-    void delete(Path path);
-    boolean exists(Path path);
+    void move(String fromPath, String toPath);
+    void delete(String path);
+    boolean exists(String path);
+
+    String createImageUrl(Image image, boolean checkOnExists);
 }
