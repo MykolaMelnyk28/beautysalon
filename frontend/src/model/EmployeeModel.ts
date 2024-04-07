@@ -6,6 +6,7 @@ export class EmployeeModel {
   lastName: string = "";
   surName: string = "";
   position: string = "";
+  username: string = "";
   email: string = "";
   phoneNumber: string = "";
   imageUrl: string[] = ["assets/default_user_photo.png"];
@@ -16,14 +17,9 @@ export class EmployeeModel {
   }
 
   getFirstImageOrDefault(): string {
-    return (!this.imageUrl || this.imageUrl.length === 0)
-      ? 'assets/default_user_photo.png'
-      : this.imageUrl[0];
+    return (this.imageUrl.length >= 1) ? this.imageUrl[0] : 'assets/default_user_photo.png';
   }
-
   getOtherImages(): string[] {
-    return (this.imageUrl.length === 0)
-      ? []
-      : this.imageUrl.slice(1);
+    return (this.imageUrl.length <= 1) ? [] : this.imageUrl.slice(1);
   }
 }

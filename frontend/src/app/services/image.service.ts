@@ -25,7 +25,7 @@ export class ImageService {
   }
 
   getImagesByGroup(group: string): Observable<ImageModel[]> {
-    let url: string = `${ImageService.baseUrlApiImage}`;
+    const url: string = `${ImageService.baseUrlApiImage}`;
     return this.http.get<ImageModel[]>(url, {
       params: new HttpParams().append("g", group)
     });

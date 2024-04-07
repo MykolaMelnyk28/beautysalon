@@ -4,6 +4,7 @@ import {map, Observable} from "rxjs";
 import {EmployeeModel} from "../../model/EmployeeModel";
 import {ResponseAvailabilityDateTime} from "../../model/ResponseAvailabilityDateTime";
 import {Page} from "../../model/Page";
+import {ImageModel} from "../../model/ImageModel";
 
 
 @Injectable({
@@ -11,20 +12,20 @@ import {Page} from "../../model/Page";
 })
 export class EmployeesService {
 
-  static baseUrlApiClients: string = "http://localhost:8080/api/v1/employees";
+  static baseUrlApiEmployees: string = "http://localhost:8080/api/v1/employees";
+  static defaultUserPhoto: string = 'assets/default_user_photo.png';
 
   constructor(
     private http: HttpClient
   ) { }
 
   getAllMasters(): Observable<EmployeeModel[]> {
-    let url: string = `${EmployeesService.baseUrlApiClients}/masters`;
+    const url: string = `${EmployeesService.baseUrlApiEmployees}/masters`;
     return this.http.get<Page<EmployeeModel>>(url).pipe(
-      map(masters => {
-        console.log(masters);
-        return masters.content.map(master => {
-          if ((master.imageUrl && master.imageUrl.length === 0) || !master.imageUrl) {
-            master.imageUrl = ["assets/default_user_photo.png"];
+      map(mastersPage => {
+        return mastersPage.content.map(master => {
+          if ((master.imageUrl && !master.imageUrl.length) || !master.imageUrl) {
+            master.imageUrl = [EmployeesService.defaultUserPhoto];
           }
           return master;
         });
@@ -33,34 +34,24 @@ export class EmployeesService {
   }
 
   getAvailableDatetimeMaster(start: Date, end: Date, e: EmployeeModel): Observable<ResponseAvailabilityDateTime> {
-    let url: string = `http://localhost:8080/api/v1/employees/masters/${e.id}/availability`;
-
-    let startD: string = new Date(start).toJSON();
-    let endD: string = new Date(end).toJSON();
-    console.log(startD);
-    console.log(endD);
+    const url: string = `${EmployeesService.baseUrlApiEmployees}/masters/${e.id}/availability`;
     let body: any = {
-      startDatetime: startD,
-      endDatetime: endD
+      startDatetime: new Date(start).toJSON(),
+      endDatetime: new Date(end).toJSON()
     };
     return this.http.post<ResponseAvailabilityDateTime>(url, body).pipe(
-      map(ms => {
-      return ms;
-    }));
+      map(ms => ms));
+  }
+
+  getPreviewImage(username: string): Observable<ImageModel> {
+    const url: string = `${EmployeesService.baseUrlApiEmployees}/${username}/images/preview`;
+    return this.http.get<ImageModel>(url);
   }
 
   getFirstImageOrDefault(employee: EmployeeModel | undefined): string {
-    if (employee !== undefined) {
-      return (!employee.imageUrl || employee.imageUrl.length === 0)
-        ? 'assets/default_user_photo.png'
-        : employee.imageUrl[0];
-    }
-    return 'assets/default_user_photo.png';
+    return (employee?.imageUrl.length) ? employee.imageUrl[0] : EmployeesService.defaultUserPhoto;
   }
-
   getOtherImages(employee: EmployeeModel): string[] {
-    return (employee.imageUrl.length === 0)
-      ? []
-      : employee.imageUrl.slice(1);
+    return (employee?.imageUrl.length <= 1) ? [] : employee.imageUrl.slice(1);
   }
 }
