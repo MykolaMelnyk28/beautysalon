@@ -1,23 +1,77 @@
 package com.beautysalon.api.v1.dto;
 
+import com.beautysalon.api.v1.dto.validation.OnAlways;
+import com.beautysalon.api.v1.dto.validation.OnCreate;
+import com.beautysalon.api.v1.dto.validation.OnPut;
+import jakarta.annotation.Nullable;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.Length;
+
 import java.util.List;
 import java.util.Objects;
 
 public class EmployeeDto {
+
+    @Min(value = 1, message = "can not be negative.",
+            groups = {OnAlways.class})
     private Long id;
+
+    @Nullable
+    @Length(max = 20, message = "must be 20 characters or less.",
+            groups = {OnAlways.class})
     private String firstName;
+
+    @Nullable
+    @Length(max = 20, message = "must be 20 characters or less.",
+            groups = {OnAlways.class})
     private String lastName;
+
+    @Nullable
+    @Length(max = 20, message = "must be 20 characters or less.",
+            groups = {OnAlways.class})
     private String surName;
+
+    @NotBlank(message = "must not be empty",
+            groups = {OnCreate.class, OnPut.class})
+    @Length(max = 80, message = "must be 80 characters or less.",
+            groups = {OnAlways.class})
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я0-9_]*$", message = "invalid format",
+            groups = {OnAlways.class})
     private String username;
+
+    @NotBlank(message = "must not be empty",
+            groups = {OnCreate.class, OnPut.class})
+    @Email(message = "invalid format",
+            groups = {OnCreate.class, OnPut.class})
+    @Length(max = 80, message = "must be 80 characters or less.",
+            groups = {OnCreate.class, OnPut.class})
     private String email;
+
+    @NotBlank(message = "must not be empty",
+            groups = {OnCreate.class, OnPut.class})
+    @Pattern(
+            regexp = "(\\+\\d{1,4}[-.\\s]?)(\\(\\d{1,}\\)[-\\s]?|\\d{1,}[-.\\s]?){1,}[0-9\\s]",
+            message = "invalid phone format",
+            groups = {OnAlways.class}
+    )
     private String phoneNumber;
+
+    @NotNull(message = "must be not null",
+            groups = {OnCreate.class, OnPut.class})
+    @Pattern(regexp = "^(MASTER|ADMINISTRATOR)$",
+            message = "", groups = {OnAlways.class})
     private String position;
+
+    @Valid
     private List<ImageDto> imageUrl;
+
+    @Valid
     private List<WorkScheduleDto> workSchedule;
 
     public EmployeeDto() {}
 
-    public EmployeeDto(Long id, String firstName, String lastName, String surName, String username, String email, String phoneNumber, String position, List<ImageDto> imageUrl, List<WorkScheduleDto> workSchedule) {
+    public EmployeeDto(Long id, @Nullable String firstName, @Nullable String lastName, @Nullable String surName, String username, String email, String phoneNumber, String position, List<ImageDto> imageUrl, List<WorkScheduleDto> workSchedule) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

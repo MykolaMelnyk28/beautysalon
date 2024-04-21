@@ -1,10 +1,35 @@
 package com.beautysalon.api.v1.dto;
 
+import com.beautysalon.api.v1.dto.validation.OnCreate;
+import com.beautysalon.api.v1.dto.validation.OnPatch;
+import com.beautysalon.api.v1.dto.validation.OnPut;
+import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.Length;
+
 public class ImageDto {
+    @NotBlank(message = "must not be empty",
+        groups = {OnCreate.class, OnPut.class, OnPatch.class})
     private String url;
+
+    @NotBlank(message = "must not be empty",
+            groups = {OnCreate.class, OnPut.class, OnPatch.class})
+    @Length(max = 330, message = "must be 330 characters or less.",
+            groups = {OnCreate.class, OnPut.class, OnPatch.class})
     private String fullName;
+
+    @NotBlank(message = "must not be empty",
+            groups = {OnCreate.class, OnPut.class, OnPatch.class})
+    @Length(max = 80, message = "text must be 80 characters or less.",
+            groups = {OnCreate.class, OnPut.class, OnPatch.class})
     private String name;
+
+    @NotBlank(message = "must not be empty",
+            groups = {OnCreate.class, OnPut.class, OnPatch.class})
+    @Length(max = 255, message = "text must be 255 characters or less.",
+            groups = {OnCreate.class, OnPut.class, OnPatch.class})
     private String path;
+
+
     private boolean isPreviewImage;
 
     public ImageDto() {

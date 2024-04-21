@@ -3,8 +3,8 @@ package com.beautysalon.api.v1.controllers;
 import com.beautysalon.api.v1._utils.JSON;
 import com.beautysalon.api.v1.dto.ClientDto;
 import com.beautysalon.api.v1.dto.mapper.base.AutoMapper;
-import com.beautysalon.api.v1.entities.Client;
-import com.beautysalon.api.v1.services.ClientService;
+import com.beautysalon.domain.entities.Client;
+import com.beautysalon.domain.services.ClientService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -75,7 +75,7 @@ class ClientControllerTest {
         when(mapper.toDto(clientList.get(0))).thenReturn(dtoList.get(0));
         when(mapper.toDto(clientList.get(1))).thenReturn(dtoList.get(1));
 
-        mvc.perform(get("/v1/clients"))
+        mvc.perform(get("/v1/clients", request()))
                 .andExpect(status().isOk())
                 .andExpect(content().json(JSON.stringify(dtoList)));
     }

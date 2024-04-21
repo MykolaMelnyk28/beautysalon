@@ -2,15 +2,15 @@ package com.beautysalon.api.v1.controllers;
 
 import com.beautysalon.api.v1.dto.AppointmentDto;
 import com.beautysalon.api.v1.dto.mapper.base.AutoMapper;
-import com.beautysalon.api.v1.entities.Appointment;
-import com.beautysalon.api.v1.services.AppointmentService;
+import com.beautysalon.domain.entities.Appointment;
+import com.beautysalon.domain.services.AppointmentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/appointments")
+@RequestMapping("/api/v1/appointments")
 public class AppointmentController {
 
     private final AutoMapper<Appointment, AppointmentDto> appointmentMapper;

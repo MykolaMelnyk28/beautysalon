@@ -1,11 +1,28 @@
 package com.beautysalon.api.v1.dto;
 
+import com.beautysalon.api.v1.dto.validation.OnCreate;
+import com.beautysalon.api.v1.dto.validation.OnPatch;
+import com.beautysalon.api.v1.dto.validation.OnPut;
+import com.beautysalon.api.v1.dto.validation.StartBeforeEnd;
+import jakarta.validation.constraints.*;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@StartBeforeEnd(message = "startDatetime must be before than endDatetime",
+        groups = {OnCreate.class, OnPut.class, OnPatch.class})
 public class RequestAvailabilityDateTime {
-    LocalDateTime startDatetime;
-    LocalDateTime endDatetime;
+
+    @NotNull(message = "must not be empty",
+            groups = {OnCreate.class, OnPut.class, OnPatch.class})
+    @Future(message = "data and time must be after current time",
+            groups = {OnCreate.class, OnPut.class, OnPatch.class})
+    private LocalDateTime startDatetime;
+
+    @NotNull(message = "must not be empty")
+    @Future(message = "data and time must be after current time",
+            groups = {OnCreate.class, OnPut.class, OnPatch.class})
+    private LocalDateTime endDatetime;
 
     public RequestAvailabilityDateTime() {
     }

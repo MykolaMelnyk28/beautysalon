@@ -6,10 +6,10 @@ import com.beautysalon.api.v1.dto.EmployeeDto;
 import com.beautysalon.api.v1.dto.ServiceDto;
 import com.beautysalon.api.v1.dto.mapper.base.AbstractMapper;
 import com.beautysalon.api.v1.dto.mapper.base.AutoMapper;
-import com.beautysalon.api.v1.entities.Appointment;
-import com.beautysalon.api.v1.entities.Client;
-import com.beautysalon.api.v1.entities.Master;
-import com.beautysalon.api.v1.entities.ServiceEntity;
+import com.beautysalon.domain.entities.Appointment;
+import com.beautysalon.domain.entities.Client;
+import com.beautysalon.domain.entities.Master;
+import com.beautysalon.domain.entities.ServiceEntity;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

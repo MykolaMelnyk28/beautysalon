@@ -4,10 +4,10 @@ import com.beautysalon.api.v1.dto.EmployeeDto;
 import com.beautysalon.api.v1.dto.ImageDto;
 import com.beautysalon.api.v1.dto.mapper.base.AbstractMapper;
 import com.beautysalon.api.v1.dto.mapper.base.AutoMapper;
-import com.beautysalon.api.v1.entities.EmployeePosition;
-import com.beautysalon.api.v1.entities.Image;
-import com.beautysalon.api.v1.entities.Employee;
-import com.beautysalon.api.v1.entities.UserEntity;
+import com.beautysalon.domain.entities.EmployeePosition;
+import com.beautysalon.domain.entities.Image;
+import com.beautysalon.domain.entities.Employee;
+import com.beautysalon.domain.entities.UserEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

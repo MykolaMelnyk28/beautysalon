@@ -4,9 +4,9 @@ import com.beautysalon.api.v1.dto.EmployeeDto;
 import com.beautysalon.api.v1.dto.WorkScheduleDto;
 import com.beautysalon.api.v1.dto.mapper.base.AbstractMapper;
 import com.beautysalon.api.v1.dto.mapper.base.AutoMapper;
-import com.beautysalon.api.v1.entities.Master;
-import com.beautysalon.api.v1.entities.WorkSchedule;
-import com.beautysalon.api.v1.entities.Employee;
+import com.beautysalon.domain.entities.Master;
+import com.beautysalon.domain.entities.WorkSchedule;
+import com.beautysalon.domain.entities.Employee;
 import org.springframework.stereotype.Component;
 
 @Component

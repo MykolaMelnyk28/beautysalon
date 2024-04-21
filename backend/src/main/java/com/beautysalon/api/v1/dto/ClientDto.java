@@ -1,12 +1,49 @@
 package com.beautysalon.api.v1.dto;
 
+import com.beautysalon.api.v1.dto.validation.OnAlways;
+import com.beautysalon.api.v1.dto.validation.OnCreate;
+import com.beautysalon.api.v1.dto.validation.OnPatch;
+import com.beautysalon.api.v1.dto.validation.OnPut;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.Length;
+
 import java.util.Objects;
 
 public class ClientDto {
+
+    @Min(value = 1, message = "can not be negative.",
+            groups = {OnAlways.class})
     private Long id;
+
+    @NotBlank(message = "must not be empty",
+            groups = {OnCreate.class})
+    @Length(max = 20, message = "must be 20 characters or less.",
+            groups = {OnAlways.class})
     private String firstName;
+
+    @NotBlank(message = "must not be empty",
+            groups = {OnCreate.class})
+    @Length(max = 20, message = "must be 20 characters or less.",
+            groups = {OnAlways.class})
     private String lastName;
+
+    @NotBlank(message = "must not be empty",
+            groups = {OnCreate.class, OnPut.class})
+    @Email(message = "invalid email format",
+            groups = {OnAlways.class})
+    @Length(max = 80, message = "must be 80 characters or less.",
+            groups = {OnAlways.class})
     private String email;
+
+    @NotBlank(message = "must not be empty",
+            groups = {OnCreate.class, OnPut.class})
+    @Pattern(
+            regexp = "(\\+\\d{1,4}[-.\\s]?)(\\(\\d{1,}\\)[-\\s]?|\\d{1,}[-.\\s]?){1,}[0-9\\s]",
+            message = "invalid phone format",
+            groups = {OnAlways.class}
+    )
     private String phoneNumber;
 
     public ClientDto() {

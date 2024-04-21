@@ -2,9 +2,8 @@ package com.beautysalon.api.v1.controllers;
 
 import com.beautysalon.api.v1.dto.ServiceDto;
 import com.beautysalon.api.v1.dto.mapper.base.AutoMapper;
-import com.beautysalon.api.v1.entities.ServiceEntity;
-import com.beautysalon.api.v1.services.ServiceEntityService;
-import org.apache.coyote.Response;
+import com.beautysalon.domain.entities.ServiceEntity;
+import com.beautysalon.domain.services.ServiceEntityService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +11,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/services")
+@RequestMapping("/api/v1/services")
 public class ServiceController {
 
     private final ServiceEntityService serviceEntityService;

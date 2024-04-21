@@ -1,9 +1,25 @@
 package com.beautysalon.api.v1.dto;
 
+import com.beautysalon.api.v1.dto.validation.OnAlways;
+import com.beautysalon.api.v1.dto.validation.OnCreate;
+import com.beautysalon.api.v1.dto.validation.OnPut;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Range;
+
 import java.util.Objects;
 
 public class WorkScheduleDto {
+
+    @Range(min = 1, max = 7,
+            message = "must be in range 1 to 7")
     private int weekday;
+
+    @NotBlank(message = "must not be empty",
+            groups = {OnCreate.class, OnPut.class})
+    @Pattern(regexp = "^\\d\\d:\\d\\d-\\d\\d:\\d\\d$",
+            message = "invalid time string format",
+            groups = {OnAlways.class})
     private String time;
 
     public WorkScheduleDto() {

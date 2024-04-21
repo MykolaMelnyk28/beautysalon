@@ -2,12 +2,13 @@ package com.beautysalon.api.v1.controllers;
 
 import com.beautysalon.api.v1.dto.*;
 import com.beautysalon.api.v1.dto.mapper.base.AutoMapper;
-import com.beautysalon.api.v1.entities.*;
-import com.beautysalon.api.v1.services.AdministratorService;
-import com.beautysalon.api.v1.services.EmployeeService;
-import com.beautysalon.api.v1.services.MasterService;
+import com.beautysalon.domain.entities.*;
+import com.beautysalon.domain.services.AdministratorService;
+import com.beautysalon.domain.services.EmployeeService;
+import com.beautysalon.domain.services.MasterService;
 import com.beautysalon.api.v1.utils.PathUtils;
 import com.beautysalon.api.v1.utils.WorkScheduleDtoEditor;
+import com.beautysalon.domain.entities.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/v1/employees")
+@RequestMapping("/api/v1/employees")
 public class EmployeeController {
 
     private final EmployeeService employeeService;

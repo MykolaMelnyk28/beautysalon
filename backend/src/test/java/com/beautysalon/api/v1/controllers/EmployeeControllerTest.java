@@ -1,46 +1,33 @@
 package com.beautysalon.api.v1.controllers;
 
 import com.beautysalon.api.v1._utils.JSON;
-import com.beautysalon.api.v1.dto.ClientDto;
 import com.beautysalon.api.v1.dto.EmployeeDto;
-import com.beautysalon.api.v1.dto.FeedbackDto;
 import com.beautysalon.api.v1.dto.WorkScheduleDto;
 import com.beautysalon.api.v1.dto.mapper.base.AutoMapper;
-import com.beautysalon.api.v1.entities.*;
-import com.beautysalon.api.v1.services.AdministratorService;
-import com.beautysalon.api.v1.services.EmployeeService;
-import com.beautysalon.api.v1.services.MasterService;
+import com.beautysalon.domain.services.AdministratorService;
+import com.beautysalon.domain.services.EmployeeService;
+import com.beautysalon.domain.services.MasterService;
+import com.beautysalon.domain.entities.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.util.MultiValueMap;
 
 import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -79,8 +66,9 @@ class EmployeeControllerTest {
                                     true,
                                     null,
                                     null,
-                                    null,
-                                    null,
+                                    Set.of(),
+                                    LocalDateTime.now(),
+                                    LocalDateTime.now(),
                                     List.of(),
                                     1L
                             ),
@@ -105,6 +93,7 @@ class EmployeeControllerTest {
                                     true,
                                     null,
                                     null,
+                                    Set.of(),
                                     null,
                                     null,
                                     List.of(),
@@ -123,6 +112,7 @@ class EmployeeControllerTest {
                             "firstname1",
                             "lastname1",
                             "surname1",
+                            "master1",
                             "email1@gmail.com",
                             "+380123456789",
                             EmployeePosition.MASTER.name(),
@@ -134,6 +124,7 @@ class EmployeeControllerTest {
                             "firstname1",
                             "lastname1",
                             "surname1",
+                            "admin1",
                             "admin1@gmail.com",
                             "+380987654321",
                             EmployeePosition.ADMINISTRATOR.name(),

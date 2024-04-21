@@ -1,15 +1,46 @@
 package com.beautysalon.api.v1.dto;
 
+import com.beautysalon.api.v1.dto.validation.OnAlways;
+import com.beautysalon.api.v1.dto.validation.OnCreate;
+import com.beautysalon.api.v1.dto.validation.OnPatch;
+import com.beautysalon.api.v1.dto.validation.OnPut;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.annotation.Nullable;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.aspectj.lang.annotation.Before;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
+import org.springframework.data.annotation.ReadOnlyProperty;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class FeedbackDto {
 
+    @Min(value = 1, message = "Id can not be negative.",
+            groups = {OnAlways.class})
     private Long id;
+    @Valid
+    @NotNull(message = "must not be null",
+            groups = {OnCreate.class, OnPut.class})
     private ClientDto author;
+    @Valid
+    @NotNull(message = "must not be null",
+            groups = {OnCreate.class, OnPut.class})
     private EmployeeDto recipient;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime dateCreated;
+    @Range(min = 1, max = 5, message = "rating must in range 1-5",
+            groups = {OnAlways.class})
     private int rating;
+    @NotBlank(message = "text must not be empty",
+            groups = {OnCreate.class, OnPut.class})
+    @Length(max = 20, message = "text must be 20 characters or less.",
+            groups = {OnAlways.class})
     private String text;
 
     public FeedbackDto() {

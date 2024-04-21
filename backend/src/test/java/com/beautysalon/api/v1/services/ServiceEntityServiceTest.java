@@ -1,22 +1,18 @@
 package com.beautysalon.api.v1.services;
 
-import com.beautysalon.api.v1.entities.ServiceEntity;
-import com.beautysalon.api.v1.repository.ServiceRepository;
-import org.assertj.core.api.Condition;
-import org.assertj.core.internal.Conditions;
+import com.beautysalon.domain.entities.ServiceEntity;
+import com.beautysalon.domain.repository.ServiceRepository;
+import com.beautysalon.domain.services.ServiceEntityService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 

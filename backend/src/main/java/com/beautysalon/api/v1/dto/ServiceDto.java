@@ -1,14 +1,46 @@
 package com.beautysalon.api.v1.dto;
 
+import com.beautysalon.api.v1.dto.validation.OnAlways;
+import com.beautysalon.api.v1.dto.validation.OnCreate;
+import com.beautysalon.api.v1.dto.validation.OnPatch;
+import com.beautysalon.api.v1.dto.validation.OnPut;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.Length;
+
 import java.util.Objects;
 
 public class ServiceDto {
+
+    @Min(value = 1, message = "can not be negative.",
+            groups = {OnAlways.class})
     private Long id;
+
+    @NotBlank(message = "must not be empty",
+            groups = {OnCreate.class, OnPut.class})
+    @Length(max = 80, message = "text must be 80 characters or less.",
+            groups = {OnAlways.class})
     private String name;
+
+    @Length(max = 80, message = "text must be 80 characters or less.",
+            groups = {OnAlways.class})
     private String category;
+
+    @Length(max = 300, message = "text must be 300 characters or less.",
+        groups = {OnAlways.class})
     private String description;
+
+    @Min(value = 1, message = "must not be negative",
+            groups = {OnAlways.class})
     private int durationInMinute;
+
+    @Min(value = 0, message = "must not be negative",
+            groups = {OnAlways.class})
     private double price;
+
+    @NotBlank(message = "must not be empty",
+            groups = {OnCreate.class, OnPut.class})
+    @Length(min = 3, max = 3, message = "must be 3 characters")
     private String currency;
 
     public ServiceDto() {
@@ -34,6 +66,15 @@ public class ServiceDto {
 
     public String getName() {
         return name;
+    }
+
+    public String getFullName() {
+        if (name == null) {
+            return "";
+        } else if (category == null) {
+            return getName();
+        }
+        return getCategory() + '.' + getName();
     }
 
     public void setName(String name) {

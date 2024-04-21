@@ -3,10 +3,10 @@ package com.beautysalon.api.v1.controllers;
 import com.beautysalon.api.v1._utils.JSON;
 import com.beautysalon.api.v1.dto.ImageDto;
 import com.beautysalon.api.v1.dto.mapper.ImageMapper;
-import com.beautysalon.api.v1.entities.Image;
-import com.beautysalon.api.v1.entities.UserEntity;
-import com.beautysalon.api.v1.services.ApiProperties;
-import com.beautysalon.api.v1.services.ImageService;
+import com.beautysalon.domain.entities.Image;
+import com.beautysalon.domain.entities.UserEntity;
+import com.beautysalon.domain.services.ApiProperties;
+import com.beautysalon.domain.services.ImageService;
 import com.beautysalon.api.v1.utils.PathUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
-import java.nio.file.Path;
+
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;

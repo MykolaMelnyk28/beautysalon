@@ -5,7 +5,10 @@ import com.beautysalon.api.v1.dto.EmployeeDto;
 import com.beautysalon.api.v1.dto.FeedbackDto;
 import com.beautysalon.api.v1.dto.mapper.base.AbstractMapper;
 import com.beautysalon.api.v1.dto.mapper.base.AutoMapper;
-import com.beautysalon.api.v1.entities.*;
+import com.beautysalon.domain.entities.Administrator;
+import com.beautysalon.domain.entities.Client;
+import com.beautysalon.domain.entities.Feedback;
+import com.beautysalon.domain.entities.Master;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -39,6 +42,7 @@ public class FeedbackMapper extends AbstractMapper<Feedback, FeedbackDto> {
 
     @Override
     protected void postEntityCopy(FeedbackDto source, Feedback destination) {
+
         destination.setAuthor(clientMapper.toEntity(source.getAuthor()));
         if (source.getRecipient() != null) {
             final String position = source.getRecipient().getPosition();
@@ -48,5 +52,6 @@ public class FeedbackMapper extends AbstractMapper<Feedback, FeedbackDto> {
                 destination.setAdministrator(administratorMapper.toEntity(source.getRecipient()));
             }
         }
+
     }
 }

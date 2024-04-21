@@ -2,8 +2,8 @@ package com.beautysalon.api.v1.controllers;
 
 import com.beautysalon.api.v1.dto.ServiceDto;
 import com.beautysalon.api.v1.dto.mapper.base.AutoMapper;
-import com.beautysalon.api.v1.entities.ServiceEntity;
-import com.beautysalon.api.v1.services.ServiceEntityService;
+import com.beautysalon.domain.entities.ServiceEntity;
+import com.beautysalon.domain.services.ServiceEntityService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

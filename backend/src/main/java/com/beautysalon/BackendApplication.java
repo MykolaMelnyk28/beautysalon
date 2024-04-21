@@ -1,6 +1,6 @@
 package com.beautysalon;
 
-import com.beautysalon.api.v1.services.ApiProperties;
+import com.beautysalon.domain.services.ApiProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

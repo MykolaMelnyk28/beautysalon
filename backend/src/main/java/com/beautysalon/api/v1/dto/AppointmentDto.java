@@ -1,17 +1,56 @@
 package com.beautysalon.api.v1.dto;
 
+import com.beautysalon.api.v1.dto.validation.OnAlways;
+import com.beautysalon.api.v1.dto.validation.OnCreate;
+import com.beautysalon.api.v1.dto.validation.OnPut;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class AppointmentDto {
+
+    @Min(value = 1, message = "must not be negative.",
+            groups = {OnAlways.class})
     private Long id;
+
+    @Valid
+    @NotNull(message = "must not be null",
+            groups = {OnCreate.class, OnPut.class})
     private ClientDto client;
+    @Valid
+    @NotNull(message = "must not be null",
+            groups = {OnCreate.class, OnPut.class})
     private EmployeeDto master;
+
+    @Null(message = "must not set on create",
+            groups = {OnCreate.class})
+    @Pattern(regexp = "^(new|confirmed|rejected_by_client|rejected_by_master|rejected_by_admin|closed)$",
+            message = "invalid status value",
+            groups = {OnAlways.class})
     private String status;
+
+    @Min(value = 1, message = "must not be negative",
+            groups = {OnAlways.class})
     private int totalDurationInMinute;
+
+    @Min(value = 0, message = "must not be negative",
+            groups = {OnAlways.class})
     private double totalPrice;
+
+    @Future(message = "must not before current time")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime appointmentDate;
+
+    @Valid
+    @NotNull(message = "must not be null",
+            groups = {OnCreate.class, OnPut.class})
     private List<ServiceDto> services;
 
 
@@ -80,6 +119,9 @@ public class AppointmentDto {
     public LocalDateTime getAppointmentDate() {
         return appointmentDate;
     }
+    public String getAppointmentDate(String pattern) {
+        return appointmentDate.format(DateTimeFormatter.ofPattern(pattern));
+    }
 
     public void setAppointmentDate(LocalDateTime appointmentDate) {
         this.appointmentDate = appointmentDate;
@@ -91,6 +133,12 @@ public class AppointmentDto {
 
     public void setServices(List<ServiceDto> services) {
         this.services = services;
+    }
+
+    public String getServicesLine() {
+        return getServices().stream()
+                .map(ServiceDto::getName)
+                .collect(Collectors.joining());
     }
 
     @Override

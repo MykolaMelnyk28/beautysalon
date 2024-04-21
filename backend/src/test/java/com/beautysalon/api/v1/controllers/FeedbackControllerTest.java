@@ -5,10 +5,11 @@ import com.beautysalon.api.v1.dto.ClientDto;
 import com.beautysalon.api.v1.dto.EmployeeDto;
 import com.beautysalon.api.v1.dto.FeedbackDto;
 import com.beautysalon.api.v1.dto.mapper.base.AutoMapper;
-import com.beautysalon.api.v1.entities.*;
-import com.beautysalon.api.v1.services.AdministratorService;
-import com.beautysalon.api.v1.services.FeedbackService;
-import com.beautysalon.api.v1.services.MasterService;
+import com.beautysalon.domain.services.FeedbackService;
+import com.beautysalon.domain.entities.Client;
+import com.beautysalon.domain.entities.Feedback;
+import com.beautysalon.domain.entities.Master;
+import com.beautysalon.domain.entities.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,10 +23,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.ArgumentMatchers.any;
+
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -69,8 +71,9 @@ class FeedbackControllerTest {
                     true,
                     null,
                     null,
-                    null,
-                    null,
+                    Set.of(),
+                    LocalDateTime.now(),
+                    LocalDateTime.now(),
                     List.of(),
                     1L
             );
@@ -91,6 +94,7 @@ class FeedbackControllerTest {
                     "firstname1",
                     "lastname1",
                     "surname1",
+                    "master1",
                     "email1@gmail.com",
                     "+380123456789",
                     "MASTER",

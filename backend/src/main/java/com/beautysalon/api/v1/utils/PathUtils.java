@@ -1,9 +1,6 @@
 package com.beautysalon.api.v1.utils;
 
-import com.beautysalon.api.v1.entities.Image;
-
 import java.nio.file.Path;
-import java.util.regex.Pattern;
 
 public final class PathUtils {
 

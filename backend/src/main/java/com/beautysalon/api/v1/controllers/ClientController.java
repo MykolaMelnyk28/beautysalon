@@ -2,16 +2,15 @@ package com.beautysalon.api.v1.controllers;
 
 import com.beautysalon.api.v1.dto.ClientDto;
 import com.beautysalon.api.v1.dto.mapper.base.AutoMapper;
-import com.beautysalon.api.v1.entities.Client;
-import com.beautysalon.api.v1.services.ClientService;
+import com.beautysalon.domain.entities.Client;
+import com.beautysalon.domain.services.ClientService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/v1/clients")
+@RequestMapping("/api/v1/clients")
 public class ClientController {
 
     private final AutoMapper<Client, ClientDto> clientMapper;

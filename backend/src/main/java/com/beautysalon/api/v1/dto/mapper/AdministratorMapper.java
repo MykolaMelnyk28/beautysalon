@@ -4,9 +4,9 @@ import com.beautysalon.api.v1.dto.EmployeeDto;
 import com.beautysalon.api.v1.dto.ImageDto;
 import com.beautysalon.api.v1.dto.mapper.base.AbstractMapper;
 import com.beautysalon.api.v1.dto.mapper.base.AutoMapper;
-import com.beautysalon.api.v1.entities.Administrator;
-import com.beautysalon.api.v1.entities.Employee;
-import com.beautysalon.api.v1.entities.Image;
+import com.beautysalon.domain.entities.Administrator;
+import com.beautysalon.domain.entities.Employee;
+import com.beautysalon.domain.entities.Image;
 import org.springframework.stereotype.Component;
 
 @Component
