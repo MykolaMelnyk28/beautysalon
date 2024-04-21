@@ -18,6 +18,8 @@ repositories {
 ext {
 	postgresqlVers = '42.7.0'
 	mockitoVers = '5.10.0'
+	hibernateValidatorVers = '8.0.1.Final'
+	jakartaValidationVers = '3.0.2'
 }
 
 dependencies {
@@ -27,6 +29,9 @@ dependencies {
 
 	// PostgreSQL
 	runtimeOnly "org.postgresql:postgresql:$postgresqlVers"
+
+	// Validation
+	implementation "org.springframework.boot:spring-boot-starter-validation"
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation "org.mockito:mockito-core:$mockitoVers"
