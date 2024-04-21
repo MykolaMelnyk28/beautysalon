@@ -5,7 +5,7 @@ import com.beautysalon.domain.entities.Image;
 import com.beautysalon.domain.repository.AdministratorRepository;
 import com.beautysalon.api.v1.exceptions.ResourceNotFoundException;
 import com.beautysalon.api.v1.exceptions.StorageException;
-import com.beautysalon.api.v1.utils.PathUtils;
+import com.beautysalon.utils.PathUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

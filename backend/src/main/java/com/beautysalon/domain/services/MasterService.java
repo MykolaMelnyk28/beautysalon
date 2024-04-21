@@ -5,7 +5,7 @@ import com.beautysalon.api.v1.exceptions.StorageException;
 import com.beautysalon.domain.repository.AppointmentRepository;
 import com.beautysalon.domain.repository.ImageRepository;
 import com.beautysalon.domain.repository.MasterRepository;
-import com.beautysalon.api.v1.utils.PathUtils;
+import com.beautysalon.utils.PathUtils;
 import com.beautysalon.domain.entities.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;

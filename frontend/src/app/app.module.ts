@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import {HomePageComponent} from "./pages/home-page/home-page.component";
+<<<<<<< Updated upstream
 import {ServicesPageComponent} from "./pages/services-page/services-page.component";
 import {NgOptimizedImage} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
@@ -26,11 +27,15 @@ import {FeedbackService} from "./services/feedback.service";
 import {ClientService} from "./services/client.service";
 import {EmployeesService} from "./services/employees.service";
 import {AppointmentService} from "./services/appointment.service";
+=======
+import {ButtonComponent} from "./components/button/button.component";
+>>>>>>> Stashed changes
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
+<<<<<<< Updated upstream
     ButtonComponent,
     HomePageComponent,
     ServicesPageComponent,
@@ -61,6 +66,17 @@ import {AppointmentService} from "./services/appointment.service";
     EmployeesService,
     AppointmentService
   ],
+=======
+    HomePageComponent,
+    ButtonComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule
+  ],
+  providers: [],
+  exports: [],
+>>>>>>> Stashed changes
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,4 @@
-package com.beautysalon.api.v1.utils;
+package com.beautysalon.utils;
 
 import java.nio.file.Path;
 

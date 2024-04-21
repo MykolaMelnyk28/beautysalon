@@ -3,9 +3,11 @@ package com.beautysalon.domain.repository;
 import com.beautysalon.domain.entities.Image;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface ImageRepository extends JpaRepository<Image, Long> {
     Optional<Image> findByFullName(String name);
     boolean existsByFullName(String name);

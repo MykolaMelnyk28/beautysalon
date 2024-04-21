@@ -5,7 +5,7 @@ import com.beautysalon.api.v1.dto.mapper.ImageMapper;
 import com.beautysalon.domain.entities.Image;
 import com.beautysalon.domain.services.ApiProperties;
 import com.beautysalon.domain.services.ImageService;
-import com.beautysalon.api.v1.utils.PathUtils;
+import com.beautysalon.utils.PathUtils;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,16 +23,13 @@ public class ImageController {
 
     private final ImageService imageService;
     private final ImageMapper imageMapper;
-    private final ApiProperties apiProp;
 
     public ImageController(
             ImageService imageService,
-            ImageMapper imageMapper,
-            ApiProperties apiProp
+            ImageMapper imageMapper
     ) {
         this.imageService = imageService;
         this.imageMapper = imageMapper;
-        this.apiProp = apiProp;
     }
 
     @PutMapping("/{filename}")

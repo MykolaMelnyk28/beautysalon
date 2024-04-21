@@ -7,7 +7,7 @@ import com.beautysalon.domain.entities.Image;
 import com.beautysalon.domain.entities.UserEntity;
 import com.beautysalon.domain.services.ApiProperties;
 import com.beautysalon.domain.services.ImageService;
-import com.beautysalon.api.v1.utils.PathUtils;
+import com.beautysalon.utils.PathUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;

@@ -1,10 +1,11 @@
 package com.beautysalon.domain.services;
 
+import com.beautysalon.utils.ApiUtils;
 import com.beautysalon.domain.entities.Image;
 import com.beautysalon.api.v1.exceptions.ResourceAlreadyExists;
 import com.beautysalon.api.v1.exceptions.ResourceNotFoundException;
 import com.beautysalon.domain.repository.ImageRepository;
-import com.beautysalon.api.v1.utils.PathUtils;
+import com.beautysalon.utils.PathUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,15 +14,15 @@ import java.util.List;
 
 @Service
 public class ImageServiceImpl implements ImageService {
+
     private final ImageRepository imageRepository;
-    private final ApiProperties apiProp;
+    //private final ApiProperties apiProp;
 
     public ImageServiceImpl(
-            ImageRepository imageRepository,
-            ApiProperties apiProp
+            ImageRepository imageRepository
     ) {
         this.imageRepository = imageRepository;
-        this.apiProp = apiProp;
+        //this.apiProp = apiProp;
     }
 
     @Override
@@ -69,8 +70,9 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public String load(String path) throws ResourceNotFoundException {
         Image img = getOrThrow(path);
-        String url = apiProp.getBaseUrl() + "/images";
-        return String.join("/", url, img.getName());
+//        String url = apiProp.getBaseUrl() + "/images";
+//        return String.join("/", url, img.getName());
+        return ApiUtils.parseUrlFromBase("images", img.getName());
     }
 
     @Override
@@ -135,7 +137,8 @@ public class ImageServiceImpl implements ImageService {
         if (checkOnExists) {
             img = getOrThrow(image.getPath());
         }
-        String path = PathUtils.normalizeForUrl(img.getFullName());
-        return String.format("%s/%s", apiProp.getBaseUrl(), path);
+        //String path = PathUtils.normalizeForUrl(img.getFullName());
+//        return String.format("%s/%s", apiProp.getBaseUrl(), path);
+        return ApiUtils.parseUrlFromBase(img.getFullName());
     }
 }

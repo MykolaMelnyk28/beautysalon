@@ -1,4 +1,4 @@
-package com.beautysalon.api.v1.utils;
+package com.beautysalon.utils;
 
 import com.beautysalon.api.v1.dto.WorkScheduleDto;
 import com.fasterxml.jackson.core.type.TypeReference;

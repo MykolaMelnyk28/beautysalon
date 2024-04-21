@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container w-100 h-100">
+    <div class="text-box">
+        <h1 th:text="${httpStatus.toString()}"></h1>
+        <p>Натисніть кнопку щоб повернутись на головну сторінку.</p>
+        <a th:href="@{/panel}" class="btn btn-primary">Home</a>
+    </div>
+</div>
+</body>
+</html>

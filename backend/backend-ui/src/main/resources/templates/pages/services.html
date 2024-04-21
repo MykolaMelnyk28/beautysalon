@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Послуги</title>
+<!--    <div th:replace="fragments/styles"></div>-->
+<!--    <link rel="stylesheet" type="text/css" href="/css/style.css">-->
+</head>
+<body layout:fragment="body">
+<!--    <div th:replace="~{fragments/layout::sidebar}"></div>-->
+<!--    <div th:replace="fragments/sidebar::sidebar"></div>-->
+    <main class="w-100">
+        <div class="d-flex justify-content-between">
+            <h1>Послуги</h1>
+            <a th:href="@{/panel/services/create}"
+               class="btn btn-primary"
+               type="button"
+               id="btn-create"
+               style="height: max-content;align-self: center;">Додати послугу</a>
+        </div>
+        <div class="items-container w-100 mt-2 d-flex flex-column gap-2" style="min-height: 100vh">
+            <div class="list-group items w-100 h-100 border-2 border-primary">
+                <div class="list-group-item item item-dropdown cursor-pointer item-service position-relative" th:each="service : ${services}">
+                    <p class="m-0" th:text="${service.getFullName()}"></p>
+                    <ul class="dropdown-menu position-absolute d-none gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px" data-bs-theme="dark">
+                        <li><a class="dropdown-item rounded-2 btn-edit" th:href="@{/panel/services/update(id=${service.getId()})}" th:method="put">Редагувати</a></li>
+                        <li><hr class="dropdown-divider"></li>
+
+                        <li><a class="dropdown-item rounded-2 btn-delete" th:href="@{/panel/services/delete(id=${service.getId()})}" th:method="delete">Видалити</a></li>
+                    </ul>
+                </div>
+            </div>
+       </div>
+    </main>
+<!--<div th:replace="fragments/scripts"></div>-->
+<!--    <div th:replace="~{fragments/layout::scripts}"></div>-->
+</body>
+</html>
