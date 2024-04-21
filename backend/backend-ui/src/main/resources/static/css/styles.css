@@ -1,0 +1,12 @@
+* {
+
+}
+
+body {
+    display: flex;
+    height: 100vh;
+}
+
+main {
+    padding: 0 15px;
+}
