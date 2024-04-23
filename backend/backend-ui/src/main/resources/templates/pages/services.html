@@ -6,12 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Послуги</title>
-<!--    <div th:replace="fragments/styles"></div>-->
-<!--    <link rel="stylesheet" type="text/css" href="/css/style.css">-->
 </head>
 <body layout:fragment="body">
-<!--    <div th:replace="~{fragments/layout::sidebar}"></div>-->
-<!--    <div th:replace="fragments/sidebar::sidebar"></div>-->
     <main class="w-100">
         <div class="d-flex justify-content-between">
             <h1>Послуги</h1>
@@ -25,7 +21,7 @@
             <div class="list-group items w-100 h-100 border-2 border-primary">
                 <div class="list-group-item item item-dropdown cursor-pointer item-service position-relative" th:each="service : ${services}">
                     <p class="m-0" th:text="${service.getFullName()}"></p>
-                    <ul class="dropdown-menu position-absolute d-none gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px" data-bs-theme="dark">
+                    <ul class="dropdown-menu position-absolute d-none gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px show" data-bs-theme="dark">
                         <li><a class="dropdown-item rounded-2 btn-edit" th:href="@{/panel/services/update(id=${service.getId()})}" th:method="put">Редагувати</a></li>
                         <li><hr class="dropdown-divider"></li>
 
@@ -35,7 +31,5 @@
             </div>
        </div>
     </main>
-<!--<div th:replace="fragments/scripts"></div>-->
-<!--    <div th:replace="~{fragments/layout::scripts}"></div>-->
 </body>
 </html>

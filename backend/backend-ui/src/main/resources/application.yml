@@ -2,6 +2,9 @@ server:
   address: localhost
   port: 8083
 
+api:
+  base-url: "http://${server.address}:${server.port}/panel"
+
 spring:
   application:
     name: backend-ui

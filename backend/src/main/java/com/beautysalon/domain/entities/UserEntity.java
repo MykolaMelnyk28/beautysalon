@@ -3,16 +3,14 @@ package com.beautysalon.domain.entities;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
-public class UserEntity {
+public class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,11 +40,11 @@ public class UserEntity {
     @OneToOne(mappedBy = "user")
     private Administrator administrator;
 
-    @ElementCollection(targetClass = UserRole.class)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    private Set<UserRole> authorities;
+    @Column(name = "role", nullable = false, unique = true)
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(value = EnumType.STRING)
+    private Set<UserRole> roles = new HashSet<>();
 
     @CreationTimestamp
     private LocalDateTime dateTimeOfCreated;
@@ -71,7 +69,7 @@ public class UserEntity {
         this.enabled = enabled;
         this.master = master;
         this.administrator = administrator;
-        this.authorities = authorities;
+        this.roles = authorities;
         this.dateTimeOfCreated = dateTimeOfCreated;
         this.dateTimeOfUpdated = dateTimeOfUpdated;
     }
@@ -84,6 +82,7 @@ public class UserEntity {
         this.id = id;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }
@@ -92,6 +91,7 @@ public class UserEntity {
         this.username = username;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -100,6 +100,7 @@ public class UserEntity {
         this.password = password;
     }
 
+    @Override
     public boolean isAccountNonExpired() {
         return accountNonExpired;
     }
@@ -108,6 +109,7 @@ public class UserEntity {
         this.accountNonExpired = accountNonExpired;
     }
 
+    @Override
     public boolean isAccountNonLocked() {
         return accountNonLocked;
     }
@@ -116,6 +118,7 @@ public class UserEntity {
         this.accountNonLocked = accountNonLocked;
     }
 
+    @Override
     public boolean isCredentialsNonExpired() {
         return credentialsNonExpired;
     }
@@ -124,6 +127,7 @@ public class UserEntity {
         this.credentialsNonExpired = credentialsNonExpired;
     }
 
+    @Override
     public boolean isEnabled() {
         return enabled;
     }
@@ -131,6 +135,7 @@ public class UserEntity {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
 
     public Master getMaster() {
         return master;
@@ -148,12 +153,13 @@ public class UserEntity {
         this.administrator = administrator;
     }
 
+    @Override
     public Set<UserRole> getAuthorities() {
-        return authorities;
+        return roles;
     }
 
     public void setAuthorities(Set<UserRole> authorities) {
-        this.authorities = authorities;
+        this.roles = authorities;
     }
 
     public LocalDateTime getDateTimeOfCreated() {
@@ -190,11 +196,11 @@ public class UserEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity that = (UserEntity) o;
-        return accountNonExpired == that.accountNonExpired && accountNonLocked == that.accountNonLocked && credentialsNonExpired == that.credentialsNonExpired && enabled == that.enabled && Objects.equals(id, that.id) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(master, that.master) && Objects.equals(administrator, that.administrator) && Objects.equals(authorities, that.authorities) && Objects.equals(dateTimeOfCreated, that.dateTimeOfCreated) && Objects.equals(dateTimeOfUpdated, that.dateTimeOfUpdated) && Objects.equals(images, that.images);
+        return accountNonExpired == that.accountNonExpired && accountNonLocked == that.accountNonLocked && credentialsNonExpired == that.credentialsNonExpired && enabled == that.enabled && Objects.equals(id, that.id) && Objects.equals(username, that.username) && Objects.equals(password, that.password) && Objects.equals(master, that.master) && Objects.equals(administrator, that.administrator) && Objects.equals(roles, that.roles) && Objects.equals(dateTimeOfCreated, that.dateTimeOfCreated) && Objects.equals(dateTimeOfUpdated, that.dateTimeOfUpdated) && Objects.equals(images, that.images);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled, authorities, dateTimeOfCreated, dateTimeOfUpdated, images);
+        return Objects.hash(id, username, password, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled, roles, dateTimeOfCreated, dateTimeOfUpdated, images);
     }
 }

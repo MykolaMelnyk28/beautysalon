@@ -5,14 +5,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Користувачі</title>
-<!--    <div th:replace="fragments/styles"></div>-->
-<!--    <link rel="stylesheet" type="text/css" href="/css/style.css">-->
 </head>
 <body layout:fragment="body">
-<!--<div th:replace="fragments/sidebar::sidebar"></div>-->
     <main>
-        <h1>Користувачі</h1>
+        <div class="d-flex justify-content-between">
+            <h1>Користувачі</h1>
+            <a th:href="@{/panel/users/create}"
+               class="btn btn-primary"
+               type="button"
+               id="btn-create"
+               style="height: max-content;align-self: center;">Створити користувача</a>
+        </div>
+        <div class="items-container w-100 mt-2 d-flex flex-column gap-2" style="min-height: 100vh">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Ім'я користувача</th>
+                    <th scope="col">Стан</th>
+                    <th scope="col">Дата створення</th>
+                    <th scope="col">Дата оновлення</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="item item-service item-dropdown" th:each="user : ${users}">
+                    <th scope="row" th:text="${user.getId()}"></th>
+                    <td th:text="${user.getUsername()}"></td>
+                    <td th:text="${(user.isEnabled()) ? 'АКТИВНИЙ': 'НЕ АКТИВНИЙ'}"></td>
+                    <td th:text="${user.getDateTimeOfCreated()}"></td>
+                    <td th:text="${user.getDateTimeOfUpdated()}"></td>
+                    <td>
+                        <ul class="dropdown-menu d-none position-absolute top-0 left-0 gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px show" data-bs-theme="dark">
+                            <li><a class="dropdown-item rounded-2 btn-edit" >Редагувати</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item rounded-2 btn-delete" th:href="@{/panel/users/delete(username=${user.getUsername()})}">Видалити</a></li>
+                        </ul>
+                    <td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </main>
-<!--<div th:replace="fragments/scripts"></div>-->
 </body>
 </html>

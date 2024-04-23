@@ -1,7 +1,30 @@
 package com.beautysalon.domain.entities;
 
 
-public enum UserRole {
-    ROLE_USER, ROLE_MASTER, ROLE_ADMIN;
+import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+
+
+public enum UserRole implements GrantedAuthority {
+    ROLE_USER,
+    ROLE_MASTER,
+    ROLE_ADMIN,
+    ROLE_SYS_ADMIN,
+    ROLE_ROOT_ADMIN,
+    ROLE_SERVICE_EDITOR,
+    ROLE_IMAGE_EDITOR,
+    ROLE_EMPLOYEE_EDITOR,
+    ROLE_APPOINTMENT_EDITOR,
+    ROLE_ACCOUNT_EDITOR;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
+
+    public String getSimpleName() {
+        return name().substring(5);
+    }
+
 
 }

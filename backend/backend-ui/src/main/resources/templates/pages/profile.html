@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body layout:fragment="body">
+<main class="w-100 col justify-content-center align-items-center">
+    <form th:action="@{/panel/users/}">
+        <div class="img-box">
+            <img th:src="${user.imageUrl}" alt="img"/>
+        </div>
+        <button type="submit" class="btn btn-primary">Зберегти</button>
+    </form>
+    <form th:action="@{/panel/users/change-username}" method="post">
+        <input type="hidden" th:field="${user.id}" name="id">
+        <div class="form-group">
+            <label for="floatingUsername">Ім'я користувача</label>
+            <input th:field="${user.username}" type="text" class="form-control rounded-3" id="floatingUsername" name="username">
+        </div>
+        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Зберегти</button>
+    </form>
+    <form th:action="@{/panel/users/change-password}" th:method="post">
+        <div class="form-group">
+            <label for="floatingPassword">Пароль</label>
+            <input th:field="${user.password}" type="password" class="form-control rounded-3" name="password" id="floatingPassword">
+        </div>
+        <div class="form-group">
+            <label for="floatingConfirmPassword">Підтвердження пароля</label>
+            <input type="password" class="form-control rounded-3" name="confirmPassword" id="floatingConfirmPassword">
+        </div>
+        <div class="form-group">
+            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Зберегти</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>

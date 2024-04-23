@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 @Component
 public class WorkScheduleMapper extends AbstractMapper<WorkSchedule, WorkScheduleDto> {
     @Override
-    protected void copyDto(WorkSchedule source, WorkScheduleDto destination) {
+    protected void copyDto(WorkSchedule source, WorkScheduleDto destination, boolean hardSet) {
 //        String weekday = source.getDayOfWeek().getDisplayName(TextStyle.SHORT, new Locale("uk_UA"));
 //        destination.setWeekday(weekday);
 
@@ -25,7 +25,7 @@ public class WorkScheduleMapper extends AbstractMapper<WorkSchedule, WorkSchedul
     }
 
     @Override
-    protected void copyEntity(WorkScheduleDto source, WorkSchedule destination) {
+    protected void copyEntity(WorkScheduleDto source, WorkSchedule destination, boolean hardSet) {
 //        DayOfWeek.valueOf("");
 //        DayOfWeek dayOfWeek = DayOfWeek.valueOf(source.getWeekday().toUpperCase());
 //        destination.setDayOfWeek(dayOfWeek);

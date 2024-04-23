@@ -1,5 +1,6 @@
 package com.beautysalon.ui.controller;
 
+import com.beautysalon.api.v1.exceptions.ResourceAlreadyExists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,22 @@ public class ErrorController {
     private static Logger logger =
             LoggerFactory.getLogger(ErrorController.class);
 
+    @ExceptionHandler(ResourceAlreadyExists.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ModelAndView handleResourceAlreadyExists(
+            ResourceAlreadyExists e,
+            Model model
+    ) {
+        logger.error("Resource already exists ", e);
+        final ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName(DEFAULT_ERROR_VIEW);
+        model.addAttribute("errorMessage","Resource already exists.");
+        model.addAttribute("httpStatus", HttpStatus.BAD_REQUEST);
+        return modelAndView;
+    }
 
-    @ExceptionHandler(NoResourceFoundException.class)
+
+    @ExceptionHandler({NoResourceFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ModelAndView handleNoResourceFound(
             NoResourceFoundException e,

@@ -5,14 +5,52 @@
 <head>
     <meta charset="UTF-8">
     <title>Працівники</title>
-<!--    <div th:replace="fragments/styles"></div>-->
-<!--    <link rel="stylesheet" type="text/css" href="/css/style.css">-->
 </head>
 <body layout:fragment="body">
-<!--    <div th:replace="fragments/sidebar::sidebar"></div>-->
     <main>
-        <h1>Працівники</h1>
+        <div class="d-flex justify-content-between">
+            <h1>Працівники</h1>
+        </div>
+        <div class="items-container w-100 mt-2 d-flex flex-column gap-2" style="min-height: 100vh">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">ПІБ</th>
+                    <th scope="col">Ім'я користувача</th>
+                    <th scope="col">Посада</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Номер телефону</th>
+                    <th scope="col">Робочий час</th>
+                    <th scope="col">Стан акаунту</th>
+                    <th scope="col">Дата реєстрації</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="item item-service item-dropdown" th:each="e : ${employees}">
+                    <th scope="row" th:text="${e.id}"></th>
+                    <td th:text="${e.firstName} + '' + ${e.lastName} + '' + ${e.surName}"></td>
+                    <td th:text="${e.user.username}"></td>
+                    <td th:text="${e.position}"></td>
+                    <td th:text="${e.email}"></td>
+                    <td th:text="${e.phoneNumber}"></td>
+                    <td ></td>
+                    <td ></td>
+                    <td ></td>
+
+<!--                    <td th:text="${e.userworkSchedule}"></td>-->
+<!--                    <td th:text="${e.user.dateTimeOfCreated}"></td>-->
+
+
+                    <ul class="dropdown-menu position-absolute d-none gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px" data-bs-theme="dark">
+                        <li><a class="dropdown-item rounded-2 btn-edit" href="#" th:method="put">Редагувати</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item rounded-2 btn-delete" href="#" th:method="delete">Видалити</a></li>
+                    </ul>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </main>
-<!--    <div th:replace="fragments/scripts"></div>-->
 </body>
 </html>

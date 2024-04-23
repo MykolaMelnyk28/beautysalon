@@ -130,7 +130,7 @@ public class EmployeeService {
         }
     }
 
-    <T> Optional<T> fromEmployee(
+    public <T> Optional<T> fromEmployee(
             String username,
             Function<Master, T> masterSupplier,
             Function<Administrator, T> administratorSupplier

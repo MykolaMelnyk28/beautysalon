@@ -14,7 +14,7 @@ export class GalleryPageComponent {
   constructor(
     private imageService: ImageService
   ) {
-    this.imageService.getImagesByGroup('salon').subscribe(
+    this.imageService.getImagesByGroup('').subscribe(
         data => this.images = data,
         error => console.error(error)
     );

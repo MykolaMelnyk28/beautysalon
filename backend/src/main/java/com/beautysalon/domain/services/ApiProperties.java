@@ -1,6 +1,7 @@
 package com.beautysalon.domain.services;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 @ConfigurationProperties(prefix = "api")
 public class ApiProperties {

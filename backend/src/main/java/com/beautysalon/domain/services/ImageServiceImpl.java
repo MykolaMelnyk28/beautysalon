@@ -89,10 +89,17 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public List<Image> getAll(String path) {
-        String oPath = PathUtils.originalPath(path);
         List<Image> images = imageRepository.findAll();
+        if ("*".equals(path)) {
+            return images;
+        } else if (path.isEmpty()) {
+            return images.stream()
+                    .filter(x -> x.getPath().isEmpty())
+                    .toList();
+        }
+        String oPath = PathUtils.originalPath(path);
         return images.stream()
-                .filter(x -> x.getPath().equals(oPath))
+                .filter(x -> x.getPath().startsWith(oPath))
                 .toList();
     }
 

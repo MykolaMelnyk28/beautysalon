@@ -11,14 +11,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class ImageMapper extends AbstractMapper<Image, ImageDto> {
 
-    public ImageMapper() {
+    private final ApiProperties properties;
+    public ImageMapper(ApiProperties properties) {
         super();
+        this.properties = properties;
     }
 
     @Override
     protected void postDtoCopy(Image source, ImageDto destination) {
         destination.setUrl(String.format("%s/images/%s",
-                ApiUtils.BASE_URL,
+                properties.getBaseUrl(),
                 PathUtils.normalizeForUrl(source.getFullName())
         ));
     }

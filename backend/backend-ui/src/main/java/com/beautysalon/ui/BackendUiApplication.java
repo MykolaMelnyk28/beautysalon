@@ -1,11 +1,11 @@
 package com.beautysalon.ui;
 
+import com.beautysalon.domain.services.ApiProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 @SpringBootApplication
-
+@EnableConfigurationProperties({ApiProperties.class})
 public class BackendUiApplication {
 
     public static void main(String[] args) {

@@ -34,7 +34,6 @@ body{
   transition: var(--tran-05);
 }
 
-<<<<<<< Updated upstream
 .frame-white, .frame-image {
   width: 100%;
   display: flex;
@@ -65,14 +64,6 @@ frame-light * {
   color: var(--body-color);
 }
 
-=======
->>>>>>> Stashed changes
 .collapse {
   display: none;
 }
-
-
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes

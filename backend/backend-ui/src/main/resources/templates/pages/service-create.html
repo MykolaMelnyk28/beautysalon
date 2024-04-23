@@ -5,11 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Створення послуги</title>
-<!--    <div th:replace="fragments/styles"></div>-->
-<!--    <link rel="stylesheet" type="text/css" href="/css/style.css">-->
 </head>
 <body layout:fragment="body">
-<!--<div th:replace="fragments/sidebar::sidebar"></div>-->
     <main class="w-100">
         <form th:action="@{/panel/services/create}" method="post" th:object="${model}" style="margin: 0 auto; width: 500px;">
            <input type="hidden" th:field="*{id}">
@@ -44,5 +41,4 @@
        </form>
     </main>
 </body>
-<!--<div th:replace="fragments/scripts"></div>-->
 </html>
