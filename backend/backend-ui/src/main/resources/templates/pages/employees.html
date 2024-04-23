@@ -10,6 +10,11 @@
     <main>
         <div class="d-flex justify-content-between">
             <h1>Працівники</h1>
+            <a th:href="@{/panel/employees/create}"
+               class="btn btn-primary"
+               type="button"
+               id="btn-create"
+               style="height: max-content;align-self: center;">Додати працівника</a>
         </div>
         <div class="items-container w-100 mt-2 d-flex flex-column gap-2" style="min-height: 100vh">
             <table class="table">
@@ -30,18 +35,13 @@
                 <tr class="item item-service item-dropdown" th:each="e : ${employees}">
                     <th scope="row" th:text="${e.id}"></th>
                     <td th:text="${e.firstName} + '' + ${e.lastName} + '' + ${e.surName}"></td>
-                    <td th:text="${e.user.username}"></td>
+                    <td th:text="${e?.user?.username}"></td>
                     <td th:text="${e.position}"></td>
                     <td th:text="${e.email}"></td>
                     <td th:text="${e.phoneNumber}"></td>
                     <td ></td>
                     <td ></td>
                     <td ></td>
-
-<!--                    <td th:text="${e.userworkSchedule}"></td>-->
-<!--                    <td th:text="${e.user.dateTimeOfCreated}"></td>-->
-
-
                     <ul class="dropdown-menu position-absolute d-none gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px" data-bs-theme="dark">
                         <li><a class="dropdown-item rounded-2 btn-edit" href="#" th:method="put">Редагувати</a></li>
                         <li><hr class="dropdown-divider"></li>
