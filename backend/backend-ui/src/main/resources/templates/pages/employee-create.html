@@ -20,15 +20,15 @@
            </div>
             <div class="form-group">
                 <label for="firstName">Ім'я</label>
-                <input th:field="${employee.firstName}" type="password" class="form-control rounded-3" name="firstName" id="firstName">
+                <input th:field="${employee.firstName}" type="text" class="form-control rounded-3" name="firstName" id="firstName">
             </div>
             <div class="form-group">
                 <label for="surName">По-батькові</label>
-                <input th:field="${employee.surName}" type="password" class="form-control rounded-3" name="surName" id="surName">
+                <input th:field="${employee.surName}" type="text" class="form-control rounded-3" name="surName" id="surName">
             </div>
             <div class="form-group">
                 <label for="lastName">Прізвище</label>
-                <input th:field="${employee.lastName}" type="password" class="form-control rounded-3" name="lastName" id="lastName">
+                <input th:field="${employee.lastName}" type="text" class="form-control rounded-3" name="lastName" id="lastName">
             </div>
             <div class="form-group">
                 <label for="position">Посада</label>
@@ -39,11 +39,17 @@
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input th:field="${employee.email}" type="password" class="form-control rounded-3" name="email" id="email">
+                <input th:field="${employee.email}" type="email" class="form-control rounded-3" name="email" id="email">
             </div>
             <div class="form-group">
                 <label for="phoneNumber">Номер телефону</label>
-                <input th:field="${employee.phoneNumber}" type="password" class="form-control rounded-3" name="phoneNumber" id="phoneNumber">
+                <input th:field="${employee.phoneNumber}" type="text" class="form-control rounded-3" name="phoneNumber" id="phoneNumber">
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Номер телефону</label>
+                <select th:field="${employee.workSchedules}" name="workSchedules" id="workSchedules" multiple>
+                    <option th:each="wsh : ${employee.getWorkSchedules()}" th:value="" th:text="${wsh.shortString()}dev"></option>
+                </select>
             </div>
            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Створити</button>
        </form>

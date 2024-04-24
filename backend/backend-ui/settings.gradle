@@ -1,1 +1,8 @@
 rootProject.name = 'backend-ui'
+
+dependencyResolutionManagement {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}

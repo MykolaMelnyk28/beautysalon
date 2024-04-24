@@ -1,11 +1,12 @@
 package com.beautysalon.ui.controller;
 
-import com.beautysalon.api.v1.dto.EmployeeDto;
+import com.beautysalon.api.v1.dto.WorkScheduleDto;
 import com.beautysalon.api.v1.dto.mapper.EmployeeMapper;
-import com.beautysalon.domain.entities.Employee;
-import com.beautysalon.domain.entities.EmployeeFilter;
-import com.beautysalon.domain.entities.EmployeePosition;
+import com.beautysalon.api.v1.dto.mapper.WorkScheduleMapper;
+import com.beautysalon.domain.entities.*;
 import com.beautysalon.domain.services.EmployeeService;
+import com.beautysalon.domain.services.WorkScheduleService;
+import com.beautysalon.utils.EmployeeFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/panel")
@@ -30,11 +33,12 @@ public class EmployeesMvcController {
         private String email;
         private String phoneNumber;
         private EmployeePosition position;
+        private List<WorkScheduleDto> workSchedules;
 
         public EmployeeModel() {
         }
 
-        public EmployeeModel(Long id, String username, String password, String firstName, String lastName, String surName, String email, String phoneNumber, EmployeePosition position) {
+        public EmployeeModel(Long id, String username, String password, String firstName, String lastName, String surName, String email, String phoneNumber, EmployeePosition position, List<WorkScheduleDto> workSchedules) {
             this.id = id;
             this.username = username;
             this.password = password;
@@ -44,6 +48,7 @@ public class EmployeesMvcController {
             this.email = email;
             this.phoneNumber = phoneNumber;
             this.position = position;
+            this.workSchedules = workSchedules;
         }
 
         public Long getId() {
@@ -64,6 +69,14 @@ public class EmployeesMvcController {
 
         public String getPassword() {
             return password;
+        }
+
+        public List<WorkScheduleDto> getWorkSchedules() {
+            return workSchedules;
+        }
+
+        public void setWorkSchedules(List<WorkScheduleDto> workSchedules) {
+            this.workSchedules = workSchedules;
         }
 
         public void setPassword(String password) {
@@ -117,17 +130,38 @@ public class EmployeesMvcController {
         public void setPosition(EmployeePosition position) {
             this.position = position;
         }
+
+        @Override
+        public String toString() {
+            return "EmployeeModel{" +
+                    "id=" + id +
+                    ", username='" + username + '\'' +
+                    ", password='" + password + '\'' +
+                    ", firstName='" + firstName + '\'' +
+                    ", lastName='" + lastName + '\'' +
+                    ", surName='" + surName + '\'' +
+                    ", email='" + email + '\'' +
+                    ", phoneNumber='" + phoneNumber + '\'' +
+                    ", position=" + position +
+                    '}';
+        }
     }
 
     private final EmployeeService employeeService;
+    private final WorkScheduleService workScheduleService;
+    private final WorkScheduleMapper workScheduleMapper;
     private final EmployeeMapper employeeMapper;
 
     public EmployeesMvcController(
             EmployeeService employeeService,
-            EmployeeMapper employeeMapper
+            EmployeeMapper employeeMapper,
+            WorkScheduleService workScheduleService,
+            WorkScheduleMapper workScheduleMapper
     ) {
         this.employeeService = employeeService;
         this.employeeMapper = employeeMapper;
+        this.workScheduleService = workScheduleService;
+        this.workScheduleMapper = workScheduleMapper;
     }
 
     @GetMapping("/employees")
@@ -147,8 +181,12 @@ public class EmployeesMvcController {
             Model model,
             HttpServletRequest request
     ) {
+        final List<WorkScheduleDto> workSchedules = workScheduleService.getAll().stream()
+                .map(workScheduleMapper::toDto)
+                .toList();
         model.addAttribute("currentUri", request.getRequestURI());
         model.addAttribute("employee", new EmployeeModel());
+        model.addAttribute("workSchedules", workSchedules);
         return "pages/employee-create";
     }
 
@@ -158,6 +196,28 @@ public class EmployeesMvcController {
             Model model,
             HttpServletRequest request
     ) {
+        Employee emp = null;
+        final UserEntity user = new UserEntity();
+        final Set<UserRole> roles = new HashSet<>();
+        user.setUsername(empModel.getUsername());
+        user.setPassword(empModel.getPassword());
+        if (empModel.getPosition() == EmployeePosition.MASTER) {
+            emp = new Master();
+            roles.add(UserRole.ROLE_MASTER);
+            user.setAuthorities(roles);
+        } else if (empModel.getPosition() == EmployeePosition.ADMINISTRATOR) {
+            emp = new Administrator();
+            roles.add(UserRole.ROLE_ADMIN);
+        }
+        user.setAuthorities(roles);
+        emp.setUser(user);
+        emp.setPosition(empModel.getPosition());
+        emp.setFirstName(empModel.getFirstName());
+        emp.setLastName(empModel.getLastName());
+        emp.setSurName(empModel.getSurName());
+        emp.setEmail(empModel.getEmail());
+        emp.setPhoneNumber(empModel.getPhoneNumber());
+        employeeService.create(emp);
 
         return "redirect:/panel/employees";
     }

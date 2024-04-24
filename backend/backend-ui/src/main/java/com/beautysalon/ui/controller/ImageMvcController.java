@@ -1,31 +1,23 @@
 package com.beautysalon.ui.controller;
 
 import com.beautysalon.api.v1.dto.ImageDto;
-import com.beautysalon.api.v1.dto.ServiceDto;
 import com.beautysalon.api.v1.dto.mapper.ImageMapper;
-import com.beautysalon.api.v1.dto.validation.OnCreate;
-import com.beautysalon.api.v1.exceptions.ResourceNotFoundException;
 import com.beautysalon.domain.entities.Employee;
-import com.beautysalon.domain.entities.EmployeeFilter;
+import com.beautysalon.utils.EmployeeFilter;
 import com.beautysalon.domain.entities.Image;
-import com.beautysalon.domain.entities.ServiceEntity;
 import com.beautysalon.domain.services.EmployeeService;
 import com.beautysalon.domain.services.ImageService;
-import com.beautysalon.utils.ApiUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
