@@ -3,6 +3,7 @@ package com.beautysalon.domain.services;
 import com.beautysalon.api.v1.exceptions.ResourceAlreadyExists;
 import com.beautysalon.api.v1.exceptions.ResourceNotFoundException;
 import com.beautysalon.domain.entities.*;
+import com.beautysalon.utils.EmployeeFilter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,14 @@ public class EmployeeService {
         this.administratorService = administratorService;
     }
 
+
+    public void create(Employee employee) {
+        if (employee instanceof Master master) {
+            masterService.create(master);
+        } else if (employee instanceof Administrator admin) {
+            administratorService.create(admin);
+        }
+    }
 
     public Image putImage(String username, Image image) {
         return putImage(username, image, image.getName());

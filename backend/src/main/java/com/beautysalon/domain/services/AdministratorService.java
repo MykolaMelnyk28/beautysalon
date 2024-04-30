@@ -2,6 +2,7 @@ package com.beautysalon.domain.services;
 
 import com.beautysalon.domain.entities.Administrator;
 import com.beautysalon.domain.entities.Image;
+import com.beautysalon.domain.entities.Master;
 import com.beautysalon.domain.repository.AdministratorRepository;
 import com.beautysalon.api.v1.exceptions.ResourceNotFoundException;
 import com.beautysalon.api.v1.exceptions.StorageException;
@@ -22,6 +23,11 @@ public class AdministratorService {
     ) {
         this.administratorRepository = administratorRepository;
         this.imageService = imageService;
+    }
+
+    public Administrator create(Administrator admin) {
+        Administrator saved = administratorRepository.save(admin);
+        return saved;
     }
 
     public List<Administrator> getAll() {

@@ -7,6 +7,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Range;
 
+import java.time.DayOfWeek;
+import java.time.format.TextStyle;
+import java.util.Locale;
 import java.util.Objects;
 
 public class WorkScheduleDto {
@@ -32,6 +35,13 @@ public class WorkScheduleDto {
 
     public int getWeekday() {
         return weekday;
+    }
+    public DayOfWeek getDayOfWeek() {
+        return DayOfWeek.of(weekday);
+    }
+
+    public String shortString() {
+        return getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.UK);
     }
 
     public void setWeekday(int weekday) {

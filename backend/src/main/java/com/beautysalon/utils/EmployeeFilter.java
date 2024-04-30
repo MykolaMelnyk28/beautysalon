@@ -1,5 +1,7 @@
-package com.beautysalon.domain.entities;
+package com.beautysalon.utils;
 
+import com.beautysalon.domain.entities.EmployeePosition;
+import com.beautysalon.domain.entities.WorkSchedule;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 

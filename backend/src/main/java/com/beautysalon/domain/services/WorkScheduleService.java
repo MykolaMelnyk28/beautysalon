@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,6 +17,10 @@ public class WorkScheduleService {
 
     public WorkScheduleService(WorkScheduleRepository workScheduleRepository) {
         this.workScheduleRepository = workScheduleRepository;
+    }
+
+    public List<WorkSchedule> getAll() {
+        return workScheduleRepository.findAll();
     }
 
     public Optional<WorkSchedule> getByPeriod(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) {

@@ -6,6 +6,7 @@ import com.beautysalon.domain.entities.*;
 import com.beautysalon.domain.services.AdministratorService;
 import com.beautysalon.domain.services.EmployeeService;
 import com.beautysalon.domain.services.MasterService;
+import com.beautysalon.utils.EmployeeFilter;
 import com.beautysalon.utils.PathUtils;
 import com.beautysalon.utils.WorkScheduleDtoEditor;
 import org.springframework.data.domain.Page;

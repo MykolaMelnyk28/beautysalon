@@ -8,6 +8,7 @@ import com.beautysalon.domain.services.AdministratorService;
 import com.beautysalon.domain.services.EmployeeService;
 import com.beautysalon.domain.services.MasterService;
 import com.beautysalon.domain.entities.*;
+import com.beautysalon.utils.EmployeeFilter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
