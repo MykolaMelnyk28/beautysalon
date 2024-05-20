@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Графіки роботи</title>
+</head>
+<body layout:fragment="body">
+<main>
+    <div class="d-flex justify-content-between">
+        <h1>Графіки роботи</h1>
+        <a th:href="@{/panel/schedules/create}"
+           class="btn btn-primary"
+           type="button"
+           id="btn-create"
+           style="height: max-content;align-self: center;">Створити графік</a>
+    </div>
+    <div class="items-container w-100 mt-2 d-flex flex-column gap-2" style="min-height: 100vh">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Номер дня тижня</th>
+                <th scope="col">Час початку</th>
+                <th scope="col">Час кінця</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="item item-service item-dropdown" th:each="schedule : ${schedules}">
+                <td><p th:text="${schedule.id}"></p></td>
+                <td><p th:text="${schedule.weekday}"></p></td>
+                <td><p th:text="${schedule.startTime}"></p></td>
+                <td><p th:text="${schedule.endTime}"></p></td>
+                <td>
+                    <ul class="dropdown-menu d-none position-absolute top-0 left-0 gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px show" data-bs-theme="dark">
+                        <li><a class="dropdown-item rounded-2 btn-edit" th:href="@{/panel/schedules/update(id=${schedule.id})}">Редагувати</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item rounded-2 btn-delete" th:href="@{/panel/schedules/delete(id=${schedule.id})}">Видалити</a></li>
+                    </ul>
+                <td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

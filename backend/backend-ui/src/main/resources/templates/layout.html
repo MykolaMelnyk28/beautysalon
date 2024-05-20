@@ -36,6 +36,15 @@
                 </a>
             </li>
             <li>
+                <a th:href="@{/panel/schedules}"
+                   th:method="get"
+                   th:classappend="${currentUri == '/panel/schedules' ? 'active' : ''}"
+                   class="nav-link text-white"
+                   aria-current="page">
+                    Робочі графіки
+                </a>
+            </li>
+            <li>
                 <a th:href="@{/panel/employees}"
                    th:method="get"
                    th:classappend="${currentUri == '/panel/employees' ? 'active' : ''}"

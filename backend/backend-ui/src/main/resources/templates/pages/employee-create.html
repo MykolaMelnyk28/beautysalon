@@ -32,7 +32,10 @@
             </div>
             <div class="form-group">
                 <label for="position">Посада</label>
-                <select th:field="${employee.position}" name="position" id="position">
+                <select th:field="${employee.position}"
+                        name="position"
+                        id="position"
+                        class="form-control rounded-3">
                     <option value="MASTER">Майстер</option>
                     <option value="ADMINISTRATOR">Адміністратор</option>
                 </select>
@@ -46,9 +49,13 @@
                 <input th:field="${employee.phoneNumber}" type="text" class="form-control rounded-3" name="phoneNumber" id="phoneNumber">
             </div>
             <div class="form-group">
-                <label for="phoneNumber">Номер телефону</label>
-                <select th:field="${employee.workSchedules}" name="workSchedules" id="workSchedules" multiple>
-                    <option th:each="wsh : ${employee.getWorkSchedules()}" th:value="" th:text="${wsh.shortString()}dev"></option>
+                <label for="workSchedules">Робочий графік</label>
+                <select th:field="${employee.workSchedules}"
+                        class="form-control rounded-3"
+                        name="workSchedules"
+                        id="workSchedules"
+                        multiple>
+                    <option th:each="wsh : ${workSchedules}" th:value="${wsh.id}" th:text="${wsh.toShortFormat()}"></option>
                 </select>
             </div>
            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Створити</button>

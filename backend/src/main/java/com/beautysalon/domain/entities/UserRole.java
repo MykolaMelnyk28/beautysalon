@@ -15,7 +15,8 @@ public enum UserRole implements GrantedAuthority {
     ROLE_IMAGE_EDITOR,
     ROLE_EMPLOYEE_EDITOR,
     ROLE_APPOINTMENT_EDITOR,
-    ROLE_ACCOUNT_EDITOR;
+    ROLE_ACCOUNT_EDITOR,
+    ROLE_SCHEDULES_EDITOR;
 
     @Override
     public String getAuthority() {

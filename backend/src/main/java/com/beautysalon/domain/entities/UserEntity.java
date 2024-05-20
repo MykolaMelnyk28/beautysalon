@@ -34,10 +34,10 @@ public class UserEntity implements UserDetails {
     @Column(nullable = false, columnDefinition = "boolean default true")
     private boolean enabled = true;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     private Master master;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     private Administrator administrator;
 
     @Column(name = "role", nullable = false, unique = true)

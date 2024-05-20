@@ -32,11 +32,11 @@ public class Administrator implements Employee {
     @Enumerated(EnumType.STRING)
     protected EmployeePosition position;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     protected UserEntity user;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(
             name = "work_schedule_administrators",
             joinColumns = @JoinColumn(name = "administrator_id"),

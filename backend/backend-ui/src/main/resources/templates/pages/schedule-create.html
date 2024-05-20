@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Створення графіку</title>
+</head>
+<body layout:fragment="body">
+    <main class="w-100">
+        <form th:action="@{/panel/schedules/create}" method="post" th:object="${model}" style="margin: 0 auto; width: 500px;">
+           <input type="hidden" th:field="*{id}">
+           <div class="form-floating mb-3">
+               <label for="weekday">День тижня</label>
+               <select class="form-control rounded-3" id="weekday" th:field="*{weekday}">
+                   <option th:value="1">Понеділок</option>
+                   <option th:value="2">Вівторок</option>
+                   <option th:value="3">Середа</option>
+                   <option th:value="4">Четвер</option>
+                   <option th:value="5">П'ятниця</option>
+                   <option th:value="6">Субота</option>
+                   <option th:value="7">Неділя</option>
+               </select>
+           </div>
+            <div class="form-floating mb-3">
+                <input th:field="*{startTime}" type="time" class="form-control rounded-3" id="startTime"  name="startTime">
+                <label for="startTime">Початковий час</label>
+           </div>
+           <div class="form-floating mb-3">
+               <input th:field="*{endTime}" type="time" class="form-control rounded-3" name="endTime" id="endTime">
+               <label for="endTime">Кінцевий час</label>
+           </div>
+           <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Створити</button>
+       </form>
+    </main>
+</body>
+</html>

@@ -3,13 +3,18 @@ package com.beautysalon.ui.controller;
 import com.beautysalon.api.v1.dto.WorkScheduleDto;
 import com.beautysalon.api.v1.dto.mapper.EmployeeMapper;
 import com.beautysalon.api.v1.dto.mapper.WorkScheduleMapper;
+import com.beautysalon.api.v1.exceptions.ResourceNotFoundException;
 import com.beautysalon.domain.entities.*;
 import com.beautysalon.domain.services.EmployeeService;
 import com.beautysalon.domain.services.WorkScheduleService;
+import com.beautysalon.ui.mapper.EmployeeModelMapper;
+import com.beautysalon.ui.mapper.WorkScheduleModelMapper;
 import com.beautysalon.utils.EmployeeFilter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +28,7 @@ import java.util.Set;
 @RequestMapping("/panel")
 public class EmployeesMvcController {
 
-    private static class EmployeeModel {
+    public static class EmployeeModel {
         private Long id;
         private String username;
         private String password;
@@ -33,12 +38,12 @@ public class EmployeesMvcController {
         private String email;
         private String phoneNumber;
         private EmployeePosition position;
-        private List<WorkScheduleDto> workSchedules;
+        private List<Long> workSchedules;
 
         public EmployeeModel() {
         }
 
-        public EmployeeModel(Long id, String username, String password, String firstName, String lastName, String surName, String email, String phoneNumber, EmployeePosition position, List<WorkScheduleDto> workSchedules) {
+        public EmployeeModel(Long id, String username, String password, String firstName, String lastName, String surName, String email, String phoneNumber, EmployeePosition position, List<Long> workSchedules) {
             this.id = id;
             this.username = username;
             this.password = password;
@@ -71,11 +76,11 @@ public class EmployeesMvcController {
             return password;
         }
 
-        public List<WorkScheduleDto> getWorkSchedules() {
+        public List<Long> getWorkSchedules() {
             return workSchedules;
         }
 
-        public void setWorkSchedules(List<WorkScheduleDto> workSchedules) {
+        public void setWorkSchedules(List<Long> workSchedules) {
             this.workSchedules = workSchedules;
         }
 
@@ -151,17 +156,23 @@ public class EmployeesMvcController {
     private final WorkScheduleService workScheduleService;
     private final WorkScheduleMapper workScheduleMapper;
     private final EmployeeMapper employeeMapper;
+    private final WorkScheduleModelMapper workScheduleModelMapper;
+    private final EmployeeModelMapper employeeModelMapper;
 
     public EmployeesMvcController(
             EmployeeService employeeService,
             EmployeeMapper employeeMapper,
             WorkScheduleService workScheduleService,
-            WorkScheduleMapper workScheduleMapper
+            WorkScheduleMapper workScheduleMapper,
+            WorkScheduleModelMapper workScheduleModelMapper,
+            EmployeeModelMapper employeeModelMapper
     ) {
         this.employeeService = employeeService;
         this.employeeMapper = employeeMapper;
         this.workScheduleService = workScheduleService;
         this.workScheduleMapper = workScheduleMapper;
+        this.workScheduleModelMapper = workScheduleModelMapper;
+        this.employeeModelMapper = employeeModelMapper;
     }
 
     @GetMapping("/employees")
@@ -181,8 +192,8 @@ public class EmployeesMvcController {
             Model model,
             HttpServletRequest request
     ) {
-        final List<WorkScheduleDto> workSchedules = workScheduleService.getAll().stream()
-                .map(workScheduleMapper::toDto)
+        final List<WorkScheduleModel> workSchedules = workScheduleService.getAll().stream()
+                .map(workScheduleModelMapper::toDto)
                 .toList();
         model.addAttribute("currentUri", request.getRequestURI());
         model.addAttribute("employee", new EmployeeModel());
@@ -196,6 +207,7 @@ public class EmployeesMvcController {
             Model model,
             HttpServletRequest request
     ) {
+
         Employee emp = null;
         final UserEntity user = new UserEntity();
         final Set<UserRole> roles = new HashSet<>();
@@ -217,6 +229,10 @@ public class EmployeesMvcController {
         emp.setSurName(empModel.getSurName());
         emp.setEmail(empModel.getEmail());
         emp.setPhoneNumber(empModel.getPhoneNumber());
+        emp.setWorkSchedules(empModel.getWorkSchedules().stream()
+                .map(id -> workScheduleService.getById(id).orElseThrow(() ->
+                        new ResourceNotFoundException("WorkSchedule not found")))
+                .toList());
         employeeService.create(emp);
 
         return "redirect:/panel/employees";
