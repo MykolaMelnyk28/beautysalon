@@ -71,6 +71,15 @@
                     Користувачі
                 </a>
             </li>
+            <li>
+                <a class="nav-link text-white"
+                   th:href="@{/panel/clients}"
+                   th:method="get"
+                   th:classappend="${currentUri == '/panel/clients' ? 'active' : ''}"
+                   aria-current="page">
+                    Клієнти
+                </a>
+            </li>
         </ul>
         <hr>
         <div class="dropdown">

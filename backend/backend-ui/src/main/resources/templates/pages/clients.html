@@ -4,17 +4,12 @@
       layout:decorate="~{layout.html}">
 <head>
     <meta charset="UTF-8">
-    <title>Користувачі</title>
+    <title>Клієнти</title>
 </head>
 <body layout:fragment="body">
     <main>
         <div class="d-flex justify-content-between">
-            <h1>Користувачі</h1>
-            <a th:href="@{/panel/users/create}"
-               class="btn btn-primary"
-               type="button"
-               id="btn-create"
-               style="height: max-content;align-self: center;">Створити користувача</a>
+            <h1>Клієнти</h1>
         </div>
         <form class="search-form" method="get" >
             <div class="form-group">
@@ -51,12 +46,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="item item-service item-dropdown" th:each="user : ${users}">
-                    <th scope="row" th:text="${user.getId()}"></th>
-                    <td th:text="${user.getUsername()}"></td>
-                    <td th:text="${(user.isEnabled()) ? 'АКТИВНИЙ': 'НЕ АКТИВНИЙ'}"></td>
-                    <td th:text="${user.getDateTimeOfCreated()}"></td>
-                    <td th:text="${user.getDateTimeOfUpdated()}"></td>
+                <tr class="item item-service item-dropdown" th:each="client : ${clients}">
+                    <th scope="row" th:text="${client.getId()}"></th>
+                    <td th:text="${client.getUsername()}"></td>
+                    <td th:text="${(client.isEnabled()) ? 'АКТИВНИЙ': 'НЕ АКТИВНИЙ'}"></td>
+                    <td th:text="${client.getDateTimeOfCreated()}"></td>
+                    <td th:text="${client.getDateTimeOfUpdated()}"></td>
                     <td>
                         <ul class="dropdown-menu d-none position-absolute top-0 left-0 gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px show" data-bs-theme="dark">
                             <li><a class="dropdown-item rounded-2 btn-edit" >Редагувати</a></li>

@@ -45,5 +45,26 @@ form .form-control:nth-of-type(2 + n) {
 
 .form-group {
     display: flex;
+
+}
+
+form.search-form {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: unset;
     flex-flow: column nowrap;
 }
+
+form.search-form .form-group,
+form.search-form .form-group label,
+form.search-form .form-group label input {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+
+form.search-form .form-btns {
+
+}
+

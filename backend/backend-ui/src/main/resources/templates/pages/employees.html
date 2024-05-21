@@ -16,6 +16,29 @@
                id="btn-create"
                style="height: max-content;align-self: center;">Додати працівника</a>
         </div>
+        <form class="search-form" method="get" >
+            <div class="form-group">
+                <div class="form-group">
+                    <input class="form-control rounded-3" type="text" name="search" id="searchInput" placeholder="Пошук"/>
+                </div>
+                <div class="form-btns">
+                    <button type="submit" class="btn btn-primary">Пошук</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <!--                <select name="group" th:field="*{group}">-->
+                <!--                    <option value="*">Всі</option>-->
+                <!--                    <option value="">Салон</option>-->
+                <!--                    <option value="emp">Працівники</option>-->
+                <!--                </select>-->
+                <!--                <select name="username" th:field="*{username}">-->
+                <!--                    <option value="">Всі</option>-->
+                <!--                    <option th:each="e : ${employees}"-->
+                <!--                            th:value="${e.user.username}"-->
+                <!--                            th:text="${e.user.username}"></option>-->
+                <!--                </select>-->
+            </div>
+        </form>
         <div class="items-container w-100 mt-2 d-flex flex-column gap-2" style="min-height: 100vh">
             <table class="table">
                 <thead class="thead-dark">
