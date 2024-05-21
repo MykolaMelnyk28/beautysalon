@@ -1,5 +1,6 @@
 package com.beautysalon.domain.services;
 
+import com.beautysalon.api.v1.exceptions.ClientBlockedException;
 import com.beautysalon.domain.repository.AppointmentRepository;
 import com.beautysalon.domain.entities.*;
 import com.beautysalon.api.v1.exceptions.ResourceNotFoundException;
@@ -67,7 +68,13 @@ public class AppointmentService {
     public Appointment assignClient(Appointment appointment) {
         if (appointment.getClient() != null && appointment.getClient().getEmail() != null) {
             Optional<Client> clientOpt = clientService.getByEmail(appointment.getClient().getEmail());
-            clientOpt.ifPresent(appointment::setClient);
+            if (clientOpt.isPresent()) {
+                final Client client = clientOpt.get();
+                if (client.isBlocked()) {
+                    throw new ClientBlockedException("Client is blocked", client);
+                }
+                appointment.setClient(client);
+            }
         }
         return appointment;
     }
@@ -99,6 +106,9 @@ public class AppointmentService {
 
     public Appointment update(Long id, Appointment appointment) {
         Appointment found = getByIdOrThrow(id);
+        if (appointment.getClient().isBlocked()) {
+            throw new ClientBlockedException("Client is blocked", appointment.getClient());
+        }
         found.setMaster(appointment.getMaster());
         found.setClient(appointment.getClient());
         found.setServices(appointment.getServices());
