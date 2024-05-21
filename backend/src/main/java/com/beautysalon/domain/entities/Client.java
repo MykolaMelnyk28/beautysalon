@@ -24,15 +24,19 @@ public class Client {
     @Column(nullable = false, unique = true)
     private String phoneNumber;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean isBlocked;
+
     public Client() {
     }
 
-    public Client(Long id, String firstName, String lastName, String email, String phoneNumber) {
+    public Client(Long id, String firstName, String lastName, String email, String phoneNumber, boolean isBlocked) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.isBlocked = isBlocked;
     }
 
     public Long getId() {
@@ -75,16 +79,24 @@ public class Client {
         this.phoneNumber = phoneNumber;
     }
 
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        isBlocked = blocked;
+    }
+
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Client client = (Client) o;
-        return Objects.equals(id, client.id) && Objects.equals(firstName, client.firstName) && Objects.equals(lastName, client.lastName) && Objects.equals(email, client.email) && Objects.equals(phoneNumber, client.phoneNumber);
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Client client = (Client) object;
+        return isBlocked == client.isBlocked && Objects.equals(id, client.id) && Objects.equals(firstName, client.firstName) && Objects.equals(lastName, client.lastName) && Objects.equals(email, client.email) && Objects.equals(phoneNumber, client.phoneNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, phoneNumber);
+        return Objects.hash(id, firstName, lastName, email, phoneNumber, isBlocked);
     }
 }
