@@ -1,0 +1,16 @@
+server:
+  address: localhost
+  port: 8083
+
+spring:
+  application:
+    name: ui
+  datasource:
+    username: "postgres"
+    password: "postgres"
+    url: "jdbc:postgresql://localhost:5432/beautysalon_db"
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

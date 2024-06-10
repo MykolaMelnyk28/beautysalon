@@ -1,4 +1,6 @@
 rootProject.name = 'backend'
 
-include 'backend-ui'
+include 'core'
+include 'api'
+include 'ui'
 

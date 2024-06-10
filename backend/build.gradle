@@ -1,43 +1,33 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.2.0'
-	id 'io.spring.dependency-management' version '1.1.4'
+	id 'org.springframework.boot' version '3.3.0' apply false
+	id 'io.spring.dependency-management' version '1.1.5' apply false
 }
 
 group = 'com.beautysalon'
 version = '0.0.1-SNAPSHOT'
 
-java {
-	sourceCompatibility = '17'
-}
-
 repositories {
 	mavenCentral()
 }
 
-ext {
-	postgresqlVers = '42.7.0'
-	mockitoVers = '5.10.0'
-	hibernateValidatorVers = '8.0.1.Final'
-	jakartaValidationVers = '3.0.2'
-}
+subprojects {
+	apply plugin: 'java'
 
-dependencies {
-	// Spring Boot
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+	group = 'com.beautysalon'
+	version = '0.0.1-SNAPSHOT'
 
-	// PostgreSQL
-	runtimeOnly "org.postgresql:postgresql:$postgresqlVers"
 
-	// Validation
-	implementation "org.springframework.boot:spring-boot-starter-validation"
+	java {
+		sourceCompatibility = JavaVersion.VERSION_17
+	}
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation "org.mockito:mockito-core:$mockitoVers"
-}
+	repositories {
+		mavenCentral()
+	}
 
-tasks.named('test') {
-	useJUnitPlatform()
+
+	test {
+		useJUnitPlatform()
+	}
 }
