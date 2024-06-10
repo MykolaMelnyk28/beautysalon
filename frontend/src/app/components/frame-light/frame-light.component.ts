@@ -8,6 +8,7 @@ import {Component, Input} from '@angular/core';
 export class FrameLightComponent {
   @Input() hr: string = "hug";
   @Input() vr: string = "hug";
+  @Input() theme: string = "light";
 
   constructor() {
 

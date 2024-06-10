@@ -20,6 +20,11 @@
   color: black;
 }
 
+.frame-light.dark {
+  background-color: var(--sidebar-color);
+  color: white;
+}
+
 .hr-hug {
   width: max-content;
 }

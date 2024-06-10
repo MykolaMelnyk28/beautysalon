@@ -26,6 +26,7 @@ import {ClientService} from "./services/client.service";
 import {EmployeesService} from "./services/employees.service";
 import {AppointmentService} from "./services/appointment.service";
 import {ButtonComponent} from "./components/button/button.component";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import {ButtonComponent} from "./components/button/button.component";
     AppRoutingModule,
     NgOptimizedImage,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     ServiceEntityService,

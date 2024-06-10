@@ -10,6 +10,7 @@ import {ImageService} from "../../services/image.service";
 export class GalleryPageComponent {
   images: ImageModel[] = [];
   selectedImage: string = "";
+  visibleImageBox: boolean = false;
 
   constructor(
     private imageService: ImageService
@@ -22,5 +23,10 @@ export class GalleryPageComponent {
 
   handleImageClick(image: ImageModel) {
       this.selectedImage = image.url;
+      this.visibleImageBox = true;
+  }
+
+  closeImageBox() {
+    this.visibleImageBox = false;
   }
 }
