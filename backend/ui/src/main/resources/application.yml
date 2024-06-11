@@ -1,14 +1,17 @@
 server:
-  address: localhost
-  port: 8083
+  address: ${SERVER_ADDRESS:localhost}
+  port: ${SERVER_PORT:8083}
+
+api:
+  base-url: "http://34.227.194.16:8080/api/v1"
 
 spring:
   application:
     name: ui
   datasource:
-    username: "postgres"
-    password: "postgres"
-    url: "jdbc:postgresql://localhost:5432/beautysalon_db"
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    url: ${DB_URL:jdbc:postgresql://54.226.233.18:5432/beautysalondb?createDatabaseIfNotExist=true}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:

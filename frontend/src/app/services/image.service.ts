@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 })
 export class ImageService {
 
-  static baseUrlApiImage: string = "http://localhost:8080/api/v1/images";
+  static baseUrlApiImage: string = "http://34.227.194.16:8080/api/v1/images";
 
   constructor(private http: HttpClient) { }
 

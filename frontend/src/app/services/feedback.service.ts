@@ -8,7 +8,7 @@ import {catchError, Observable, throwError} from "rxjs";
 })
 export class FeedbackService {
 
-  static baseUrlApiFeedbacks: string = "http://localhost:8080/api/v1/feedbacks";
+  static baseUrlApiFeedbacks: string = "http://34.227.194.16:8080/api/v1/feedbacks";
 
   constructor(
     private http: HttpClient

@@ -9,7 +9,7 @@ import {catchError, map, Observable} from "rxjs";
 })
 export class ServiceEntityService {
 
-  static baseUrlApiServices: string = "http://localhost:8080/api/v1/services";
+  static baseUrlApiServices: string = "http://34.227.194.16:8080/api/v1/services";
 
   constructor(private http: HttpClient) {}
 

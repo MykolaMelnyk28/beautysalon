@@ -11,7 +11,7 @@ import {ClientModel} from "../../model/ClientModel";
 })
 export class AppointmentService {
 
-  static baseUrlApiClients: string = "http://localhost:8080/api/v1/appointments";
+  static baseUrlApiClients: string = "http://34.227.194.16:8080/api/v1/appointments";
 
   constructor(
     private http: HttpClient

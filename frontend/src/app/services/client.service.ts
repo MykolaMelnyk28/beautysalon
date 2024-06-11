@@ -8,7 +8,7 @@ import {catchError, Observable, throwError} from "rxjs";
 })
 export class ClientService {
 
-  static baseUrlApiClients: string = "http://localhost:8080/api/v1/clients";
+  static baseUrlApiClients: string = "http://34.227.194.16:8080/api/v1/clients";
 
   constructor(
     private http: HttpClient

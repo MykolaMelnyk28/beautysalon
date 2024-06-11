@@ -4,7 +4,6 @@ import com.beautysalon.core.CoreConfig;
 import com.beautysalon.core.entities.UserEntity;
 import com.beautysalon.core.entities.UserRole;
 import com.beautysalon.core.repository.UserRepository;
-import com.beautysalon.core.services.ApiProperties;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

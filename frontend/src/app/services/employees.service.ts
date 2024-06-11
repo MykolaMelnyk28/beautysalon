@@ -12,7 +12,7 @@ import {ImageModel} from "../../model/ImageModel";
 })
 export class EmployeesService {
 
-  static baseUrlApiEmployees: string = "http://localhost:8080/api/v1/employees";
+  static baseUrlApiEmployees: string = "http://34.227.194.16:8080/api/v1/employees";
   //static defaultUserPhoto: string = 'assets/default_user_photo.png';
   static defaultUserPhoto: ImageModel = { url: "assets/default_user_photo.png", fullName: "", name: "", path: "" };
 
