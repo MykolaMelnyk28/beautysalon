@@ -22,24 +22,24 @@ public class SecurityConfig {
     ) throws Exception {
         http
                 .authorizeHttpRequests(x -> {
-//                    x.requestMatchers("*", "/panel/*").hasAnyRole("SYS_ADMIN", "ROOT_ADMIN");
-//
-//                    x.requestMatchers("/panel/services").hasAnyRole("SYS_ADMIN", "ROOT_ADMIN");
-//                    x.requestMatchers("/panel/images").hasAnyRole("SYS_ADMIN", "ROOT_ADMIN");
-//                    x.requestMatchers("/panel/employees").hasAnyRole("SYS_ADMIN", "ROOT_ADMIN");
-//                    x.requestMatchers("/panel/appointments").hasAnyRole("SYS_ADMIN", "ROOT_ADMIN");
-//                    x.requestMatchers("/panel/users").hasAnyRole("SYS_ADMIN", "ROOT_ADMIN");
-//                    x.requestMatchers("/panel/schedules").hasAnyRole("SYS_ADMIN", "ROOT_ADMIN");
-//
-//                    x.requestMatchers("/panel/services/**").hasAnyRole("SERVICE_EDITOR", "ROOT_ADMIN");
-//                    x.requestMatchers("/panel/images/**").hasAnyRole("IMAGE_EDITOR", "ROOT_ADMIN");
-//                    x.requestMatchers("/panel/employees/**").hasAnyRole("EMPLOYEE_EDITOR", "ROOT_ADMIN");
-//                    x.requestMatchers("/panel/appointments/**").hasAnyRole("APPOINTMENT_EDITOR", "ROOT_ADMIN");
-//                    x.requestMatchers("/panel/users/**").hasAnyRole("ACCOUNT_EDITOR", "ROOT_ADMIN");
-//                    x.requestMatchers("/panel/schedules/**").hasAnyRole("SCHEDULES_EDITOR", "ROOT_ADMIN");
-//
-//                    x.requestMatchers("/css/**", "/js/**").permitAll();
-//                    x.requestMatchers("/login", "/panel/login").permitAll();
+                    x.requestMatchers("*", "/panel/*").hasAnyRole("SYS_ADMIN", "ROOT_ADMIN");
+
+                    x.requestMatchers("/panel/services").hasAnyRole("SYS_ADMIN", "ROOT_ADMIN");
+                    x.requestMatchers("/panel/images").hasAnyRole("SYS_ADMIN", "ROOT_ADMIN");
+                    x.requestMatchers("/panel/employees").hasAnyRole("SYS_ADMIN", "ROOT_ADMIN");
+                    x.requestMatchers("/panel/appointments").hasAnyRole("SYS_ADMIN", "ROOT_ADMIN");
+                    x.requestMatchers("/panel/users").hasAnyRole("SYS_ADMIN", "ROOT_ADMIN");
+                    x.requestMatchers("/panel/schedules").hasAnyRole("SYS_ADMIN", "ROOT_ADMIN");
+
+                    x.requestMatchers("/panel/services/**").hasAnyRole("SERVICE_EDITOR", "ROOT_ADMIN");
+                    x.requestMatchers("/panel/images/**").hasAnyRole("IMAGE_EDITOR", "ROOT_ADMIN");
+                    x.requestMatchers("/panel/employees/**").hasAnyRole("EMPLOYEE_EDITOR", "ROOT_ADMIN");
+                    x.requestMatchers("/panel/appointments/**").hasAnyRole("APPOINTMENT_EDITOR", "ROOT_ADMIN");
+                    x.requestMatchers("/panel/users/**").hasAnyRole("ACCOUNT_EDITOR", "ROOT_ADMIN");
+                    x.requestMatchers("/panel/schedules/**").hasAnyRole("SCHEDULES_EDITOR", "ROOT_ADMIN");
+
+                    x.requestMatchers("/css/**", "/js/**").permitAll();
+                    x.requestMatchers("/login", "/panel/login").permitAll();
                     x.anyRequest().permitAll();
                 })
                 .userDetailsService(userService)
