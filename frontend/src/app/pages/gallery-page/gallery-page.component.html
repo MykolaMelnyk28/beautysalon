@@ -1,4 +1,4 @@
-<div class="section section-gallery" id="section-1">
+<div class="section section-gallery" id="section-1" [ngClass]="{ 'flex': !visibleImageBox }">
   <div *ngIf="visibleImageBox" class="image-container">
     <div class="image-box">
       <img class="image" [src]="selectedImage"/>
