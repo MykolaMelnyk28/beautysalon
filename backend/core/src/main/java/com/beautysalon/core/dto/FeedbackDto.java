@@ -23,8 +23,8 @@ public class FeedbackDto {
             groups = {OnCreate.class, OnPut.class})
     private ClientDto author;
     @Valid
-    @NotNull(message = "must not be null",
-            groups = {OnCreate.class, OnPut.class})
+//    @NotNull(message = "must not be null",
+//            groups = {OnCreate.class, OnPut.class})
     private EmployeeDto recipient;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
